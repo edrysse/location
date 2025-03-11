@@ -13,14 +13,24 @@ class ReservationConfirmation extends Mailable
 
     public $reservation;
 
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
     public function __construct(Reservation $reservation)
     {
         $this->reservation = $reservation;
     }
 
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
     public function build()
     {
-        return $this->subject('Reservation Confirmation')
+        return $this->subject('تأكيد الحجز الخاص بك')
                     ->view('emails.reservation_confirmation');
     }
 }

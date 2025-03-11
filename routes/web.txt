@@ -1,0 +1,55 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Home1Controller;
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\PaymentController;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\ReviewController;
+
+Route::get('/welcome', function () {
+    return view('welcome');
+});
+
+Route::get('/', [Home1Controller::class, 'index'])->name('home');
+
+
+Route::resource('cars', CarController::class);
+
+Route::resource('reservations', ReservationController::class);
+
+
+Route::post('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
+
+Route::get('/test-email', function () {
+    try {
+        Mail::raw('This is a test email', function ($message) {
+            $message->to('test@example.com')
+                    ->subject('Test Email');
+        });
+        return 'Email sent successfully!';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+Route::post('/reservations/confirm', [ReservationController::class, 'confirm'])->name('reservations.confirm');
+
+// تأكيد الحجز
+Route::post('/confirm-reservation', [ReservationController::class, 'confirm'])->name('reservations.confirm');
+
+// عرض صفحة إنشاء الحجز
+Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+
+// تخزين الحجز
+Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.delete'); // تأكد من أن هذه السطر موجود
+Route::get('/cars', [CarController::class, 'index'])->name('cars');
+Route::get('/carsadmin', [CarController::class, 'adminindex'])->name('cars.index');
+Route::get('/available-cars', [CarController::class, 'availableCars'])->name('available.cars');
+
+
+
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
+Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->middleware('auth')->name('reviews.destroy');

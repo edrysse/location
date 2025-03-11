@@ -22,5 +22,12 @@ class Car extends Model
         'price_20_days',
         'location',
         'image',
+        'available',
+        'price'
     ];
+    public function reservations()
+{
+    return $this->hasMany(Reservation::class);
+}
+
 }

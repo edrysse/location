@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reservation Confirmation</title>
+    <title>تأكيد الحجز</title>
 </head>
 <body>
-    <h1>Reservation Confirmation</h1>
-    <p>Thank you for your reservation. Here are the details:</p>
-    <ul>
-        @if ($reservation->car)
-            <li>Car: {{ $reservation->car->name }}</li>
-        @else
-            <li>Car: Not available</li>
-        @endif
-        <li>Pickup Location: {{ $reservation->pickup_location }}</li>
-        <li>Dropoff Location: {{ $reservation->dropoff_location }}</li>
-        <li>Pickup Date: {{ $reservation->pickup_date }}</li>
-        <li>Return Date: {{ $reservation->return_date }}</li>
-        <li>Payment Method: {{ $reservation->payment_method }}</li> <!-- أضف هذا السطر -->
-    </ul>
+    <h1>شكراً لك على حجزك!</h1>
+    <p>مرحباً {{ $reservation->name }},</p>
+    <p>تأكيد الحجز الخاص بك:</p>
+    <p><strong>العربية:</strong> {{ $reservation->car_id }}</p>
+    <p><strong>مكان الاستلام:</strong> {{ $reservation->pickup_location }}</p>
+    <p><strong>مكان التسليم:</strong> {{ $reservation->dropoff_location }}</p>
+    <p><strong>تاريخ الاستلام:</strong> {{ $reservation->pickup_date }}</p>
+    <p><strong>تاريخ التسليم:</strong> {{ $reservation->return_date }}</p>
+    <p>إذا كان لديك أي استفسارات، الرجاء التواصل معنا.</p>
+    <p>مع تحياتنا،</p>
+    <p>فريق تأجير السيارات</p>
 </body>
 </html>
