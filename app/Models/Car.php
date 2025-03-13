@@ -29,5 +29,9 @@ class Car extends Model
 {
     return $this->hasMany(Reservation::class);
 }
+public function seasonPrices()
+{
+    return $this->hasMany(CarSeasonPrice::class);
+}
 
 }

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->decimal('price_20_days', 8, 2);
             $table->string('image')->nullable(); // إضافة حقل للصورة
             $table->string('location'); // إضافة حقل للموقع
+
             $table->timestamps();
         });
     }

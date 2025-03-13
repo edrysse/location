@@ -4,53 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create New Reservation</title>
-<link rel="shortcut icon" href="favicon.ico" type="/assets/diam-logo.png">
+  <link rel="shortcut icon" href="favicon.ico" type="/assets/diam-logo.png">
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <script>
-   function calculateTotal() {
-    const carPricePerDay = {{ $data['car_price'] }};
-    const pickupDate = new Date(document.getElementById('pickup_date_input').value);
-    const returnDate = new Date(document.getElementById('return_date_input').value);
-    const days = Math.max(1, Math.ceil((returnDate - pickupDate) / (1000 * 60 * 60 * 24)));
+    function calculateTotal() {
+      // Daily car price (from Blade data)
+      const carPricePerDay = {{ $data['car_price'] }};
 
-    let totalPrice = 0;
+      // Get dates from hidden inputs
+      const pickupDate = new Date(document.getElementById('pickup_date_input').value);
+      const returnDate = new Date(document.getElementById('return_date_input').value);
 
-    // حساب السعر بناءً على عدد الأيام
-    if (days >= 2 && days <= 5) {
-        totalPrice = carPricePerDay * days;
-    } else if (days >= 6 && days <= 10) {
-        totalPrice = carPricePerDay * days;
-    } else if (days >= 20) {
-        totalPrice = carPricePerDay * days;
-    } else {
-        totalPrice = carPricePerDay * days;
+      // Calculate number of days (minimum of 1)
+      const days = Math.max(1, Math.ceil((returnDate - pickupDate) / (1000 * 60 * 60 * 24)));
+
+      // Base total (car price * days)
+      let total = carPricePerDay * days;
+
+      // Options cost calculation
+      const gps = (document.querySelector('input[name="gps"]:checked').value === '1') ? 1 * days : 0;
+      const maxicosi = parseInt(document.getElementById('maxicosi').value) * days;
+      const siegeBebe = parseInt(document.getElementById('child_seat').value) * days;
+      const boosterSeat = parseInt(document.getElementById('booster_seat').value) * days;
+      const fullTank = (document.querySelector('input[name="full_tank"]:checked').value === '1') ? 60 : 0;
+      const franchise = (document.querySelector('input[name="franchise"]:checked').value === '1') ? 6 * days : 0;
+
+      total += gps + maxicosi + siegeBebe + boosterSeat + fullTank + franchise;
+
+      // Update total display
+      document.getElementById('total').innerText = "Total: $" + total.toFixed(2);
     }
 
-    // إضافة تكاليف الخيارات الإضافية
-    const gps = (document.querySelector('input[name="gps"]:checked').value === '1') ? 1 * days : 0;
-    const maxicosi = parseInt(document.getElementById('maxicosi').value) * days;
-    const siegeBebe = parseInt(document.getElementById('child_seat').value) * days;
-    const boosterSeat = parseInt(document.getElementById('booster_seat').value) * days;
-    const fullTank = (document.querySelector('input[name="full_tank"]:checked').value === '1') ? 60 : 0;
-    const franchise = (document.querySelector('input[name="franchise"]:checked').value === '1') ? 6 * days : 0;
-
-    totalPrice += gps + maxicosi + siegeBebe + boosterSeat + fullTank + franchise;
-
-    document.getElementById('total').innerText = "Total: $" + totalPrice.toFixed(2);
-}
-    
     // Calculate total on page load
     window.onload = calculateTotal;
   </script>
 </head>
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen flex flex-col">
-  
+
   @include('partials.navbar')
-  
+
   <!-- Main Content Container -->
   <div class="container mx-auto flex-1 py-10 px-4 sm:px-6 lg:px-8">
     <!-- Page Title -->
@@ -59,7 +55,7 @@
       Create New Reservation
     </h1>
     <p class="text-center text-gray-500 mt-2">Book your car quickly and easily</p>
-    
+
     <!-- Error Message -->
     @if ($errors->any())
       <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-6 mb-4">
@@ -67,12 +63,12 @@
         <span class="block sm:inline">{{ $errors->first() }}</span>
       </div>
     @endif
-    
+
     <!-- Two Columns Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-      
+
       <!-- Left Column: Reservation Information (Sticky) -->
-      <div class="md:sticky md:top-10" class="sticky" >
+      <div class="md:sticky md:top-10">
         <div class="bg-white shadow-lg rounded-lg p-4 border border-gray-200">
           <h2 class="text-xl font-bold mb-3 text-gray-700">
             <i class="fas fa-info-circle mr-2 text-blue-400"></i>
@@ -88,7 +84,7 @@
           <p class="text-lg font-bold text-green-600 mt-4" id="total">Total: $0.00</p>
         </div>
       </div>
-      
+
       <!-- Right Column: Reservation Form -->
       <div>
         <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
@@ -102,7 +98,7 @@
             <input type="hidden" name="dropoff_location" value="{{ $data['dropoff_location'] }}">
             <!-- Hidden Payment Status (default pending) -->
             <input type="hidden" name="payment_status" value="pending">
-            
+
             <!-- Name Field -->
             <div>
               <label for="name" class="block text-sm font-semibold text-gray-700">
@@ -111,7 +107,7 @@
               </label>
               <input type="text" name="name" id="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Your full name">
             </div>
-            
+
             <!-- Email Field -->
             <div>
               <label for="email" class="block text-sm font-semibold text-gray-700">
@@ -120,7 +116,7 @@
               </label>
               <input type="email" name="email" id="email" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="you@example.com">
             </div>
-            
+
             <!-- Phone Field -->
             <div>
               <label for="phone" class="block text-sm font-semibold text-gray-700">
@@ -129,8 +125,8 @@
               </label>
               <input type="text" name="phone" id="phone" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="+1 234 567 890">
             </div>
-            
-            <!-- Payment Method (Select) Field --> 
+
+            <!-- Payment Method (Select) Field -->
             <div>
               <label for="payment_method" class="block text-sm font-semibold text-gray-700">
                 <i class="fas fa-credit-card mr-2 text-blue-400"></i>
@@ -143,8 +139,8 @@
                 <option value="Bank Transfer">Bank Transfer</option>
               </select>
             </div>
-            
-            <!-- Options Section: GPS, Maxicosi, Child Seat, Booster Seat, Full Tank, Franchise --> 
+
+            <!-- Options Section: GPS, Maxicosi, Child Seat, Booster Seat, Full Tank, Franchise -->
             <div class="space-y-4">
               <!-- GPS ($1/day) Option -->
               <div class="flex flex-col gap-2">
@@ -160,7 +156,7 @@
                   </label>
                 </div>
               </div>
-              
+
               <!-- Maxicosi Option -->
               <div>
                 <label for="maxicosi" class="block text-sm font-semibold text-gray-700">
@@ -172,7 +168,7 @@
                   <option value="2">2</option>
                 </select>
               </div>
-              
+
               <!-- Child Seat (Siege Bebe) Option -->
               <div>
                 <label for="child_seat" class="block text-sm font-semibold text-gray-700">
@@ -184,7 +180,7 @@
                   <option value="2">2</option>
                 </select>
               </div>
-              
+
               <!-- Booster Seat (Rehausseur) Option -->
               <div>
                 <label for="booster_seat" class="block text-sm font-semibold text-gray-700">
@@ -196,7 +192,7 @@
                   <option value="2">2</option>
                 </select>
               </div>
-              
+
               <!-- Full Tank ($60) Option -->
               <div class="flex flex-col gap-2">
                 <label class="block text-sm font-semibold text-gray-700">Full Tank ($60)</label>
@@ -211,11 +207,13 @@
                   </label>
                 </div>
               </div>
-              
+
               <!-- Franchise ($6/day) Option -->
               <div class="flex flex-col gap-2">
-                <label class="block text-sm font-semibold text-gray-700">Franchise ($6/day)</label>
-                <div class="flex items-center space-x-4">
+                <p><strong>Franchise Price:</strong> 
+                    ${{ isset($data['franchise_price']) ? number_format($data['franchise_price'], 2) : 'N/A' }}
+                </p>
+                                <div class="flex items-center space-x-4">
                   <label class="inline-flex items-center">
                     <input type="radio" name="franchise" value="1" onclick="calculateTotal()" class="text-blue-500 focus:ring-blue-500">
                     <span class="ml-2">Yes</span>
@@ -227,8 +225,8 @@
                 </div>
               </div>
             </div>
-            
-            <!-- Submit Button -->  
+
+            <!-- Submit Button -->
             <div class="pt-4">
               <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md shadow-md transition-colors duration-300">
                 <i class="fas fa-check mr-2"></i>Create Reservation
@@ -239,37 +237,37 @@
       </div>
     </div>
   </div>
-  
   <script>
     function calculateTotal() {
-      // Daily car price (from Blade data)
-      const carPricePerDay = {{ $data['car_price'] }};
+      // استخدم سعر الفصل إذا كان متوفرًا، وإلا استخدم السعر الأساسي
+      const seasonPricePerDay = {{ $data['season_price'] ?? $data['car_price'] }};
       
-      // Get dates from hidden inputs
+      // الحصول على التواريخ من المدخلات المخفية
       const pickupDate = new Date(document.getElementById('pickup_date_input').value);
       const returnDate = new Date(document.getElementById('return_date_input').value);
       
-      // Calculate number of days (minimum of 1)
+      // حساب عدد الأيام (بحد أدنى يوم واحد)
       const days = Math.max(1, Math.ceil((returnDate - pickupDate) / (1000 * 60 * 60 * 24)));
       
-      // Base total (car price * days)
-      let total = carPricePerDay * days;
+      // السعر الأساسي (باستخدام سعر الفصل إن وجد)
+      let total = seasonPricePerDay * days;
       
-      // Options cost calculation
-      const gps = (document.querySelector('input[name=\"gps\"]:checked').value === '1') ? 1 * days : 0;
+      // حساب تكلفة الخيارات الإضافية
+      const gps = (document.querySelector('input[name="gps"]:checked').value === '1') ? 1 * days : 0;
       const maxicosi = parseInt(document.getElementById('maxicosi').value) * days;
       const siegeBebe = parseInt(document.getElementById('child_seat').value) * days;
       const boosterSeat = parseInt(document.getElementById('booster_seat').value) * days;
-      const fullTank = (document.querySelector('input[name=\"full_tank\"]:checked').value === '1') ? 60 : 0;
-      const franchise = (document.querySelector('input[name=\"franchise\"]:checked').value === '1') ? 6 * days : 0;
+      const fullTank = (document.querySelector('input[name="full_tank"]:checked').value === '1') ? 60 : 0;
+      const franchise = (document.querySelector('input[name="franchise"]:checked').value === '1') ? {{ $data['franchise_price'] }} * days : 0;
       
+      // إضافة تكلفة الخيارات الإضافية إلى السعر الأساسي
       total += gps + maxicosi + siegeBebe + boosterSeat + fullTank + franchise;
       
-      // Update total display
+      // تحديث العرض في العنصر الذي يحمل المعرف total
       document.getElementById('total').innerText = "Total: $" + total.toFixed(2);
     }
     
-    // Calculate total on page load
+    // حساب الإجمالي عند تحميل الصفحة
     window.onload = calculateTotal;
   </script>
   

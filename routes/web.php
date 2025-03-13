@@ -82,3 +82,4 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::put('/reviews/{id}', [ReviewController::class, 'update'])->name('reviews.update');
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
+Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
