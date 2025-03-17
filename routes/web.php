@@ -7,6 +7,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ContactController;
 
 // الصفحة الرئيسية
 Route::get('/', [Home1Controller::class, 'index'])->name('home');
@@ -17,9 +18,8 @@ Route::get('/welcome', function () {
 });
 
 // لوحة التحكم (Dashboard) - تتطلب تسجيل دخول وتحقق من البريد الإلكتروني
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', [Home1Controller::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // ملفات المصادقة (Auth)
 require __DIR__.'/auth.php';
@@ -83,3 +83,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
+
+
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::get('/contact/create', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
+Route::get('/contact/{contact}/edit', [ContactController::class, 'edit'])->name('contact.edit');
+Route::put('/contact/{contact}', [ContactController::class, 'update'])->name('contact.update');
+Route::delete('/contact/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');

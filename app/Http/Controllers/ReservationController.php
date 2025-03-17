@@ -69,6 +69,7 @@ class ReservationController extends Controller
         $pickupDate = Carbon::parse($request->input('pickup_date'));
         $returnDate = Carbon::parse($request->input('return_date'));
         $days = $pickupDate->diffInDays($returnDate);
+
         // البحث عن سجل أسعار الفصل المناسب بناءً على تاريخ الاستلام
         $seasonPrice = $car->seasonPrices()
             ->where('start_date', '<=', $pickupDate)

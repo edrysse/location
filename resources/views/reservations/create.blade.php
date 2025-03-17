@@ -9,37 +9,41 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
   <script>
     function calculateTotal() {
-      // Daily car price (from Blade data)
-      const carPricePerDay = {{ $data['car_price'] }};
+      // استخدم سعر الفصل إذا كان متوفرًا، وإلا استخدم السعر الأساسي
 
-      // Get dates from hidden inputs
+      console.log("Price Per Day:", pricePerDay);
+
+      // الحصول على التواريخ من المدخلات المخفية
       const pickupDate = new Date(document.getElementById('pickup_date_input').value);
       const returnDate = new Date(document.getElementById('return_date_input').value);
-
-      // Calculate number of days (minimum of 1)
+      // حساب عدد الأيام (بحد أدنى يوم واحد)
       const days = Math.max(1, Math.ceil((returnDate - pickupDate) / (1000 * 60 * 60 * 24)));
+      console.log("Days:", days);
 
-      // Base total (car price * days)
-      let total = carPricePerDay * days;
+      // السعر الأساسي باستخدام سعر الفصل إن وُجد
+      let total = pricePerDay * days;
 
-      // Options cost calculation
+      // حساب تكلفة الخيارات الإضافية
       const gps = (document.querySelector('input[name="gps"]:checked').value === '1') ? 1 * days : 0;
       const maxicosi = parseInt(document.getElementById('maxicosi').value) * days;
       const siegeBebe = parseInt(document.getElementById('child_seat').value) * days;
       const boosterSeat = parseInt(document.getElementById('booster_seat').value) * days;
       const fullTank = (document.querySelector('input[name="full_tank"]:checked').value === '1') ? 60 : 0;
-      const franchise = (document.querySelector('input[name="franchise"]:checked').value === '1') ? 6 * days : 0;
+      const franchisePrice = {{ json_encode($data['franchise_price'] ?? 0) }};
+      const franchise = (document.querySelector('input[name="franchise"]:checked').value === '1') ? franchisePrice * days : 0;
 
       total += gps + maxicosi + siegeBebe + boosterSeat + fullTank + franchise;
+      console.log("Total:", total);
 
-      // Update total display
+      // تحديث العرض في العنصر الذي يحمل المعرف total
       document.getElementById('total').innerText = "Total: $" + total.toFixed(2);
     }
 
-    // Calculate total on page load
+    // حساب الإجمالي عند تحميل الصفحة
     window.onload = calculateTotal;
   </script>
 </head>
@@ -105,7 +109,7 @@
                 <i class="fas fa-user mr-2 text-blue-400"></i>
                 Name
               </label>
-              <input type="text" name="name" id="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Your full name">
+              <input type="text" name="name" id="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="Your full name">
             </div>
 
             <!-- Email Field -->
@@ -114,7 +118,7 @@
                 <i class="fas fa-envelope mr-2 text-blue-400"></i>
                 Email
               </label>
-              <input type="email" name="email" id="email" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="you@example.com">
+              <input type="email" name="email" id="email" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="you@example.com">
             </div>
 
             <!-- Phone Field -->
@@ -123,7 +127,7 @@
                 <i class="fas fa-phone mr-2 text-blue-400"></i>
                 Phone
               </label>
-              <input type="text" name="phone" id="phone" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="+1 234 567 890">
+              <input type="text" name="phone" id="phone" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="+1 234 567 890">
             </div>
 
             <!-- Payment Method (Select) Field -->
@@ -132,7 +136,7 @@
                 <i class="fas fa-credit-card mr-2 text-blue-400"></i>
                 Payment Method
               </label>
-              <select name="payment_method" id="payment_method" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
+              <select name="payment_method" id="payment_method" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                 <option value="" disabled selected>Select Payment Method</option>
                 <option value="Credit Card">Credit Card</option>
                 <option value="Cash">Cash</option>
@@ -147,11 +151,11 @@
                 <label class="text-sm font-semibold text-gray-700">GPS ($1/day)</label>
                 <div class="flex items-center space-x-4">
                   <label class="inline-flex items-center">
-                    <input type="radio" name="gps" value="1" onclick="calculateTotal()" class="text-blue-500 focus:ring-blue-500">
+                    <input type="radio" name="gps" value="1" onclick="calculateTotal()" class="text-blue-500">
                     <span class="ml-2">Yes</span>
                   </label>
                   <label class="inline-flex items-center">
-                    <input type="radio" name="gps" value="0" checked onclick="calculateTotal()" class="text-blue-500 focus:ring-blue-500">
+                    <input type="radio" name="gps" value="0" checked onclick="calculateTotal()" class="text-blue-500">
                     <span class="ml-2">No</span>
                   </label>
                 </div>
@@ -198,28 +202,26 @@
                 <label class="block text-sm font-semibold text-gray-700">Full Tank ($60)</label>
                 <div class="flex items-center space-x-4">
                   <label class="inline-flex items-center">
-                    <input type="radio" name="full_tank" value="1" onclick="calculateTotal()" class="text-blue-500 focus:ring-blue-500">
+                    <input type="radio" name="full_tank" value="1" onclick="calculateTotal()" class="text-blue-500">
                     <span class="ml-2">Yes</span>
                   </label>
                   <label class="inline-flex items-center">
-                    <input type="radio" name="full_tank" value="0" checked onclick="calculateTotal()" class="text-blue-500 focus:ring-blue-500">
+                    <input type="radio" name="full_tank" value="0" checked onclick="calculateTotal()" class="text-blue-500">
                     <span class="ml-2">No</span>
                   </label>
                 </div>
               </div>
 
-              <!-- Franchise ($6/day) Option -->
+              <!-- Franchise Option -->
               <div class="flex flex-col gap-2">
-                <p><strong>Franchise Price:</strong> 
-                    ${{ isset($data['franchise_price']) ? number_format($data['franchise_price'], 2) : 'N/A' }}
-                </p>
-                                <div class="flex items-center space-x-4">
+                <p><strong>Franchise Price:</strong> ${{ isset($data['franchise_price']) ? number_format($data['franchise_price'], 2) : 'N/A' }}</p>
+                <div class="flex items-center space-x-4">
                   <label class="inline-flex items-center">
-                    <input type="radio" name="franchise" value="1" onclick="calculateTotal()" class="text-blue-500 focus:ring-blue-500">
+                    <input type="radio" name="franchise" value="1" onclick="calculateTotal()" class="text-blue-500">
                     <span class="ml-2">Yes</span>
                   </label>
                   <label class="inline-flex items-center">
-                    <input type="radio" name="franchise" value="0" checked onclick="calculateTotal()" class="text-blue-500 focus:ring-blue-500">
+                    <input type="radio" name="franchise" value="0" checked onclick="calculateTotal()" class="text-blue-500">
                     <span class="ml-2">No</span>
                   </label>
                 </div>
@@ -237,40 +239,7 @@
       </div>
     </div>
   </div>
-  <script>
-    function calculateTotal() {
-      // استخدم سعر الفصل إذا كان متوفرًا، وإلا استخدم السعر الأساسي
-      const seasonPricePerDay = {{ $data['season_price'] ?? $data['car_price'] }};
-      
-      // الحصول على التواريخ من المدخلات المخفية
-      const pickupDate = new Date(document.getElementById('pickup_date_input').value);
-      const returnDate = new Date(document.getElementById('return_date_input').value);
-      
-      // حساب عدد الأيام (بحد أدنى يوم واحد)
-      const days = Math.max(1, Math.ceil((returnDate - pickupDate) / (1000 * 60 * 60 * 24)));
-      
-      // السعر الأساسي (باستخدام سعر الفصل إن وجد)
-      let total = seasonPricePerDay * days;
-      
-      // حساب تكلفة الخيارات الإضافية
-      const gps = (document.querySelector('input[name="gps"]:checked').value === '1') ? 1 * days : 0;
-      const maxicosi = parseInt(document.getElementById('maxicosi').value) * days;
-      const siegeBebe = parseInt(document.getElementById('child_seat').value) * days;
-      const boosterSeat = parseInt(document.getElementById('booster_seat').value) * days;
-      const fullTank = (document.querySelector('input[name="full_tank"]:checked').value === '1') ? 60 : 0;
-      const franchise = (document.querySelector('input[name="franchise"]:checked').value === '1') ? {{ $data['franchise_price'] }} * days : 0;
-      
-      // إضافة تكلفة الخيارات الإضافية إلى السعر الأساسي
-      total += gps + maxicosi + siegeBebe + boosterSeat + fullTank + franchise;
-      
-      // تحديث العرض في العنصر الذي يحمل المعرف total
-      document.getElementById('total').innerText = "Total: $" + total.toFixed(2);
-    }
-    
-    // حساب الإجمالي عند تحميل الصفحة
-    window.onload = calculateTotal;
-  </script>
-  
+
   @include('partials.footer')
 </body>
 </html>
