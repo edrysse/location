@@ -10,46 +10,80 @@
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-
   <script>
-    function calculateTotal() {
-      // استخدم سعر الفصل إذا كان متوفرًا، وإلا استخدم السعر الأساسي
+    document.addEventListener("DOMContentLoaded", function () {
+        // تمرير المتغيرات السعرية مع التأكد من أنها ليست null
+        var pricePerDay = {{ $data['price_per_day'] }};
+        var price2to5 = {{ $data['price_2_to_5'] }};
+        var price6to20 = {{ $data['price_6_to_20'] }};
+        var pricePlus20 = {{ $data['price_plus_20'] ?? $data['price_per_day'] }};
+        var franchisePrice = {{ $data['franchise_price'] }};
 
-      console.log("Price Per Day:", pricePerDay);
+        function calculateTotal() {
+            console.log("حساب التكلفة الإجمالية...");
 
-      // الحصول على التواريخ من المدخلات المخفية
-      const pickupDate = new Date(document.getElementById('pickup_date_input').value);
-      const returnDate = new Date(document.getElementById('return_date_input').value);
-      // حساب عدد الأيام (بحد أدنى يوم واحد)
-      const days = Math.max(1, Math.ceil((returnDate - pickupDate) / (1000 * 60 * 60 * 24)));
-      console.log("Days:", days);
+            const pickupDateInput = document.getElementById('pickup_date_input');
+            const returnDateInput = document.getElementById('return_date_input');
+            if (!pickupDateInput || !returnDateInput) return;
 
-      // السعر الأساسي باستخدام سعر الفصل إن وُجد
-      let total = pricePerDay * days;
+            const pickupDate = new Date(pickupDateInput.value);
+            const returnDate = new Date(returnDateInput.value);
+            const msPerDay = 1000 * 60 * 60 * 24;
+            const diffDays = Math.ceil((returnDate - pickupDate) / msPerDay);
+            const days = diffDays > 0 ? diffDays : 1;
+            console.log("عدد الأيام:", days);
 
-      // حساب تكلفة الخيارات الإضافية
-      const gps = (document.querySelector('input[name="gps"]:checked').value === '1') ? 1 * days : 0;
-      const maxicosi = parseInt(document.getElementById('maxicosi').value) * days;
-      const siegeBebe = parseInt(document.getElementById('child_seat').value) * days;
-      const boosterSeat = parseInt(document.getElementById('booster_seat').value) * days;
-      const fullTank = (document.querySelector('input[name="full_tank"]:checked').value === '1') ? 60 : 0;
-      const franchisePrice = {{ json_encode($data['franchise_price'] ?? 0) }};
-      const franchise = (document.querySelector('input[name="franchise"]:checked').value === '1') ? franchisePrice * days : 0;
+            let dailyPrice;
+            if (days === 1) {
+                dailyPrice = pricePerDay;
+            } else if (days >= 2 && days <= 5) {
+                dailyPrice = price2to5;
+            } else if (days >= 6 && days <= 20) {
+                dailyPrice = price6to20;
+            } else if (days > 20) {
+                dailyPrice = pricePlus20;
+            } else {
+                dailyPrice = pricePerDay;
+            }
 
-      total += gps + maxicosi + siegeBebe + boosterSeat + fullTank + franchise;
-      console.log("Total:", total);
+            let total = dailyPrice * days;
 
-      // تحديث العرض في العنصر الذي يحمل المعرف total
-      document.getElementById('total').innerText = "Total: $" + total.toFixed(2);
-    }
+            // إضافة التكاليف الخاصة بالخيارات الإضافية
+            const gps = document.querySelector('input[name="gps"]:checked')?.value === '1' ? 1 * days : 0;
+            const maxicosi = (parseInt(document.getElementById('maxicosi')?.value) || 0) * days;
+            const childSeat = (parseInt(document.getElementById('child_seat')?.value) || 0) * days;
+            const boosterSeat = (parseInt(document.getElementById('booster_seat')?.value) || 0) * days;
+            const fullTank = document.querySelector('input[name="full_tank"]:checked')?.value === '1' ? 60 : 0;
+            const franchise = document.querySelector('input[name="franchise"]:checked')?.value === '1' ? franchisePrice * days : 0;
 
-    // حساب الإجمالي عند تحميل الصفحة
-    window.onload = calculateTotal;
+            total += gps + maxicosi + childSeat + boosterSeat + fullTank + franchise;
+
+            // زيادة 3% في حالة اختيار Credit Card كطريقة للدفع
+            var paymentMethod = document.getElementById('payment_method').value;
+            if (paymentMethod === 'Credit Card') {
+                total *= 1.03;
+            }
+
+            console.log("التكلفة الإجمالية:", total);
+            document.getElementById('total').innerText = "Total: $" + total.toFixed(2);
+        }
+
+        // إضافة event listener لجميع عناصر الإدخال والاختيار لحساب التكلفة عند تغييرها
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('change', calculateTotal);
+        });
+
+        // حساب التكلفة عند تحميل الصفحة
+        calculateTotal();
+    });
   </script>
+
 </head>
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen flex flex-col">
+    @include('partials.loader')
 
   @include('partials.navbar')
+  @include('partials.up')
 
   <!-- Main Content Container -->
   <div class="container mx-auto flex-1 py-10 px-4 sm:px-6 lg:px-8">
@@ -164,7 +198,7 @@
               <!-- Maxicosi Option -->
               <div>
                 <label for="maxicosi" class="block text-sm font-semibold text-gray-700">
-                  <i class="fas fa-baby-carriage mr-2 text-blue-400"></i>Maxicosi
+                  <i class="fas fa-baby-carriage mr-2 text-blue-400"></i>Maxicosi ($1/day)
                 </label>
                 <select id="maxicosi" name="maxicosi" class="border rounded-md p-2" onchange="calculateTotal()">
                   <option value="0" selected>0</option>
@@ -176,7 +210,7 @@
               <!-- Child Seat (Siege Bebe) Option -->
               <div>
                 <label for="child_seat" class="block text-sm font-semibold text-gray-700">
-                  <i class="fas fa-baby mr-2 text-blue-400"></i>Child Seat (Siege Bebe)
+                  <i class="fas fa-baby mr-2 text-blue-400"></i>Child Seat ($1/day)
                 </label>
                 <select id="child_seat" name="siege_bebe" class="border rounded-md p-2" onchange="calculateTotal()">
                   <option value="0" selected>0</option>

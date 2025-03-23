@@ -8,9 +8,32 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .full-message {
+      display: none;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .full-message.show {
+      display: block;
+    }
+
+    .message-preview {
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* عرض سطرين فقط */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .read-more {
+      display: block;
+      margin-top: 8px;
+    }
+  </style>
 </head>
 <body class="bg-gray-100">
-  @include('partials.navbar')
+    <x-app-layout>
+        @include('partials.up')
 
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6 text-center">Contact Messages</h1>
@@ -39,10 +62,12 @@
             <td class="px-4 py-3">{{ $contact->phone }}</td>
             <td class="px-4 py-3">{{ $contact->subject }}</td>
             <td class="px-4 py-3">
-              <span class="message-preview">{{ \Illuminate\Support\Str::limit($contact->message, 50) }}</span>
-              @if(strlen($contact->message) > 50)
-                <a href="#" class="read-more text-blue-500 ml-2" onclick="toggleMessage({{ $contact->id }}); return false;">Read More</a>
-                <span id="full-message-{{ $contact->id }}" class="full-message hidden">{{ $contact->message }}</span>
+              <span class="message-preview">{{ \Illuminate\Support\Str::limit($contact->message, 100) }}</span>
+              @if(strlen($contact->message) > 100)
+                <button id="read-more-{{ $contact->id }}" class="read-more text-blue-500" onclick="toggleMessage({{ $contact->id }});">
+                  <i class="fas fa-arrow-down"></i> Read More
+                </button>
+                <div id="full-message-{{ $contact->id }}" class="full-message">{{ $contact->message }}</div>
               @endif
             </td>
             <td class="px-4 py-3">{{ $contact->created_at->format('Y-m-d') }}</td>
@@ -71,17 +96,27 @@
     </div>
   </div>
 
+  <div>
+    {{ $contacts->links() }}
+  </div>
+
   <script>
     function toggleMessage(id) {
       var fullMessage = document.getElementById('full-message-' + id);
-      if (fullMessage.classList.contains('hidden')) {
-        fullMessage.classList.remove('hidden');
+      var readMoreButton = document.getElementById('read-more-' + id);
+
+      if (fullMessage.classList.contains('show')) {
+        fullMessage.classList.remove('show');
+        readMoreButton.innerHTML = '<i class="fas fa-arrow-down"></i> Read More';
       } else {
-        fullMessage.classList.add('hidden');
+        fullMessage.classList.add('show');
+        readMoreButton.innerHTML = '<i class="fas fa-arrow-up"></i> Read Less';
       }
     }
   </script>
 
   @include('partials.footer')
+</x-app-layout>
+
 </body>
 </html>

@@ -11,6 +11,7 @@
 </head>
 <body class="bg-gray-100">
   @include('partials.navbar')
+  @include('partials.up')
 
   <!-- Main Container -->
   <div class="max-w-2xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-lg border border-gray-200">

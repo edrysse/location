@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-  @include('partials.navbar')
+    <x-app-layout>
+        @include('partials.up')
 
   <div class="container mx-auto px-4 py-8">
     <!-- Header Section -->
@@ -163,7 +164,9 @@
         </tbody>
       </table>
     </div>
-
+    <div class="mt-4">
+        {{ $reservations->links() }}
+    </div>
     @if ($reservations->count() === 0)
       <div class="text-center mt-4">
         <p class="text-gray-500">No reservations found.</p>
@@ -173,5 +176,7 @@
   </div>
 
   @include('partials.footer')
+</x-app-layout>
+
 </body>
 </html>

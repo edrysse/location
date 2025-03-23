@@ -10,8 +10,41 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Charset and Viewport -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Title -->
+<title>Available Cars | DiamntinaCar - Best Rental Cars</title>
+
+<!-- Meta Description -->
+<meta name="description" content="Browse the best available rental cars at DiamntinaCar. Book your preferred car for an exceptional travel experience at competitive prices and top-notch service.">
+
+<!-- Meta Keywords -->
+<meta name="keywords" content="Car Rental, Rental Cars, Book Cars, DiamntinaCar, Available Cars, Luxury Car Rental">
+
+<!-- Robots -->
+<meta name="robots" content="index, follow">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://diamantinacar.com/available-cars">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content="Available Cars | DiamntinaCar - Best Rental Cars">
+<meta property="og:description" content="Browse the best available rental cars at DiamntinaCar. Book your preferred car for an exceptional travel experience at competitive prices and top-notch service.">
+<meta property="og:image" content="https://diamantinacar.com/assets/hero-section.jpg">
+<meta property="og:url" content="https://diamantinacar.com/available-cars">
+<meta property="og:type" content="website">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Available Cars | DiamntinaCar - Best Rental Cars">
+<meta name="twitter:description" content="Browse the best available rental cars at DiamntinaCar. Book your preferred car for an exceptional travel experience at competitive prices and top-notch service.">
+<meta name="twitter:image" content="https://diamantinacar.com/assets/hero-section.jpg">
+
 </head>
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+    @include('partials.loader')
 
 @include('partials.navbar')
 
@@ -36,63 +69,71 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         @foreach ($cars as $car)
         <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
-            @if ($car->image)
-                <img src="{{ asset('storage/' . $car->image) }}" class="w-full h-48 object-cover" alt="{{ $car->name }}">
-            @else
-                <img src="default-car.jpg" alt="Default Car" class="w-full h-48 object-cover">
-            @endif
-            <div class="p-6">
-                <h5 class="text-xl font-bold text-gray-800 flex items-center mb-4">
-                    <i class="fas fa-car-side text-blue-500 mr-2"></i>
-                    {{ $car->name }}
-                </h5>
-                <!-- Car Details (type field removed, AC is displayed instead) -->
-                <div class="grid grid-cols-2 gap-4 text-gray-600 text-sm">
-                    <div class="flex items-center">
-                        <i class="fas fa-snowflake mr-1"></i>
-                        <span>AC: {{ $car->ac ? 'Yes' : 'No' }}</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-gas-pump mr-1"></i>
-                        <span>Fuel: {{ $car->fuel }}</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-users mr-1"></i>
-                        <span>Seats: {{ $car->seats }}</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-suitcase-rolling mr-1"></i>
-                        <span>Luggage: {{ $car->luggage }}</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-cogs mr-1"></i>
-                        <span>Transmission: {{ $car->transmission }}</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-map-marker-alt mr-1"></i>
-                        <span>Location: {{ $car->location }}</span>
-                    </div>
-                </div>
-                <!-- Price Per Day -->
-                <div class="mt-4">
-                    <p class="text-lg font-bold text-green-600">
-                        <i class="fas fa-dollar-sign mr-1"></i>
-                        Price per day: ${{ $car->price }}
-                    </p>
-                </div>
-                <!-- Button to Open the Modal -->
-                <div class="mt-4">
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 w-full" 
-                            onclick="openModal({{ $car->id }}, this)" 
-                            data-location="{{ $car->location }}">
-                        <i class="fas fa-bookmark mr-2"></i>
-                        Book Now
-                    </button>
-                </div>
+          @if ($car->image)
+            <img src="{{ asset('storage/' . $car->image) }}"loading="lazy" class="w-full h-48 object-cover" alt="{{ $car->name }}">
+          @else
+            <img src="default-car.jpg" alt="Default Car" class="w-full h-48 object-cover">
+          @endif
+          <div class="p-6">
+            <h5 class="text-xl font-bold text-gray-800 flex items-center mb-4">
+              <i class="fas fa-car-side text-blue-500 mr-2"></i>
+              {{ $car->name }}
+            </h5>
+            <!-- تفاصيل السيارة -->
+            <div class="grid grid-cols-2 gap-4 text-gray-600 text-sm">
+              <div class="flex items-center">
+                <i class="fas fa-snowflake mr-1"></i>
+                <span>AC: {{ $car->ac ? 'Yes' : 'No' }}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-gas-pump mr-1"></i>
+                <span>Fuel: {{ $car->fuel }}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-users mr-1"></i>
+                <span>Seats: {{ $car->seats }}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-suitcase-rolling mr-1"></i>
+                <span>Luggage: {{ $car->luggage }}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-cogs mr-1"></i>
+                <span>Transmission: {{ $car->transmission }}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-map-marker-alt mr-1"></i>
+                <span>Location: {{ $car->location }}</span>
+              </div>
             </div>
+            <!-- سعر الإيجار -->
+            <div class="mt-4 bg-green-50 p-3 rounded-md text-center">
+              <p class="text-lg font-bold text-green-600">
+                <i class="fas fa-dollar-sign mr-1"></i>
+                ${{ $car->price }} / day
+              </p>
+            </div>
+            <!-- الأزرار -->
+            <div class="mt-4 flex flex-wrap gap-4">
+                <!-- Book Now Button -->
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex-1"
+                        onclick="openModal({{ $car->id }}, this)" data-location="{{ $car->location }}">
+                    Book Now
+                </button>
+
+                <!-- View Details Button -->
+                <a href="{{ route('cars.show', $car->id) }}"
+                   class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    View Details
+                </a>
+            </div>
+
+          </div>
         </div>
         @endforeach
-    </div>
+      </div>
+
 </section>
 
 <!-- Reservation Modal (Bootstrap Modal) -->
@@ -177,8 +218,9 @@
         </div>
     </div>
 </div>
-
 @include('partials.footer')
+@include('partials.up')
+
 
 <!-- jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

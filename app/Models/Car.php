@@ -23,7 +23,10 @@ class Car extends Model
         'location',
         'image',
         'available',
-        'price'
+        'price',
+        'franchise_price',
+        'full_tank_price' 
+
     ];
     public function reservations()
 {

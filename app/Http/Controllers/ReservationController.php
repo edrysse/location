@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Reservation;
 use App\Models\Car;
@@ -43,7 +44,7 @@ class ReservationController extends Controller
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
         }
-        $reservations = $query->get();
+        $reservations = Reservation::orderBy('created_at', 'desc')->paginate(10);
 
         return view('reservations.index', compact(
             'reservations',
@@ -57,52 +58,60 @@ class ReservationController extends Controller
      * عرض نموذج إنشاء حجز جديد.
      */
     public function create(Request $request)
-    {
-        $carId = $request->input('car_id');
-        $car = Car::find($carId);
+{
+    $carId = $request->input('car_id');
+    $car = Car::find($carId);
 
-        if (!$car) {
-            return redirect()->back()->withErrors('العربة غير موجودة!');
-        }
-
-        // حساب عدد الأيام بين تواريخ الحجز المُرسلة
-        $pickupDate = Carbon::parse($request->input('pickup_date'));
-        $returnDate = Carbon::parse($request->input('return_date'));
-        $days = $pickupDate->diffInDays($returnDate);
-
-        // البحث عن سجل أسعار الفصل المناسب بناءً على تاريخ الاستلام
-        $seasonPrice = $car->seasonPrices()
-            ->where('start_date', '<=', $pickupDate)
-            ->where('end_date', '>=', $pickupDate)
-            ->first();
-
-        if ($seasonPrice) {
-            if ($days >= 2 && $days <= 5) {
-                $data['season_price'] = $seasonPrice->price_2_5_days;
-            } elseif ($days >= 6 && $days <= 20) {
-                $data['season_price'] = $seasonPrice->price_6_20_days;
-            } elseif ($days > 20) {
-                $data['season_price'] = $seasonPrice->price_20_plus_days;
-            } else {
-                $data['season_price'] = $car->price;
-            }
-        } else {
-            $data['season_price'] = $car->price;
-        }
-
-        $data = array_merge($data, [
-            'car_name'        => $car->name,
-            'car_price'       => $car->price,
-            'pickup_location' => $request->input('pickup_location'),
-            'dropoff_location'=> $request->input('dropoff_location'),
-            'pickup_date'     => $request->input('pickup_date'),
-            'return_date'     => $request->input('return_date'),
-            'car_id'          => $carId,
-            'franchise_price' => $car->franchise_price,
-        ]);
-
-        return view('reservations.create', compact('data'));
+    if (!$car) {
+        return redirect()->back()->withErrors('العربة غير موجودة!');
     }
+
+    // حساب عدد الأيام بين تواريخ الحجز المُرسلة
+    $pickupDate = Carbon::parse($request->input('pickup_date'));
+    $returnDate = Carbon::parse($request->input('return_date'));
+    $days = $pickupDate->diffInDays($returnDate);
+
+    // البحث عن سجل أسعار الفصل المناسب بناءً على تاريخ الاستلام
+    $seasonPriceModel = $car->seasonPrices()
+        ->where('start_date', '<=', $pickupDate)
+        ->where('end_date', '>=', $pickupDate)
+        ->first();
+
+    if ($seasonPriceModel) {
+        $isSeason = true;
+        // نفترض أن سجل الأسعار الموسمية يحتوي على الحقول التالية
+        $pricePerDay = $seasonPriceModel->price_per_day ?? $car->price;
+        $price2to5   = $seasonPriceModel->price_2_5_days;
+        $price6to20  = $seasonPriceModel->price_6_20_days;
+        $pricePlus20 = $seasonPriceModel->price_20_plus_days;
+    } else {
+        $isSeason = false;
+        // إذا لم يوجد سجل للفصل، تأكد من تمرير أسعار السيارة الأساسية
+        $pricePerDay = $car->price;
+        // استخدم السعر المخصص للحجز بين 2-5 أيام إن وُجد، أو السعر الأساسي كافتراضي
+        $price2to5   = $car->price_2_5_days ?: $car->price;
+        $price6to20  = $car->price_6_20_days ?: $car->price;
+        $pricePlus20 = $car->price_20_plus_days ?: $car->price;
+    }
+
+    $data = [
+        'price_per_day'   => $pricePerDay,
+        'price_2_to_5'    => $price2to5,
+        'price_6_to_20'   => $price6to20,
+        'price_plus_20'   => $pricePlus20,
+        'is_season'       => $isSeason,
+        'franchise_price' => $car->franchise_price ?? 6,
+        'pickup_date'     => $request->input('pickup_date'),
+        'return_date'     => $request->input('return_date'),
+        'car_name'        => $car->name,
+        'pickup_location' => $request->input('pickup_location'),
+        'dropoff_location'=> $request->input('dropoff_location'),
+        'car_id'          => $carId,
+    ];
+
+    return view('reservations.create', compact('data'));
+}
+
 
     /**
      * دالة تأكيد الحجز قبل الانتقال لنموذج الإضافة.
@@ -119,7 +128,12 @@ class ReservationController extends Controller
 
         return redirect()->route('reservations.create', $data);
     }
-
+    public function show($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        return view('reservations.show', compact('reservation'));
+    }
+    
     /**
      * تخزين بيانات الحجز بعد التأكد من صحة البيانات وحساب السعر.
      */
@@ -156,24 +170,34 @@ class ReservationController extends Controller
         $returnDate = new \DateTime($validated['return_date']);
         $days = $pickupDate->diff($returnDate)->days;
 
-        // استدعاء سجل أسعار الفصل المناسب إذا كان موجوداً
-        $seasonPrice = $car->seasonPrices()
+        // محاولة استدعاء سجل أسعار الفصل المناسب إذا كان موجوداً
+        $seasonPriceModel = $car->seasonPrices()
             ->where('start_date', '<=', $validated['pickup_date'])
             ->where('end_date', '>=', $validated['pickup_date'])
             ->first();
 
-        if ($seasonPrice) {
+        if ($seasonPriceModel) {
+            // إذا وجد سجل أسعار للفصل، نستخدمه
             if ($days >= 2 && $days <= 5) {
-                $dailyPrice = $seasonPrice->price_2_5_days;
+                $dailyPrice = $seasonPriceModel->price_2_5_days;
             } elseif ($days >= 6 && $days <= 20) {
-                $dailyPrice = $seasonPrice->price_6_20_days;
+                $dailyPrice = $seasonPriceModel->price_6_20_days;
             } elseif ($days > 20) {
-                $dailyPrice = $seasonPrice->price_20_plus_days;
+                $dailyPrice = $seasonPriceModel->price_20_plus_days;
             } else {
                 $dailyPrice = $car->price;
             }
         } else {
-            $dailyPrice = $car->price;
+            // في حال عدم وجود سجل للفصول، نستخدم الأسعار المتدرجة من جدول السيارة
+            if ($days >= 2 && $days <= 5) {
+                $dailyPrice = $car->price_2_5_days;
+            } elseif ($days >= 6 && $days <= 20) {
+                $dailyPrice = $car->price_6_20_days;
+            } elseif ($days > 20) {
+                $dailyPrice = isset($car->price_20_plus_days) ? $car->price_20_plus_days : $car->price;
+            } else {
+                $dailyPrice = $car->price;
+            }
         }
 
         $totalPrice = $dailyPrice * $days;
@@ -201,7 +225,14 @@ class ReservationController extends Controller
             Log::error('خطأ أثناء إرسال تأكيد الحجز: ' . $e->getMessage());
         }
 
-        return redirect()->route('reservations.index')->with('success', 'تم الحجز بنجاح!');
+        // التوجيه إلى الصفحة المناسبة بناءً على نوع المستخدم
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            return redirect()->route('reservations.index')->with('success', 'تم الحجز بنجاح!');
+        }
+
+
+        // إذا كان المستخدم غير مسجل أو ليس مديرًا، يتم نقله إلى الصفحة الرئيسية
+        return redirect()->route('home')->with('success', 'تم الحجز بنجاح!');
     }
 
     /**
@@ -249,18 +280,18 @@ class ReservationController extends Controller
         $days = $pickupDate->diff($returnDate)->days;
 
         // استدعاء سجل أسعار الفصل المناسب بناءً على تاريخ الاستلام
-        $seasonPrice = $car->seasonPrices()
+        $seasonPriceModel = $car->seasonPrices()
             ->where('start_date', '<=', $validated['pickup_date'])
             ->where('end_date', '>=', $validated['pickup_date'])
             ->first();
 
-        if ($seasonPrice) {
+        if ($seasonPriceModel) {
             if ($days >= 2 && $days <= 5) {
-                $dailyPrice = $seasonPrice->price_2_5_days;
+                $dailyPrice = $seasonPriceModel->price_2_5_days;
             } elseif ($days >= 6 && $days <= 20) {
-                $dailyPrice = $seasonPrice->price_6_20_days;
+                $dailyPrice = $seasonPriceModel->price_6_20_days;
             } elseif ($days > 20) {
-                $dailyPrice = $seasonPrice->price_20_plus_days;
+                $dailyPrice = $seasonPriceModel->price_20_plus_days;
             } else {
                 $dailyPrice = $car->price;
             }

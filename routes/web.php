@@ -8,7 +8,8 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ContactController;
-
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 // الصفحة الرئيسية
 Route::get('/', [Home1Controller::class, 'index'])->name('home');
 
@@ -24,6 +25,15 @@ Route::get('/dashboard', [Home1Controller::class, 'dashboard'])->middleware(['au
 // ملفات المصادقة (Auth)
 require __DIR__.'/auth.php';
 
+
+
+
+Route::get('/contact/create', [ContactController::class, 'create'])->name('contact.create');
+Route::get('/contact/test', [ContactController::class, 'test'])->name('contact.test');
+
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+
 // مجموعة المسارات التي تتطلب تسجيل دخول
 Route::middleware('auth')->group(function () {
     // ملف تعريف المستخدم
@@ -34,21 +44,35 @@ Route::middleware('auth')->group(function () {
     // المراجعات (Reviews)
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+//contacts
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
+Route::get('/contact/{contact}/edit', [ContactController::class, 'edit'])->name('contact.edit');
+Route::put('/contact/{contact}', [ContactController::class, 'update'])->name('contact.update');
+Route::delete('/contact/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');
+//cars
+Route::get('/carsadmin', [CarController::class, 'adminindex'])->name('cars.index');
+
+//reservations
+Route::resource('reservations', ReservationController::class);
+Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.delete');
+
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 });
 
 
 // السيارات (Cars)
 Route::resource('cars', CarController::class);
-Route::get('/carsadmin', [CarController::class, 'adminindex'])->name('cars.index');
 Route::get('/available-cars', [CarController::class, 'availableCars'])->name('available.cars');
+Route::get('/cars', [CarController::class, 'index'])->name('cars');
+Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
 
 // الحجوزات (Reservations)
-Route::resource('reservations', ReservationController::class);
 Route::post('/reservations/confirm', [ReservationController::class, 'confirm'])->name('reservations.confirm');
 Route::post('/confirm-reservation', [ReservationController::class, 'confirm'])->name('reservations.confirm');
 Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.delete');
 
 // الدفع (Payments)
 Route::post('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
@@ -67,28 +91,50 @@ Route::get('/test-email', function () {
 });
 
 // المراجعات (Reviews)
-Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
-Route::get('/cars', [CarController::class, 'index'])->name('cars');
-// مسار لعرض صفحة إضافة التقييمات
 
-// مسار لتخزين التقييم الجديد
+
 
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
-    Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
     Route::put('/reviews/{id}', [ReviewController::class, 'update'])->name('reviews.update');
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+    Route::post('/reviews/', [ReviewController::class, 'store'])->name('reviews.store');
+
 });
-Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
 
 
-Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
-Route::get('/contact/create', [ContactController::class, 'create'])->name('contact.create');
-Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
-Route::get('/contact/{contact}/edit', [ContactController::class, 'edit'])->name('contact.edit');
-Route::put('/contact/{contact}', [ContactController::class, 'update'])->name('contact.update');
-Route::delete('/contact/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');
+
+
+//nav items
+Route::get('/about', function () {
+    return view('nav.about');
+})->name('nav.about');
+
+Route::get('/terms', function () {
+    return view('nav.terms');
+})->name('nav.terms');
+
+Route::get('/privacy', function () {
+    return view('nav.privacy');
+})->name('nav.privacy');
+
+Route::get('/payment', function () {
+    return view('nav.payment');
+})->name('nav.payment');
+
+
+
+Route::get('/generate-sitemap', function () {
+    Sitemap::create()
+        ->add(Url::create('/'))
+        ->add(Url::create('/cars'))
+        ->add(Url::create('/about'))
+        ->add(Url::create('/contact'))
+        ->writeToFile(public_path('sitemap.xml'));
+
+    return "تم إنشاء خريطة الموقع بنجاح!";
+});

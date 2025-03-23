@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-  @include('partials.navbar')
+    <x-app-layout>
+        @include('partials.up')
 
   <div class="container mx-auto p-6">
     <h1 class="text-4xl font-bold text-center mb-8">View Contact Message</h1>
@@ -36,5 +37,7 @@
   </div>
 
   @include('partials.footer')
+</x-app-layout>
+
 </body>
 </html>

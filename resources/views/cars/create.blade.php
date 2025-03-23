@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-50">
-  @include('partials.navbar')
+    <x-app-layout>
+        @include('partials.up')
 
   <div class="max-w-4xl mx-auto mt-10 px-6">
     <h1 class="text-3xl font-semibold text-center text-gray-800 mb-8">Add New Car</h1>
@@ -138,16 +139,39 @@
           @enderror
         </div>
 
-        <!-- Location -->
-        <div>
-          <label for="location" class="block text-lg font-medium text-gray-700">
-            <i class="fas fa-map-marker-alt mr-1"></i> Location
-          </label>
-          <input type="text" name="location" value="{{ old('location') }}" class="mt-2 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-          @error('location')
-            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-          @enderror
-        </div>
+<!-- Full Tank Price -->
+<div>
+    <label for="full_tank_price" class="block text-lg font-medium text-gray-700">
+      <i class="fas fa-gas-pump mr-1"></i> Full Tank Price
+    </label>
+    <input type="number" step="0.01" name="full_tank_price" value="{{ old('full_tank_price', $car->full_tank_price ?? '') }}" class="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+    @error('full_tank_price')
+      <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+    @enderror
+  </div>
+      <!-- Location -->
+<div>
+    <label for="location" class="block text-lg font-medium text-gray-700">
+      <i class="fas fa-map-marker-alt mr-1"></i> Location
+    </label>
+    <select name="location" id="location" class="mt-2 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+      <option value="" disabled selected>Select Location</option>
+      <option value="Marrakech (Agence)">Marrakech (Agence)</option>
+      <option value="Marrakech medina">Marrakech medina</option>
+      <option value="Marrakech aéroport">Marrakech aéroport</option>
+      <option value="Essaouira">Essaouira</option>
+      <option value="Casablanca">Casablanca</option>
+      <option value="Mohammedia">Mohammedia</option>
+      <option value="Agadir">Agadir</option>
+      <option value="Ouarzazate">Ouarzazate</option>
+      <option value="Rabat">Rabat</option>
+      <option value="Tanger">Tanger</option>
+      <option value="Fès">Fès</option>
+    </select>
+    @error('location')
+      <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+    @enderror
+  </div>
 
         <!-- Available -->
         <div>
@@ -295,5 +319,7 @@
       }
     });
   </script>
+  </x-app-layout>
+
 </body>
 </html>

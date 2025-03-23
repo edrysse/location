@@ -14,13 +14,18 @@ class ContactController extends Controller
     public function index()
     {
         // الحصول على كل الرسائل بترتيب تنازلي حسب تاريخ الإنشاء
-        $contacts = Contact::orderBy('created_at', 'desc')->get();
+        $contacts = Contact::orderBy('created_at', 'desc')->paginate(10);
+
         return view('contact.index', compact('contacts'));
     }
 
     /**
      * Show the form for creating a new contact message.
      */
+    public function test()
+    {
+        return view('contact.test');
+    }
     public function create()
     {
         return view('contact.create');
@@ -39,12 +44,17 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
-        Contact::create($data);
+        $contact = Contact::create($data);
 
-        // يمكنك هنا إرسال بريد إلكتروني لإشعار الإدارة إن أردت
-        // Mail::to('your-email@example.com')->send(new ContactNotification($data));
+        // إرسال بريد إلكتروني للإدارة عند استلام رسالة جديدة
+        try {
+            Mail::to('aladrysymhmd093@gmail.com')->send(new \App\Mail\ContactNotification($contact));
+        } catch (\Exception $e) {
+            // تسجيل الخطأ في حال فشل الإرسال
+            \Log::error("Error sending contact email: " . $e->getMessage());
+        }
 
-        return redirect()->route('contact.index')->with('success', 'Your message has been sent successfully.');
+        return redirect()->route('contact.create')->with('success', 'تم إرسال رسالتك بنجاح.');
     }
 
     /**

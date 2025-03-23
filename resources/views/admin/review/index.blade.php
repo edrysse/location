@@ -10,14 +10,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-  @include('partials.navbar')
+<x-app-layout>
+    @include('partials.up')
 
-  <div class="container mx-auto mt-12 px-6">
-    <!-- Header Section -->
-    <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800">Reviews Management</h1>
+  <div class="container mx-auto mt-12 px-6 mb-16">
+ 
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Reviews Management</h1>
+        <!-- زر إضافة ريفيو -->
+        <a href="{{ route('reviews.create') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+            <i class="fas fa-plus mr-1"></i> Add Review
+        </a>
     </div>
-
     <!-- Success Message -->
     @if(session('success'))
       <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
@@ -69,8 +73,11 @@
         </tbody>
       </table>
     </div>
+    <div class="mt-4">
+      {{ $reviews->links() }}
+    </div>
   </div>
-
   @include('partials.footer')
+</x-app-layout>
 </body>
 </html>

@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-  @include('partials.navbar')
+<x-app-layout>
+    @include('partials.up')
 
   <!-- Main Container -->
   <div class="max-w-2xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-lg border border-gray-200">
@@ -93,5 +94,7 @@
   </div>
 
   @include('partials.footer')
+</x-app-layout>
+
 </body>
 </html>

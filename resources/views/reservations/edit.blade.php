@@ -8,7 +8,8 @@
 </head>
 <body class="bg-gray-100">
 
-@include('partials.navbar')
+    <x-app-layout>
+        @include('partials.up')
 
 <div class="container mx-auto mt-10">
     <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">Edit Reservation</h1>
@@ -70,7 +71,7 @@
         </div>
 
         <!-- Dates -->
-  
+
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="pickup_date">Pickup Date</label>
             <input type="date" name="pickup_date" id="pickup_date" value="{{ old('pickup_date', \Carbon\Carbon::parse($reservation->pickup_date)->format('Y-m-d')) }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -235,6 +236,7 @@
 </div>
 
 @include('partials.footer')
+</x-app-layout>
 
 </body>
 </html>

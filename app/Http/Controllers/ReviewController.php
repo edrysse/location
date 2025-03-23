@@ -10,7 +10,8 @@ class ReviewController extends Controller
     // عرض قائمة التقييمات
     public function index()
     {
-        $reviews = Review::all();
+        $reviews = Review::orderBy('created_at', 'desc')->paginate(10);
+
         return view('admin.review.index', compact('reviews'));
     }
 

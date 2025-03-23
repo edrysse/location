@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-  @include('partials.navbar')
+    <x-app-layout>
+        @include('partials.up')
 
   @if ($errors->any())
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -131,14 +132,28 @@
                  class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
-        <!-- Location -->
-        <div class="flex-1">
-          <label for="location" class="block text-sm font-medium text-gray-700">
-            <i class="fas fa-map-marker-alt mr-1"></i> Location
-          </label>
-          <input type="text" name="location" id="location" value="{{ $car->location }}" required
-                 class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
+       <!-- Location -->
+<div class="flex-1">
+    <label for="location" class="block text-sm font-medium text-gray-700">
+      <i class="fas fa-map-marker-alt mr-1"></i> Location
+    </label>
+    <select name="location" id="location" required
+            class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <option value="" disabled>Select Location</option>
+      <option value="Marrakech (Agence)" {{ $car->location == 'Marrakech (Agence)' ? 'selected' : '' }}>Marrakech (Agence)</option>
+      <option value="Marrakech medina" {{ $car->location == 'Marrakech medina' ? 'selected' : '' }}>Marrakech medina</option>
+      <option value="Marrakech aéroport" {{ $car->location == 'Marrakech aéroport' ? 'selected' : '' }}>Marrakech aéroport</option>
+      <option value="Essaouira" {{ $car->location == 'Essaouira' ? 'selected' : '' }}>Essaouira</option>
+      <option value="Casablanca" {{ $car->location == 'Casablanca' ? 'selected' : '' }}>Casablanca</option>
+      <option value="Mohammedia" {{ $car->location == 'Mohammedia' ? 'selected' : '' }}>Mohammedia</option>
+      <option value="Agadir" {{ $car->location == 'Agadir' ? 'selected' : '' }}>Agadir</option>
+      <option value="Ouarzazate" {{ $car->location == 'Ouarzazate' ? 'selected' : '' }}>Ouarzazate</option>
+      <option value="Rabat" {{ $car->location == 'Rabat' ? 'selected' : '' }}>Rabat</option>
+      <option value="Tanger" {{ $car->location == 'Tanger' ? 'selected' : '' }}>Tanger</option>
+      <option value="Fès" {{ $car->location == 'Fès' ? 'selected' : '' }}>Fès</option>
+    </select>
+  </div>
+
 
         <!-- Available -->
         <div class="flex-1">
@@ -329,5 +344,7 @@
       }
     });
   </script>
+  </x-app-layout>
+
 </body>
 </html>

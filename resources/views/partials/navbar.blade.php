@@ -3,61 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> loading...</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Diamantina Car</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* تأثير نبضي للوغو */
-    @keyframes pulseScale {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1); opacity: 1; }
-      100% { transform: scale(0.95); opacity: 0.8; }
-    }
-    .animate-pulse-scale {
-      animation: pulseScale 1.5s ease-in-out infinite;
-    }
-    /* تأثير تلاشي عند إزالة شاشة اللودينغ */
-    .fade-out {
-      opacity: 0;
-      transition: opacity 0.5s ease-out;
-      pointer-events: none;
+    body {
+      font-family: 'Inter', sans-serif;
     }
   </style>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gray-100">
-    <nav class="bg-white shadow-md">
-        <div class="container px-0 py-2 flex items-center justify-between">
-            <a href="{{ route('home') }}" class="flex items-center">
-                <img src="{{ asset('assets/diam-logo.png') }}" alt="Logo" class="h-16 mr-2">
-            </a>
+<body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+  <!-- Navbar -->
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <div class="flex items-center justify-between h-20">
+        <!-- اللوجو -->
+        <a href="{{ route('home') }}" class="flex-shrink-0">
+          <img src="{{ asset('assets/diam-logo.png') }}" alt="Diamantina Car Logo" class="h-16">
+        </a>
+        <!-- قائمة التنقل للشاشات المكتبية -->
+        <div class="hidden md:flex space-x-6">
+          <a href="{{ route('home') }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">Home</a>
+          <a href="{{ route('available.cars') }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">Cars</a>
+          <a href="{{ route('contact.create') }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">Contact</a>
+          <a href="{{ route('nav.about') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">About</a>
+        <a href="{{ route('nav.terms') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">Terms & Conditions</a>
 
-            <div class="hidden lg:flex space-x-8">
-                <a href="{{ route('home') }}" class="text-gray-800 hover:text-gray-600 transition duration-300">Home</a>
-                <a href="{{ route('cars.index') }}" class="text-gray-800 hover:text-gray-600 transition duration-300">Admin</a>
-            </div>
 
-            <button id="navbar-toggler" aria-label="Toggle navigation" class="lg:hidden text-gray-800 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
+          @auth
+            <a href="{{ route('dashboard') }}" class="text-gray-800 hover:text-green-600 font-medium transition duration-300">Dashboard</a>
+
+          @endauth
         </div>
-
-        <div id="navbarMenu" class="lg:hidden hidden">
-            <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 transition duration-300">Home</a>
-            <a href="{{ route('cars.index') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 transition duration-300">Admin</a>
+        <!-- زر القائمة للجوال -->
+        <div class="md:hidden">
+          <button id="mobile-menu-button" class="text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <i class="fas fa-bars fa-2x"></i>
+          </button>
         </div>
-    </nav>
+      </div>
+    </div>
+    <!-- قائمة الجوال -->
+    <div id="mobile-menu" class="md:hidden hidden">
+      <div class="px-4 pt-2 pb-4 space-y-2 bg-white shadow-lg">
+        <a href="{{ route('home') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">Home</a>
+        <a href="{{ route('available.cars') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">Cars</a>
+        <a href="{{ route('contact.create') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">Contact</a>
+        <a href="{{ route('nav.about') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">About</a>
+        <a href="{{ route('nav.terms') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">Terms & Conditions</a>
 
-  <!-- سكربت الجوال لتبديل القائمة وإخفاء شاشة اللودينغ -->
+
+        @auth
+
+          <a href="{{ route('dashboard') }}" class="block text-gray-800 hover:text-green-600 font-medium transition duration-300">Dashboard</a>
+
+        @endauth
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- سكربت تبديل القائمة على الجوال -->
   <script>
-    // تفعيل زر القائمة للجوال
-    const navbarToggler = document.getElementById('navbar-toggler');
-    const navbarMenu = document.getElementById('navbarMenu');
-
-    navbarToggler.addEventListener('click', () => {
-      navbarMenu.classList.toggle('hidden');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
     });
-
   </script>
 </body>
 </html>

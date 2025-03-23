@@ -76,7 +76,7 @@ class CarController extends Controller
             $query->where('location', $request->location);
         }
 
-        $cars = $query->get();
+        $cars = Car::orderBy('created_at', 'desc')->paginate(10);
 
         return view('cars.index', compact('cars'))
             ->with($request->only([
@@ -107,8 +107,10 @@ class CarController extends Controller
             'price_20_days'     => 'required|numeric|min:0',
             'location'          => 'required|string|max:255',
             'available'         => 'required|boolean',
-            'franchise_price'   => 'nullable|numeric|min:0', // سعر الـ Franchise الخاص بالسيارة
-            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'franchise_price'   => 'nullable|numeric|min:0',
+            'full_tank_price'   => 'nullable|numeric|min:0', // سعر الـ full-tank الخاص بالسيارة
+            // سعر الـ Franchise الخاص بالسيارة
+            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
             // بيانات أسعار الفصول، حيث نتوقع مصفوفة من الأسعار
             'season_prices'                      => 'nullable|array',
             'season_prices.*.season_name'        => 'required_with:season_prices|string|max:100',
@@ -139,7 +141,9 @@ class CarController extends Controller
                     'price_2_5_days'    => $seasonPriceData['price_2_5_days'],
                     'price_6_20_days'   => $seasonPriceData['price_6_20_days'],
                     'price_20_plus_days'=> $seasonPriceData['price_20_plus_days'],
-                    'franchise_price' => $car->franchise_price, 
+                    'franchise_price' => $car->franchise_price,
+                    'full_tank_price'    => $car->full_tank_price,
+
 
                 ]);
             }
@@ -177,6 +181,8 @@ class CarController extends Controller
             'location'          => 'required|string|max:255',
             'available'         => 'required|boolean',
             'franchise_price'   => 'nullable|numeric|min:0',
+            'full_tank_price'   => 'nullable|numeric|min:0', // تحقق من صحة حقل الـ Full Tank
+
             'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'season_prices'                      => 'nullable|array',
             'season_prices.*.season_name'        => 'required_with:season_prices|string|max:100',
@@ -211,6 +217,8 @@ class CarController extends Controller
                     'price_2_5_days'    => $seasonPriceData['price_2_5_days'],
                     'price_6_20_days'   => $seasonPriceData['price_6_20_days'],
                     'price_20_plus_days'=> $seasonPriceData['price_20_plus_days'],
+                    'franchise_price'    => $car->franchise_price,
+                    'full_tank_price'    => $car->full_tank_price,
                 ]);
             }
         }
