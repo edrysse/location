@@ -38,6 +38,8 @@ RUN composer install --no-dev --optimize-autoloader
 # تثبيت حزم npm وبناء الأصول
 RUN npm install && npm run build
 
+RUN php artisan storage:link
+
 # كشف المنفذ 8000
 EXPOSE 8000
 
