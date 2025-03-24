@@ -70,13 +70,16 @@ class ReviewController extends Controller
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
+      
         if ($request->hasFile('avatar')) {
             $imageName = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
             $request->file('avatar')->move(public_path('avatars'), $imageName);
             $data['avatar'] = 'avatars/' . $imageName;
-        }     else {
-            $avatarPath = null;
         }
+        
+        $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        
+
 
         $review->update([
             'name' => $request->name,

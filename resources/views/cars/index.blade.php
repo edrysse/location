@@ -150,7 +150,7 @@
                     src="{{ asset( $car->image) }}"
                     alt="{{ $car->name }}"
                     class="w-28 h-28 object-contain rounded cursor-pointer mx-auto"
-                    onclick="openImageModal('{{ asset('storage/' . $car->image) }}')"
+                    onclick="openImageModal('{{ asset( $car->image) }}')"
                     loading="lazy"
                   >
                 @else

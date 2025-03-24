@@ -124,16 +124,18 @@ class CarController extends Controller
         $data = $request->all();
         // تحويل حقل الموقع من pickup_location إلى location للتخزين في قاعدة البيانات
         $data['location'] = $data['pickup_location'];
-
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
             $request->file('image')->move(public_path('cars'), $imageName);
             $data['image'] = 'cars/' . $imageName;
         }
         
+        
 
-        $car = Car::create($data);
-
+        $car = new Car();
+        $car->fill($data);
+        $car->save();
+        
         if ($request->has('season_prices')) {
             foreach ($request->season_prices as $seasonPriceData) {
                 $car->seasonPrices()->create([
@@ -151,7 +153,7 @@ class CarController extends Controller
 
         return redirect()->route('cars.index')->with('success', 'Car created successfully.');
     }
-
+  
     // Show the details of a specific car
     public function show(Car $car)
     {
@@ -201,8 +203,7 @@ class CarController extends Controller
             $data['image'] = 'cars/' . $imageName;
         }
         
-            $data['image'] = $request->file('image')->store('cars', 'public');
-        }
+        
 
         $car->update($data);
 
