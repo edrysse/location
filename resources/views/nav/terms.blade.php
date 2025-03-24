@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms & Conditions - Diamantina Car</title>
+  <title>{{ __('messages.terms_conditions') }} - {{ __('messages.site_name') }}</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Tailwind Typography Plugin -->
@@ -32,38 +32,38 @@
   @include('partials.navbar')
   @include('partials.up')
 
-<!-- Hero Section: تصميم كامل الشاشة مع تأثير التدرج والنص المتحرك -->
+<!-- Hero Section -->
 <section class="relative h-screen overflow-hidden">
     <!-- الخلفية مع تراكب تدرجي -->
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/assets/hero-section.jpg');"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90"></div>
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
       <h1 class="text-5xl md:text-6xl font-extrabold text-white drop-shadow-2xl animate-fadeInDown">
-        GENERAL RENTAL CONDITIONS
+        {{ __('messages.general_rental_conditions') }}
       </h1>
       <p class="mt-6 text-lg md:text-xl text-gray-200 max-w-2xl animate-fadeInUp">
-        Discover our transparent policies and seamless car rental experience that puts your safety and convenience first.
+        {{ __('messages.terms_conditions_intro') }}
       </p>
     </div>
   </section>
   
-  <!-- Content Section: محتوى مقسم إلى بطاقات عصرية مع أيقونات وتأثيرات تفاعلية -->
+  <!-- Content Section -->
   <section class="container mx-auto my-16 px-4">
     <div class="grid gap-12 md:grid-cols-2">
       <!-- بطاقة القسم 1: Make Your Reservation -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0">
-          <img class="w-full h-64 object-cover" src="/assets/reserve.jpg" alt="Reservation">
+          <img class="w-full h-64 object-cover" src="/assets/reserve.jpg" alt="{{ __('messages.reserve_alt') }}">
         </div>
         <div class="p-8">
           <div class="flex items-center mb-4">
             <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-calendar-check text-xl"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800">Make Your Reservation</h2>
+            <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.make_reservation') }}</h2>
           </div>
           <p class="text-gray-600 leading-relaxed">
-            Reserving a car with <strong>DIAMANTINACAR</strong> is simple and convenient. Book online or contact us directly for immediate confirmation.
+    {!! __('messages.make_reservation_text') !!}
           </p>
         </div>
       </article>
@@ -71,17 +71,17 @@
       <!-- بطاقة القسم 2: Use of the Car -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0 order-2 md:order-1">
-          <img class="w-full h-64 object-cover" src="/assets/uses.jpg" alt="Use of the Car">
+          <img class="w-full h-64 object-cover" src="/assets/uses.jpg" alt="{{ __('messages.use_car_alt') }}">
         </div>
         <div class="p-8 order-1 md:order-2">
           <div class="flex items-center mb-4">
             <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-car-side text-xl"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800">Use of the Car</h2>
+            <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.use_car') }}</h2>
           </div>
           <p class="text-gray-600 leading-relaxed">
-            The vehicle is solely for personal use by the tenant. Strictly no participation in competitions, illegal activities or overloading is allowed.
+            {{ __('messages.use_car_text') }}
           </p>
         </div>
       </article>
@@ -89,17 +89,17 @@
       <!-- بطاقة القسم 3: Condition & Liability -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0">
-          <img class="w-full h-64 object-cover" src="/assets/terms.jpg" alt="Condition & Liability">
+          <img class="w-full h-64 object-cover" src="/assets/terms.jpg" alt="{{ __('messages.condition_liability_alt') }}">
         </div>
         <div class="p-8">
           <div class="flex items-center mb-4">
             <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-clipboard-list text-xl"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800">Condition & Liability</h2>
+            <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.condition_liability') }}</h2>
           </div>
           <p class="text-gray-600 leading-relaxed">
-            Our vehicles are delivered in pristine condition. An inventory check is carried out upon delivery and return, ensuring full accountability.
+            {{ __('messages.condition_liability_text') }}
           </p>
         </div>
       </article>
@@ -107,17 +107,17 @@
       <!-- بطاقة القسم 4: Delivery / Collection -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0 order-2 md:order-1">
-          <img class="w-full h-64 object-cover" src="/assets/delevry.jpg" alt="Delivery and Collection">
+          <img class="w-full h-64 object-cover" src="/assets/delevry.jpg" alt="{{ __('messages.delivery_collection_alt') }}">
         </div>
         <div class="p-8 order-1 md:order-2">
           <div class="flex items-center mb-4">
             <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-truck text-xl"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800">Delivery / Collection</h2>
+            <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.delivery_collection') }}</h2>
           </div>
           <p class="text-gray-600 leading-relaxed">
-            Choose your preferred delivery and pick-up location. In Marrakech, delivery and collection services are included in the rental price.
+            {{ __('messages.delivery_collection_text') }}
           </p>
         </div>
       </article>
@@ -125,17 +125,17 @@
       <!-- بطاقة القسم 5: Fuel Policy -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0">
-          <img class="w-full h-64 object-cover" src="/assets/fuel.jpg" alt="Fuel Policy">
+          <img class="w-full h-64 object-cover" src="/assets/fuel.jpg" alt="{{ __('messages.fuel_policy_alt') }}">
         </div>
         <div class="p-8">
           <div class="flex items-center mb-4">
             <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-gas-pump text-xl"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800">Fuel Policy</h2>
+            <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.fuel_policy') }}</h2>
           </div>
           <p class="text-gray-600 leading-relaxed">
-            Your vehicle is provided with a predetermined fuel level and must be returned similarly. Opt for a full tank during booking for added convenience.
+            {{ __('messages.fuel_policy_text') }}
           </p>
         </div>
       </article>
@@ -143,17 +143,17 @@
       <!-- بطاقة القسم 6: Insurance -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0 order-2 md:order-1">
-          <img class="w-full h-64 object-cover" src="/assets/insurance.jpg" alt="Insurance">
+          <img class="w-full h-64 object-cover" src="/assets/insurance.jpg" alt="{{ __('messages.insurance_alt') }}">
         </div>
         <div class="p-8 order-1 md:order-2">
           <div class="flex items-center mb-4">
             <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-shield-alt text-xl"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800">Insurance</h2>
+            <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.insurance') }}</h2>
           </div>
           <p class="text-gray-600 leading-relaxed">
-            Our fleet is fully insured against all risks. In the event of damage, a capped excess applies if liability is attributed to the driver.
+            {{ __('messages.insurance_text') }}
           </p>
         </div>
       </article>
@@ -161,17 +161,17 @@
       <!-- بطاقة القسم 7: Assistance -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0">
-          <img class="w-full h-64 object-cover" src="/assets/accident.jpg" alt="Assistance">
+          <img class="w-full h-64 object-cover" src="/assets/accident.jpg" alt="{{ __('messages.assistance_alt') }}">
         </div>
         <div class="p-8">
           <div class="flex items-center mb-4">
             <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-wrench text-xl"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800">Accident / Breakdown Assistance</h2>
+            <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.assistance') }}</h2>
           </div>
           <p class="text-gray-600 leading-relaxed">
-            Round-the-clock assistance is available. In case of an accident or breakdown, contact our dedicated service team for prompt support and taxi arrangements.
+            {{ __('messages.assistance_text') }}
           </p>
         </div>
       </article>
@@ -179,24 +179,24 @@
       <!-- بطاقة القسم 8: Payment / Deposit -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0 order-2 md:order-1">
-          <img class="w-full h-64 object-cover" src="/assets/payment.jpg" alt="Payment / Deposit">
+          <img class="w-full h-64 object-cover" src="/assets/payment.jpg" alt="{{ __('messages.payment_deposit_alt') }}">
         </div>
         <div class="p-8 order-1 md:order-2">
           <div class="flex items-center mb-4">
             <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-credit-card text-xl"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800">Payment / Deposit</h2>
+            <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.payment_deposit') }}</h2>
           </div>
           <p class="text-gray-600 leading-relaxed">
-            Payment is processed upon delivery. Options include cash, credit card or swift transfer. A security deposit is pre-authorized and released upon satisfactory return.
+            {{ __('messages.payment_deposit_text') }}
           </p>
         </div>
       </article>
     </div>
   </section>
   
-  <!-- Custom Animations (يمكن إضافتها داخل ملف CSS خارجي أو داخل وسم <style>) -->
+  <!-- Custom Animations -->
   <style>
     @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-30px); }
@@ -214,7 +214,6 @@
     }
   </style>
   
-
   @include('partials.footer')
 
   <!-- Bootstrap JS -->

@@ -150,7 +150,7 @@
               <td class="py-2 px-4 border-b">{{ $reservation->rehausseur }}</td>
               <td class="py-2 px-4 border-b">{{ $reservation->full_tank ? 'Yes' : 'No' }}</td>
               <td class="py-2 px-4 border-b">{{ $reservation->franchise ? 'Yes' : 'No' }}</td>
-              <td class="py-2 px-4 border-b">${{ number_format($reservation->total_price, 2) }}</td>
+              <td class="py-2 px-4 border-b">€{{ number_format($reservation->total_price, 2) }}</td>
               <td class="py-2 px-4 border-b text-center">
                 <a href="{{ route('reservations.edit', $reservation->id) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
                 <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" class="inline-block ml-2">

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create New Reservation</title>
+  <title>{{ __('messages.create_reservation_title') }}</title>
   <link rel="shortcut icon" href="favicon.ico" type="/assets/diam-logo.png">
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -20,7 +20,7 @@
         var franchisePrice = {{ $data['franchise_price'] }};
 
         function calculateTotal() {
-            console.log("حساب التكلفة الإجمالية...");
+            console.log("{{ __('messages.calculating_total') }}");
 
             const pickupDateInput = document.getElementById('pickup_date_input');
             const returnDateInput = document.getElementById('return_date_input');
@@ -31,7 +31,7 @@
             const msPerDay = 1000 * 60 * 60 * 24;
             const diffDays = Math.ceil((returnDate - pickupDate) / msPerDay);
             const days = diffDays > 0 ? diffDays : 1;
-            console.log("عدد الأيام:", days);
+            console.log("{{ __('messages.days_count') }}", days);
 
             let dailyPrice;
             if (days === 1) {
@@ -64,8 +64,8 @@
                 total *= 1.03;
             }
 
-            console.log("التكلفة الإجمالية:", total);
-            document.getElementById('total').innerText = "Total: $" + total.toFixed(2);
+            console.log("{{ __('messages.total_cost') }}", total);
+            document.getElementById('total').innerText = "{{ __('messages.total_label') }}" + total.toFixed(2);
         }
 
         // إضافة event listener لجميع عناصر الإدخال والاختيار لحساب التكلفة عند تغييرها
@@ -90,14 +90,14 @@
     <!-- Page Title -->
     <h1 class="text-4xl font-extrabold text-center text-gray-800">
       <i class="fas fa-car-side mr-2 text-blue-500"></i>
-      Create New Reservation
+      {{ __('messages.create_reservation_header') }}
     </h1>
-    <p class="text-center text-gray-500 mt-2">Book your car quickly and easily</p>
+    <p class="text-center text-gray-500 mt-2">{{ __('messages.create_reservation_subheader') }}</p>
 
     <!-- Error Message -->
     @if ($errors->any())
       <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-6 mb-4">
-        <strong class="font-bold">Whoops!</strong>
+        <strong class="font-bold">{{ __('messages.whoops') }}</strong>
         <span class="block sm:inline">{{ $errors->first() }}</span>
       </div>
     @endif
@@ -110,16 +110,16 @@
         <div class="bg-white shadow-lg rounded-lg p-4 border border-gray-200">
           <h2 class="text-xl font-bold mb-3 text-gray-700">
             <i class="fas fa-info-circle mr-2 text-blue-400"></i>
-            Reservation Information
+            {{ __('messages.reservation_information') }}
           </h2>
           <div class="text-sm text-gray-600 space-y-1">
-            <p><strong>Car:</strong> {{ $data['car_name'] }}</p>
-            <p><strong>Pickup Location:</strong> {{ $data['pickup_location'] }}</p>
-            <p><strong>Dropoff Location:</strong> {{ $data['dropoff_location'] }}</p>
-            <p><strong>Pickup Date:</strong> {{ $data['pickup_date'] }}</p>
-            <p><strong>Return Date:</strong> {{ $data['return_date'] }}</p>
+            <p><strong>{{ __('messages.car') }}</strong> {{ $data['car_name'] }}</p>
+            <p><strong>{{ __('messages.pickup_location') }}</strong> {{ $data['pickup_location'] }}</p>
+            <p><strong>{{ __('messages.dropoff_location') }}</strong> {{ $data['dropoff_location'] }}</p>
+            <p><strong>{{ __('messages.pickup_date') }}</strong> {{ $data['pickup_date'] }}</p>
+            <p><strong>{{ __('messages.return_date') }}</strong> {{ $data['return_date'] }}</p>
           </div>
-          <p class="text-lg font-bold text-green-600 mt-4" id="total">Total: $0.00</p>
+          <p class="text-lg font-bold text-green-600 mt-4" id="total">{{ __('messages.total_label') }}0.00</p>
         </div>
       </div>
 
@@ -141,39 +141,39 @@
             <div>
               <label for="name" class="block text-sm font-semibold text-gray-700">
                 <i class="fas fa-user mr-2 text-blue-400"></i>
-                Name
+                {{ __('messages.name') }}
               </label>
-              <input type="text" name="name" id="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="Your full name">
+              <input type="text" name="name" id="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="{{ __('messages.name_placeholder') }}">
             </div>
 
             <!-- Email Field -->
             <div>
               <label for="email" class="block text-sm font-semibold text-gray-700">
                 <i class="fas fa-envelope mr-2 text-blue-400"></i>
-                Email
+                {{ __('messages.email') }}
               </label>
-              <input type="email" name="email" id="email" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="you@example.com">
+              <input type="email" name="email" id="email" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="{{ __('messages.email_placeholder') }}">
             </div>
 
             <!-- Phone Field -->
             <div>
               <label for="phone" class="block text-sm font-semibold text-gray-700">
                 <i class="fas fa-phone mr-2 text-blue-400"></i>
-                Phone
+                {{ __('messages.phone') }}
               </label>
-              <input type="text" name="phone" id="phone" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="+1 234 567 890">
+              <input type="text" name="phone" id="phone" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="{{ __('messages.phone_placeholder') }}">
             </div>
 
             <!-- Payment Method (Select) Field -->
             <div>
               <label for="payment_method" class="block text-sm font-semibold text-gray-700">
                 <i class="fas fa-credit-card mr-2 text-blue-400"></i>
-                Payment Method
+                {{ __('messages.payment_method') }}
               </label>
               <select name="payment_method" id="payment_method" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
-                <option value="" disabled selected>Select Payment Method</option>
-                <option value="Credit Card (+3%)">Credit Card (+3%)</option>
-                <option value="Cash">Cash</option>
+                <option value="" disabled selected>{{ __('messages.select_payment_method') }}</option>
+                <option value="Credit Card (+3%)">{{ __('messages.credit_card') }}</option>
+                <option value="Cash">{{ __('messages.cash') }}</option>
               </select>
             </div>
 
@@ -181,15 +181,15 @@
             <div class="space-y-4">
               <!-- GPS ($1/day) Option -->
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold text-gray-700">GPS ($1/day)</label>
+                <label class="text-sm font-semibold text-gray-700">{{ __('messages.gps_option') }}</label>
                 <div class="flex items-center space-x-4">
                   <label class="inline-flex items-center">
                     <input type="radio" name="gps" value="1" onclick="calculateTotal()" class="text-blue-500">
-                    <span class="ml-2">Yes</span>
+                    <span class="ml-2">{{ __('messages.yes') }}</span>
                   </label>
                   <label class="inline-flex items-center">
                     <input type="radio" name="gps" value="0" checked onclick="calculateTotal()" class="text-blue-500">
-                    <span class="ml-2">No</span>
+                    <span class="ml-2">{{ __('messages.no') }}</span>
                   </label>
                 </div>
               </div>
@@ -197,7 +197,7 @@
               <!-- Maxicosi Option -->
               <div>
                 <label for="maxicosi" class="block text-sm font-semibold text-gray-700">
-                  <i class="fas fa-baby-carriage mr-2 text-blue-400"></i>Maxicosi ($1/day)
+                  <i class="fas fa-baby-carriage mr-2 text-blue-400"></i>{{ __('messages.maxicosi_option') }}
                 </label>
                 <select id="maxicosi" name="maxicosi" class="border rounded-md p-2" onchange="calculateTotal()">
                   <option value="0" selected>0</option>
@@ -209,7 +209,7 @@
               <!-- Child Seat (Siege Bebe) Option -->
               <div>
                 <label for="child_seat" class="block text-sm font-semibold text-gray-700">
-                  <i class="fas fa-baby mr-2 text-blue-400"></i>Child Seat ($1/day)
+                  <i class="fas fa-baby mr-2 text-blue-400"></i>{{ __('messages.child_seat_option') }}
                 </label>
                 <select id="child_seat" name="siege_bebe" class="border rounded-md p-2" onchange="calculateTotal()">
                   <option value="0" selected>0</option>
@@ -221,7 +221,7 @@
               <!-- Booster Seat (Rehausseur) Option -->
               <div>
                 <label for="booster_seat" class="block text-sm font-semibold text-gray-700">
-                  <i class="fas fa-chair mr-2 text-blue-400"></i>Booster Seat (Rehausseur $1/day)
+                  <i class="fas fa-chair mr-2 text-blue-400"></i>{{ __('messages.booster_seat_option') }}
                 </label>
                 <select id="booster_seat" name="rehausseur" class="border rounded-md p-2" onchange="calculateTotal()">
                   <option value="0" selected>0</option>
@@ -232,45 +232,45 @@
 
               <!-- Full Tank ($60) Option -->
               <div class="flex flex-col gap-2">
-                <label class="block text-sm font-semibold text-gray-700">Full Tank ($60)</label>
+                <label class="block text-sm font-semibold text-gray-700">{{ __('messages.full_tank_option') }}</label>
                 <div class="flex items-center space-x-4">
                   <label class="inline-flex items-center">
                     <input type="radio" name="full_tank" value="1" onclick="calculateTotal()" class="text-blue-500">
-                    <span class="ml-2">Yes</span>
+                    <span class="ml-2">{{ __('messages.yes') }}</span>
                   </label>
                   <label class="inline-flex items-center">
                     <input type="radio" name="full_tank" value="0" checked onclick="calculateTotal()" class="text-blue-500">
-                    <span class="ml-2">No</span>
+                    <span class="ml-2">{{ __('messages.no') }}</span>
                   </label>
                 </div>
               </div>
 
               <!-- Franchise Option -->
               <div class="flex flex-col gap-2">
-                <p><strong>Franchise Price:</strong> ${{ isset($data['franchise_price']) ? number_format($data['franchise_price'], 2) : 'N/A' }}</p>
+                <p><strong>{{ __('messages.franchise_price') }}:</strong> €{{ isset($data['franchise_price']) ? number_format($data['franchise_price'], 2) : __('messages.not_available') }}</p>
                 <div class="flex items-center space-x-4">
                   <label class="inline-flex items-center">
                     <input type="radio" name="franchise" value="1" onclick="calculateTotal()" class="text-blue-500">
-                    <span class="ml-2">Yes</span>
+                    <span class="ml-2">{{ __('messages.yes') }}</span>
                   </label>
                   <label class="inline-flex items-center">
                     <input type="radio" name="franchise" value="0" checked onclick="calculateTotal()" class="text-blue-500">
-                    <span class="ml-2">No</span>
+                    <span class="ml-2">{{ __('messages.no') }}</span>
                   </label>
                 </div>
               </div>
             </div>
-   <!-- Age Confirmation Checkbox -->
-   <div class="pt-4">
-    <label class="inline-flex items-center">
-      <input type="checkbox" name="age_confirmation" required class="form-checkbox h-5 w-5 text-blue-600">
-      <span class="ml-2 text-gray-700">I confirm that I am over 23 years old</span>
-    </label>
-  </div>
+            <!-- Age Confirmation Checkbox -->
+            <div class="pt-4">
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="age_confirmation" required class="form-checkbox h-5 w-5 text-blue-600">
+                <span class="ml-2 text-gray-700">{{ __('messages.age_confirmation') }}</span>
+              </label>
+            </div>
             <!-- Submit Button -->
             <div class="pt-4">
               <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md shadow-md transition-colors duration-300">
-                <i class="fas fa-check mr-2"></i>Create Reservation
+                <i class="fas fa-check mr-2"></i>{{ __('messages.create_reservation_button') }}
               </button>
             </div>
           </form>

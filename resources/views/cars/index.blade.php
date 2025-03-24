@@ -173,17 +173,17 @@
               <!-- Location -->
               <td class="px-4 py-4">{{ $car->location }}</td>
               <!-- Price/Day -->
-              <td class="px-4 py-4">${{ number_format($car->price, 2) }}</td>
+              <td class="px-4 py-4">€{{ number_format($car->price, 2) }}</td>
               <!-- Price 2-5 Days -->
-              <td class="px-4 py-4">${{ number_format($car->price_2_5_days, 2) }}</td>
+              <td class="px-4 py-4">€{{ number_format($car->price_2_5_days, 2) }}</td>
               <!-- Price 6-10 Days -->
-              <td class="px-4 py-4">${{ number_format($car->price_6_10_days, 2) }}</td>
+              <td class="px-4 py-4">€{{ number_format($car->price_6_10_days, 2) }}</td>
               <!-- Price 20 Days -->
-              <td class="px-4 py-4">${{ number_format($car->price_20_days, 2) }}</td>
+              <td class="px-4 py-4">€{{ number_format($car->price_20_days, 2) }}</td>
               <!-- Full tank -->
               <td class="px-4 py-4">
                 @if(isset($car->full_tank_price))
-                  ${{ number_format($car->full_tank_price, 2) }}
+                  €{{ number_format($car->full_tank_price, 2) }}
                 @else
                   N/A
                 @endif
@@ -191,7 +191,7 @@
               <!-- Franchise Price -->
               <td class="px-4 py-4">
                 @if(isset($car->franchise_price))
-                  ${{ number_format($car->franchise_price, 2) }}
+                  €{{ number_format($car->franchise_price, 2) }}
                 @else
                   N/A
                 @endif
@@ -292,17 +292,17 @@
               <div class="flex items-center">
                 <i class="fas fa-calendar-day text-blue-500 mr-2"></i>
                 <span class="font-semibold text-gray-700">2-5 Days:</span>
-                <span class="ml-auto text-gray-800">$<span id="modalPrice25"></span></span>
+                <span class="ml-auto text-gray-800">€<span id="modalPrice25"></span></span>
               </div>
               <div class="flex items-center">
                 <i class="fas fa-calendar-week text-green-500 mr-2"></i>
                 <span class="font-semibold text-gray-700">6-20 Days:</span>
-                <span class="ml-auto text-gray-800">$<span id="modalPrice620"></span></span>
+                <span class="ml-auto text-gray-800">€<span id="modalPrice620"></span></span>
               </div>
               <div class="flex items-center">
                 <i class="fas fa-calendar-alt text-red-500 mr-2"></i>
                 <span class="font-semibold text-gray-700">20+ Days:</span>
-                <span class="ml-auto text-gray-800">$<span id="modalPrice20plus"></span></span>
+                <span class="ml-auto text-gray-800">€<span id="modalPrice20plus"></span></span>
               </div>
             </div>
           </div>

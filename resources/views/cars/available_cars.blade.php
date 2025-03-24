@@ -92,7 +92,7 @@
                 <div class="mt-4 bg-green-50 p-3 rounded-md text-center">
                   <p class="text-lg font-bold text-green-600">
                     <i class="fas fa-dollar-sign mr-1"></i>
-                    ${{ $car->price }} / {{ __('messages.day') }}
+                    €{{ $car->price }} / {{ __('messages.day') }}
                   </p>
                 </div>
                 <!-- الأزرار -->

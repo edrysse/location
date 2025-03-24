@@ -76,15 +76,15 @@
             <li><i class="fa-solid fa-snowflake text-blue-400 mr-2"></i><span class="font-semibold">{{ __('messages.ac_details') }}:</span> {{ $car->ac ? __('messages.yes') : __('messages.no') }}</li>
             <li><i class="fa-solid fa-gear text-gray-500 mr-2"></i><span class="font-semibold">{{ __('messages.transmission_details') }}:</span> {{ $car->transmission }}</li>
             <li><i class="fa-solid fa-map-marker-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.location_details') }}:</span> {{ $car->location }}</li>
-            <li><i class="fa-solid fa-dollar-sign text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_day') }}:</span> ${{ number_format($car->price, 2) }}</li>
-            <li><i class="fa-solid fa-money-bill-wave text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_2_5_days') }}:</span> ${{ number_format($car->price_2_5_days, 2) }}</li>
-            <li><i class="fa-solid fa-money-check-alt text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_6_10_days') }}:</span> ${{ number_format($car->price_6_10_days, 2) }}</li>
-            <li><i class="fa-solid fa-hand-holding-dollar text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_20_days') }}:</span> ${{ number_format($car->price_20_days, 2) }}</li>
+            <li><i class="fa-solid fa-dollar-sign text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_day') }}:</span> €{{ number_format($car->price, 2) }}</li>
+            <li><i class="fa-solid fa-money-bill-wave text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_2_5_days') }}:</span> €{{ number_format($car->price_2_5_days, 2) }}</li>
+            <li><i class="fa-solid fa-money-check-alt text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_6_10_days') }}:</span> €{{ number_format($car->price_6_10_days, 2) }}</li>
+            <li><i class="fa-solid fa-hand-holding-dollar text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_20_days') }}:</span> €{{ number_format($car->price_20_days, 2) }}</li>
             <li>
               <i class="fa-solid fa-store-alt text-indigo-500 mr-2"></i>
               <span class="font-semibold">{{ __('messages.franchise_price') }}:</span>
               @if(isset($car->franchise_price))
-                ${{ number_format($car->franchise_price, 2) }}
+                €{{ number_format($car->franchise_price, 2) }}
               @else
                 {{ __('messages.not_applicable') }}
               @endif
@@ -93,7 +93,7 @@
               <i class="fa-solid fa-gas-pump text-indigo-500 mr-2"></i>
               <span class="font-semibold">{{ __('messages.full_tank_price') }}:</span>
               @if(isset($car->full_tank_price))
-                ${{ number_format($car->full_tank_price, 2) }}
+                €{{ number_format($car->full_tank_price, 2) }}
               @else
                 {{ __('messages.not_applicable') }}
               @endif
@@ -123,15 +123,15 @@
               <div class="text-gray-700 space-y-1">
                 <p>
                   <i class="fa-solid fa-money-bill-wave text-yellow-500 mr-1"></i>
-                  <span class="font-semibold">{{ __('messages.price_2_5_days') }}:</span> ${{ number_format($season->price_2_5_days, 2) }}
+                  <span class="font-semibold">{{ __('messages.price_2_5_days') }}:</span> €{{ number_format($season->price_2_5_days, 2) }}
                 </p>
                 <p>
                   <i class="fa-solid fa-money-check-alt text-yellow-500 mr-1"></i>
-                  <span class="font-semibold">{{ __('messages.price_6_10_days') }}:</span> ${{ number_format($season->price_6_20_days, 2) }}
+                  <span class="font-semibold">{{ __('messages.price_6_10_days') }}:</span> €{{ number_format($season->price_6_20_days, 2) }}
                 </p>
                 <p>
                   <i class="fa-solid fa-hand-holding-dollar text-yellow-500 mr-1"></i>
-                  <span class="font-semibold">{{ __('messages.price_20_days') }}:</span> ${{ number_format($season->price_20_plus_days, 2) }}
+                  <span class="font-semibold">{{ __('messages.price_20_days') }}:</span> €{{ number_format($season->price_20_plus_days, 2) }}
                 </p>
               </div>
             </div>
