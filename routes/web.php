@@ -78,7 +78,6 @@ Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
 
 // الحجوزات (Reservations)
 Route::post('/reservations/confirm', [ReservationController::class, 'confirm'])->name('reservations.confirm');
-Route::post('/confirm-reservation', [ReservationController::class, 'confirm'])->name('reservations.confirm');
 Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 

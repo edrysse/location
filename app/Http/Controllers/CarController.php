@@ -37,7 +37,7 @@ class CarController extends Controller
 
         $cars = $query->get();
 
-        return view('cars', compact('cars'))
+        return view('cars.index', compact('cars'))
             ->with($request->only([
                 'pickup_location', 'name', 'fuel', 'ac', 'transmission'
             ]));
