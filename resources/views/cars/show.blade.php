@@ -57,7 +57,7 @@
         <!-- صورة السيارة -->
         <div class="w-full md:w-1/2">
           @if($car->image)
-            <img src="{{ asset('storage/' . $car->image) }}" loading="lazy" alt="{{ $car->name }}" class="w-full h-auto object-cover rounded-lg">
+            <img src="{{ asset( . $car->image) }}" loading="lazy" alt="{{ $car->name }}" class="w-full h-auto object-cover rounded-lg">
           @else
             <div class="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
               <span class="text-gray-500">{{ __('messages.no_image') }}</span>

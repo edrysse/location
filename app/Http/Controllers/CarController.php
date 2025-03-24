@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
-use App\Models\CarSeasonPrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -37,8 +35,6 @@ class CarController extends Controller
             $query->where('transmission', $request->transmission);
         }
 
-        // حذف شرط "location" لأنه تم توحيده مع pickup_location
-
         $cars = $query->get();
 
         return view('cars', compact('cars'))
@@ -46,12 +42,14 @@ class CarController extends Controller
                 'pickup_location', 'name', 'fuel', 'ac', 'transmission'
             ]));
     }
+
     public function availableCars()
     {
         // جلب السيارات المتاحة من قاعدة البيانات
         $cars = Car::all(); // يمكنك تعديل الاستعلام حسب احتياجك
         return view('cars.available_cars', compact('cars')); // تأكد أن اسم الفيو صحيح
     }
+
     // Display the list of cars in the admin interface
     public function adminindex(Request $request)
     {
@@ -76,8 +74,6 @@ class CarController extends Controller
         if ($request->filled('transmission')) {
             $query->where('transmission', $request->transmission);
         }
-
-        // حذف شرط "location" لأنه تم توحيده مع pickup_location
 
         $cars = $query->orderBy('created_at', 'desc')->paginate(10);
 
@@ -126,7 +122,11 @@ class CarController extends Controller
         $data['location'] = $data['pickup_location'];
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('cars', 'public');
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            // حفظ الصورة مباشرة في public/cars
+            $image->move(public_path('cars'), $imageName);
+            $data['image'] = 'cars/' . $imageName;
         }
 
         $car = Car::create($data);
@@ -193,10 +193,14 @@ class CarController extends Controller
         $data['location'] = $data['pickup_location'];
 
         if ($request->hasFile('image')) {
-            if ($car->image) {
-                Storage::disk('public')->delete($car->image);
+            // حذف الصورة القديمة إذا وُجدت
+            if ($car->image && file_exists(public_path($car->image))) {
+                unlink(public_path($car->image));
             }
-            $data['image'] = $request->file('image')->store('cars', 'public');
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('cars'), $imageName);
+            $data['image'] = 'cars/' . $imageName;
         }
 
         $car->update($data);

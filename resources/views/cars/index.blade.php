@@ -147,7 +147,7 @@
                 @if($car->image)
                   <!-- عند الضغط على الصورة، نفتح المودال -->
                   <img
-                    src="{{ asset('storage/' . $car->image) }}"
+                    src="{{ asset( $car->image) }}"
                     alt="{{ $car->name }}"
                     class="w-28 h-28 object-contain rounded cursor-pointer mx-auto"
                     onclick="openImageModal('{{ asset('storage/' . $car->image) }}')"
