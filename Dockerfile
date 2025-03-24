@@ -1,37 +1,41 @@
-# استخدم PHP 8.2 بدلاً من 8.1
+# استخدام صورة PHP مع Nginx
 FROM php:8.2-fpm
 
-# ضبط مسار العمل
-WORKDIR /var/www/html
-
-# تثبيت الحزم المطلوبة
+# تثبيت التبعية المطلوبة
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    curl \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    libonig-dev \
+    git \
+    unzip \
     libzip-dev \
-    zip \
+    npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql mbstring zip exif pcntl
+    && docker-php-ext-install gd zip pdo pdo_mysql
+
+# إعداد مجلد العمل
+WORKDIR /var/www
+
+# نسخ جميع الملفات إلى الحاوية
+COPY . .
 
 # تثبيت Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# نسخ ملفات المشروع
-COPY . /var/www/html
-
-# ضبط الصلاحيات للمجلدات المهمة
-RUN chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
-
-# تثبيت حزم Composer
+# تثبيت الحزم عبر Composer
 RUN composer install --no-dev --optimize-autoloader
 
-# كشف المنفذ 8000
-EXPOSE 8000
+# تثبيت الحزم عبر npm وبناء الأصول
+RUN npm install && npm run build
 
-# تشغيل Laravel بطريقة آمنة
-CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"]
+# إعداد الأذونات المناسبة
+RUN chown -R www-data:www-data /var/www
+
+# نسخ ملف Nginx
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# فتح المنفذ 8080
+EXPOSE 8080
+
+# بدء الخدمة
+CMD ["php-fpm"]
