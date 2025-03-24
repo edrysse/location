@@ -11,13 +11,16 @@ services:
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        value: your-database-host
+        value: 152.228.170.151:23930/f480e6a7
+
       - key: DB_PORT
         value: 3306
       - key: DB_DATABASE
-        value: your-database-name
+        value: diamntina	
+
       - key: DB_USERNAME
-        value: your-database-username
+        value: diamntina	
+
       - key: DB_PASSWORD
-        value: your-database-password
+        value: 62kwCYDbaHfYRHYN
     autoDeploy: true
