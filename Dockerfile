@@ -1,5 +1,5 @@
 # استخدم صورة PHP 8.1 مع FPM
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
 # ضبط مسار العمل
 WORKDIR /var/www/html
