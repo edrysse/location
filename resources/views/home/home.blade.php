@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Diamantina car</title>
+  <title>{{ __('messages.title') }}</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -14,84 +14,12 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-  <!-- تخصيص تنسيق Testimonials لمنع تداخل الأسهم -->
-
   <style>
-    /* منع التمرير الأفقي في الصفحة */
     body {
       overflow-x: hidden;
     }
-    /* تحديد الحد الأقصى للعرض لحاويات المحتوى الرئيسية */
-
- /* تأكد من أن الحاوية نفسها تسمح بعرض الأزرار داخلها */
-/* حاوية السوايبر */
-#testimonialSwiper {
-  position: relative;
-  /* يفضل ترك overflow: hidden أو visible حسب التصميم */
-  overflow: visible;
-  /* إضافة مسافة سفلية كافية لظهور النقاط أسفل السلايدر */
-  padding-bottom: 50px;
-}
-
-/* 1) تنسيق أزرار السوايبر */
-#testimonialSwiper .swiper-button-next,
-#testimonialSwiper .swiper-button-prev {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10; /* لضمان الظهور فوق الشرائح */
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  outline: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.4); /* خلفية داكنة نصف شفافة */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#testimonialSwiper .swiper-button-next:hover,
-#testimonialSwiper .swiper-button-prev:hover {
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-#testimonialSwiper .swiper-button-next {
-  right: 15px; /* تعديل المسافة من الحافة اليمنى */
-}
-
-#testimonialSwiper .swiper-button-prev {
-  left: 15px; /* تعديل المسافة من الحافة اليسرى */
-}
-
-/* 2) تنسيق نقاط التمرير (الـ Pagination) */
-#testimonialSwiper .swiper-pagination {
-  position: absolute;
-  text-align: center;
-  bottom: 10px; /* جعلها في الأسفل */
-  left: 0;
-  right: 0;
-  z-index: 10; /* لضمان ظهورها فوق الخلفية أو الشرائح */
-}
-
-#testimonialSwiper .swiper-pagination-bullet {
-  background-color: #ccc; /* لون النقاط */
-  opacity: 1;            /* لإظهارها بوضوح */
-  width: 10px;
-  height: 10px;
-  margin: 0 6px;         /* مسافة بين النقاط */
-  transition: background-color 0.3s ease;
-}
-
-#testimonialSwiper .swiper-pagination-bullet-active {
-  background-color: blue; /* لون النقطة النشطة */
-}
-
+    /* المزيد من التنسيق حسب الحاجة */
   </style>
-
 </head>
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
   @include('partials.loader')
@@ -102,10 +30,10 @@
   <section class="relative bg-cover bg-center h-96" style="background-image: url('/assets/hero-section.jpg');">
     <div class="absolute inset-0 bg-black opacity-50"></div>
     <div class="container mx-auto h-full flex flex-col justify-center items-center relative z-10">
-      <h1 class="text-5xl font-bold text-white mb-4">Welcome to Diamantina Car</h1>
-      <p class="text-xl text-white mb-6">Best deals, best service, ride with confidence</p>
+      <h1 class="text-5xl font-bold text-white mb-4">{{ __('messages.welcome') }}</h1>
+      <p class="text-xl text-white mb-6">{{ __('messages.best_service') }}</p>
       <a href="#reservation" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
-        Book Now
+        {{ __('messages.book_now') }}
       </a>
     </div>
   </section>
@@ -113,24 +41,24 @@
   <!-- Why Choose Us Section -->
   <section class="container mx-auto my-12 px-4">
     <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-800">Why Choose Us</h2>
-      <p class="text-gray-600 mt-2">We provide the best car rental services with unbeatable offers</p>
+      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.why_choose_us') }}</h2>
+      <p class="text-gray-600 mt-2">{{ __('messages.best_service_description') }}</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="bg-white p-6 rounded-lg shadow-lg text-center">
         <i class="fas fa-truck-moving text-blue-600 text-4xl mb-4"></i>
-        <h3 class="text-xl font-semibold mb-2">Free Delivery in Marrakech</h3>
-        <p class="text-gray-600">Enjoy free delivery service when receiving your car in Marrakech.</p>
+        <h3 class="text-xl font-semibold mb-2">{{ __('messages.free_delivery') }}</h3>
+        <p class="text-gray-600">{{ __('messages.free_delivery_description') }}</p>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-lg text-center">
         <i class="fas fa-dollar-sign text-blue-600 text-4xl mb-4"></i>
-        <h3 class="text-xl font-semibold mb-2">Affordable Prices</h3>
-        <p class="text-gray-600">Enjoy competitive pricing with no hidden fees.</p>
+        <h3 class="text-xl font-semibold mb-2">{{ __('messages.affordable_prices') }}</h3>
+        <p class="text-gray-600">{{ __('messages.affordable_prices_description') }}</p>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-lg text-center">
         <i class="fas fa-headset text-blue-600 text-4xl mb-4"></i>
-        <h3 class="text-xl font-semibold mb-2">24/7 Support</h3>
-        <p class="text-gray-600">Our team is available around the clock for any assistance.</p>
+        <h3 class="text-xl font-semibold mb-2">{{ __('messages.support') }}</h3>
+        <p class="text-gray-600">{{ __('messages.support_description') }}</p>
       </div>
     </div>
   </section>
@@ -140,7 +68,7 @@
     <div class="bg-white rounded-lg shadow-lg p-8">
       <h2 class="text-3xl font-bold text-center mb-6">
         <i class="fas fa-calendar-check mr-2 text-blue-500"></i>
-        Make a Reservation
+        {{ __('messages.make_reservation') }}
       </h2>
       <form action="{{ route('cars') }}" method="GET">
         @csrf
@@ -149,10 +77,10 @@
           <div>
             <label for="pickup_location" class="block text-gray-700 font-medium mb-2">
               <i class="fas fa-map-marker-alt mr-1"></i>
-              Pickup Location
+              {{ __('messages.pickup_location') }}
             </label>
             <select name="pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
-              <option value="" disabled selected>Select Pickup Location</option>
+              <option value="" disabled selected>{{ __('messages.select_pickup_location') }}</option>
               <option value="Marrakech (Agence)">Marrakech (Agence)</option>
               <option value="Marrakech medina">Marrakech medina</option>
               <option value="Marrakech aéroport">Marrakech aéroport</option>
@@ -170,10 +98,10 @@
           <div>
             <label for="dropoff_location" class="block text-gray-700 font-medium mb-2">
               <i class="fas fa-map-marker-alt mr-1"></i>
-              Drop-off Location
+              {{ __('messages.dropoff_location') }}
             </label>
             <select name="dropoff_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
-              <option value="" disabled selected>Select Drop-off Location</option>
+              <option value="" disabled selected>{{ __('messages.select_dropoff_location') }}</option>
               <option value="Marrakech (Agence)">Marrakech (Agence)</option>
               <option value="Marrakech medina">Marrakech medina</option>
               <option value="Marrakech aéroport">Marrakech aéroport</option>
@@ -191,7 +119,7 @@
           <div>
             <label for="pickup_date" class="block text-gray-700 font-medium mb-2">
               <i class="fas fa-calendar-alt mr-1"></i>
-              Pickup Date
+              {{ __('messages.pickup_date') }}
             </label>
             <input type="datetime-local" id="pickup_date" name="pickup_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
           </div>
@@ -199,7 +127,7 @@
           <div>
             <label for="return_date" class="block text-gray-700 font-medium mb-2">
               <i class="fas fa-calendar-alt mr-1"></i>
-              Return Date
+              {{ __('messages.return_date') }}
             </label>
             <input type="datetime-local" id="return_date" name="return_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
           </div>
@@ -207,32 +135,18 @@
         <div class="text-center mt-6">
           <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-200">
             <i class="fas fa-search mr-2"></i>
-            Find Cars
+            {{ __('messages.find_cars') }}
           </button>
         </div>
       </form>
     </div>
   </section>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      function formatDateTime(date) {
-        const pad = (num) => num.toString().padStart(2, '0');
-        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T10:00`;
-      }
-      const now = new Date();
-      const twoDaysLater = new Date();
-      twoDaysLater.setDate(now.getDate() + 2);
-      document.getElementById("pickup_date").value = formatDateTime(now);
-      document.getElementById("return_date").value = formatDateTime(twoDaysLater);
-    });
-  </script>
-
   <!-- Car Listing Section -->
   <section class="container mx-auto my-12 px-4">
     <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
       <i class="fas fa-car mr-2 text-blue-500"></i>
-      Our Cars
+      {{ __('messages.our_cars') }}
     </h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       @foreach ($cars->take(3) as $car)
@@ -240,7 +154,7 @@
         @if ($car->image)
           <img src="{{ asset('storage/' . $car->image) }}" loading="lazy" class="w-full h-48 object-cover" alt="{{ $car->name }}">
         @else
-          <img src="default-car.jpg" alt="Default Car" class="w-full h-48 object-cover">
+          <img src="default-car.jpg" alt="{{ __('messages.default_car') }}" class="w-full h-48 object-cover">
         @endif
         <div class="p-6">
           <h5 class="text-xl font-bold text-gray-800 flex items-center mb-4">
@@ -251,46 +165,46 @@
           <div class="grid grid-cols-2 gap-4 text-gray-600 text-sm">
             <div class="flex items-center">
               <i class="fas fa-snowflake mr-1"></i>
-              <span>AC: {{ $car->ac ? 'Yes' : 'No' }}</span>
+              <span>{{ __('messages.ac') }}: {{ $car->ac ? __('messages.yes') : __('messages.no') }}</span>
             </div>
             <div class="flex items-center">
               <i class="fas fa-gas-pump mr-1"></i>
-              <span>Fuel: {{ $car->fuel }}</span>
+              <span>{{ __('messages.fuel') }}: {{ $car->fuel }}</span>
             </div>
             <div class="flex items-center">
               <i class="fas fa-users mr-1"></i>
-              <span>Seats: {{ $car->seats }}</span>
+              <span>{{ __('messages.seats') }}: {{ $car->seats }}</span>
             </div>
             <div class="flex items-center">
               <i class="fas fa-suitcase-rolling mr-1"></i>
-              <span>Luggage: {{ $car->luggage }}</span>
+              <span>{{ __('messages.luggage') }}: {{ $car->luggage }}</span>
             </div>
             <div class="flex items-center">
               <i class="fas fa-cogs mr-1"></i>
-              <span>Transmission: {{ $car->transmission }}</span>
+              <span>{{ __('messages.transmission') }}: {{ $car->transmission }}</span>
             </div>
             <div class="flex items-center">
               <i class="fas fa-map-marker-alt mr-1"></i>
-              <span>Location: {{ $car->location }}</span>
+              <span>{{ __('messages.location') }}: {{ $car->location }}</span>
             </div>
           </div>
           <!-- Price Per Day -->
           <div class="mt-4 bg-green-50 p-3 rounded-md text-center">
             <p class="text-lg font-bold text-green-600">
               <i class="fas fa-dollar-sign mr-1"></i>
-              ${{ $car->price }} / day
+              ${{ $car->price }} / {{ __('messages.day') }}
             </p>
           </div>
           <!-- Buttons -->
           <div class="mt-4 flex flex-wrap gap-4">
             <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex-1"
                     onclick="openModal({{ $car->id }}, this)" data-location="{{ $car->location }}">
-              Book Now
+              {{ __('messages.book_now') }}
             </button>
             <a href="{{ route('cars.show', $car->id) }}"
                class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center">
               <i class="fas fa-info-circle mr-2"></i>
-              View Details
+              {{ __('messages.view_details') }}
             </a>
           </div>
         </div>
@@ -299,7 +213,7 @@
     </div>
     <div class="text-center mt-8">
       <a href="/available-cars" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
-        View All Cars
+        {{ __('messages.view_all_cars') }}
       </a>
     </div>
   </section>
@@ -307,10 +221,9 @@
   <!-- Testimonials Section -->
   <section class="container mx-auto my-12 px-4">
     <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-800">Testimonials</h2>
-      <p class="text-gray-600 mt-2">Hear from our happy customers</p>
+      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.testimonials') }}</h2>
+      <p class="text-gray-600 mt-2">{{ __('messages.happy_customers') }}</p>
     </div>
-    <!-- Swiper Container with Unique ID and Relative Positioning -->
     <div id="testimonialSwiper" class="swiper-container relative">
       <div class="swiper-wrapper">
         @foreach($reviews as $review)
@@ -319,9 +232,9 @@
             <p class="text-gray-600 italic mb-4">"{{ $review->comment }}"</p>
             <div class="flex items-center space-x-4">
               @if($review->avatar)
-              <img src="{{ asset('storage/' . $review->avatar) }}" loading="lazy" class="w-16 h-16 rounded-full object-cover" alt="Customer">
+              <img src="{{ asset('storage/' . $review->avatar) }}" loading="lazy" class="w-16 h-16 rounded-full object-cover" alt="{{ __('messages.customer') }}">
               @else
-              <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded-full object-cover" alt="Customer">
+              <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded-full object-cover" alt="{{ __('messages.customer') }}">
               @endif
               <div>
                 <p class="font-bold text-gray-800">{{ $review->name }}</p>
@@ -332,7 +245,6 @@
         </div>
         @endforeach
       </div>
-      <!-- Navigation Arrows and Pagination inside Testimonial Container -->
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-pagination"></div>
@@ -343,28 +255,28 @@
   <section class="container mx-auto my-12 px-4">
     <div class="bg-white rounded-lg shadow-lg p-8">
       <div class="text-center mb-6">
-        <h2 class="text-3xl font-bold text-gray-800">Contact Us</h2>
-        <p class="text-gray-600 mt-2">Have any questions? We'd love to hear from you.</p>
+        <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.contact_us') }}</h2>
+        <p class="text-gray-600 mt-2">{{ __('messages.contact_question') }}</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <h3 class="text-xl font-semibold text-gray-800 mb-4">
             <i class="fas fa-phone mr-2 text-blue-600"></i>
-            Phone
+            {{ __('messages.phone') }}
           </h3>
           <p class="text-gray-600">06.61.06.03.62 | 06.60.56.57.30</p>
         </div>
         <div>
           <h3 class="text-xl font-semibold text-gray-800 mb-4">
             <i class="fas fa-envelope mr-2 text-blue-600"></i>
-            Email
+            {{ __('messages.email') }}
           </h3>
           <p class="text-gray-600">contact@diamantinacar.com</p>
         </div>
         <div class="md:col-span-2">
           <h3 class="text-xl font-semibold text-gray-800 mb-4">
             <i class="fas fa-map-marker-alt mr-2 text-blue-600"></i>
-            Address
+            {{ __('messages.address') }}
           </h3>
           <p class="text-gray-600">Angle Avenue 11 Janvier & Rue, Bd Prince Moulay Abdellah, Marrakech 40000</p>
         </div>
@@ -379,9 +291,9 @@
         <div class="modal-header bg-blue-600 text-white">
           <h5 class="modal-title" id="reservationModalLabel">
             <i class="fas fa-calendar-check mr-2"></i>
-            Reservation Details
+            {{ __('messages.reservation_details') }}
           </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('messages.close') }}"></button>
         </div>
         <div class="modal-body">
           <form id="reservationForm" action="{{ route('reservations.confirm') }}" method="POST" class="space-y-4">
@@ -391,10 +303,10 @@
             <div>
               <label for="modal_pickup_location" class="block text-gray-700 font-medium mb-2">
                 <i class="fas fa-map-marker-alt mr-1"></i>
-                Pickup Location
+                {{ __('messages.pickup_location') }}
               </label>
               <select name="pickup_location" id="modal_pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
-                <option value="" disabled selected>Select Pickup Location</option>
+                <option value="" disabled selected>{{ __('messages.select_pickup_location') }}</option>
                 <option value="Marrakech (Agence)">Marrakech (Agence)</option>
                 <option value="Marrakech medina">Marrakech medina</option>
                 <option value="Marrakech aéroport">Marrakech aéroport</option>
@@ -412,10 +324,10 @@
             <div>
               <label for="modal_dropoff_location" class="block text-gray-700 font-medium mb-2">
                 <i class="fas fa-map-marker-alt mr-1"></i>
-                Drop-off Location
+                {{ __('messages.dropoff_location') }}
               </label>
               <select name="dropoff_location" id="modal_dropoff_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
-                <option value="" disabled selected>Select Drop-off Location</option>
+                <option value="" disabled selected>{{ __('messages.select_dropoff_location') }}</option>
                 <option value="Marrakech (Agence)">Marrakech (Agence)</option>
                 <option value="Marrakech medina">Marrakech medina</option>
                 <option value="Marrakech aéroport">Marrakech aéroport</option>
@@ -433,7 +345,7 @@
             <div>
               <label for="modal_pickup_date" class="block text-gray-700 font-medium mb-2">
                 <i class="fas fa-calendar-alt mr-1"></i>
-                Pickup Date
+                {{ __('messages.pickup_date') }}
               </label>
               <input type="datetime-local" id="modal_pickup_date" name="pickup_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
             </div>
@@ -441,13 +353,13 @@
             <div>
               <label for="modal_return_date" class="block text-gray-700 font-medium mb-2">
                 <i class="fas fa-calendar-alt mr-1"></i>
-                Return Date
+                {{ __('messages.return_date') }}
               </label>
               <input type="datetime-local" id="modal_return_date" name="return_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
             </div>
             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200">
               <i class="fas fa-check mr-2"></i>
-              Confirm Reservation
+              {{ __('messages.confirm_reservation') }}
             </button>
           </form>
         </div>
@@ -463,7 +375,6 @@
   <!-- Swiper JS -->
   <script src="https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"></script>
 
-  <!-- Modal and Swiper Initialization Scripts -->
   <script>
     function formatDateTime(date) {
       const pad = (num) => num.toString().padStart(2, '0');
@@ -482,7 +393,7 @@
       var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
       modal.show();
     }
-
+    
     // Initialize Swiper for Testimonials Section only
     var testimonialSwiper = new Swiper('#testimonialSwiper', {
       slidesPerView: 1,
@@ -503,5 +414,18 @@
       }
     });
   </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          function formatDateTime(date) {
+            const pad = (num) => num.toString().padStart(2, '0');
+            return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T10:00`;
+          }
+          const now = new Date();
+          const twoDaysLater = new Date();
+          twoDaysLater.setDate(now.getDate() + 2);
+          document.getElementById("pickup_date").value = formatDateTime(now);
+          document.getElementById("return_date").value = formatDateTime(twoDaysLater);
+        });
+      </script>
 </body>
 </html>

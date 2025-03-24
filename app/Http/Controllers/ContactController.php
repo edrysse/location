@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail; // في حال رغبت بإرسال بريد إلكتروني
+use Illuminate\Support\Facades\Mail; // In case you want to send an email
 
 class ContactController extends Controller
 {
@@ -13,19 +13,23 @@ class ContactController extends Controller
      */
     public function index()
     {
-        // الحصول على كل الرسائل بترتيب تنازلي حسب تاريخ الإنشاء
+        // Retrieve all messages in descending order by creation date
         $contacts = Contact::orderBy('created_at', 'desc')->paginate(10);
 
         return view('contact.index', compact('contacts'));
     }
 
     /**
-     * Show the form for creating a new contact message.
+     * Show the test form for a new contact message.
      */
     public function test()
     {
         return view('contact.test');
     }
+
+    /**
+     * Show the form for creating a new contact message.
+     */
     public function create()
     {
         return view('contact.create');
@@ -46,15 +50,15 @@ class ContactController extends Controller
 
         $contact = Contact::create($data);
 
-        // إرسال بريد إلكتروني للإدارة عند استلام رسالة جديدة
+        // Send an email notification to the admin when a new message is received
         try {
             Mail::to('aladrysymhmd093@gmail.com')->send(new \App\Mail\ContactNotification($contact));
         } catch (\Exception $e) {
-            // تسجيل الخطأ في حال فشل الإرسال
+            // Log the error if email sending fails
             \Log::error("Error sending contact email: " . $e->getMessage());
         }
 
-        return redirect()->route('contact.create')->with('success', 'تم إرسال رسالتك بنجاح.');
+        return redirect()->route('contact.create')->with('success', 'Your message has been sent successfully.');
     }
 
     /**

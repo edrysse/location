@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Auth;
+use App\Mail\NewReservationAdmin;
 use App\Models\Reservation;
 use App\Models\Car;
 use Illuminate\Http\Request;
@@ -15,16 +16,16 @@ use Illuminate\Support\Facades\Log;
 class ReservationController extends Controller
 {
     /**
-     * عرض قائمة الحجوزات مع إحصائيات الشهر المحدد.
+     * Display the list of reservations with statistics for the selected month.
      */
     public function index(Request $request)
     {
-        // تحديد الشهر المطلوب (افتراضي الشهر الحالي)
+        // Determine the selected month (default is the current month)
         $selectedMonth = $request->input('month', Carbon::now()->format('Y-m'));
         $startDate = Carbon::createFromFormat('Y-m', $selectedMonth)->startOfMonth();
         $endDate   = Carbon::createFromFormat('Y-m', $selectedMonth)->endOfMonth();
 
-        // إحصائيات الشهر
+        // Monthly statistics
         $totalReservations = Reservation::whereBetween('created_at', [$startDate, $endDate])->count();
         $totalIncome = Reservation::whereBetween('created_at', [$startDate, $endDate])
             ->where('payment_status', 'paid')
@@ -33,7 +34,7 @@ class ReservationController extends Controller
             ->distinct('car_id')
             ->count('car_id');
 
-        // فلترة الحجوزات بناءً على معايير إضافية
+        // Filter reservations based on additional criteria
         $query = Reservation::query();
         if ($request->filled('reservation_date')) {
             $query->whereDate('created_at', $request->reservation_date);
@@ -55,66 +56,65 @@ class ReservationController extends Controller
     }
 
     /**
-     * عرض نموذج إنشاء حجز جديد.
+     * Show the form for creating a new reservation.
      */
     public function create(Request $request)
-{
-    $carId = $request->input('car_id');
-    $car = Car::find($carId);
+    {
+        $carId = $request->input('car_id');
+        $car = Car::find($carId);
 
-    if (!$car) {
-        return redirect()->back()->withErrors('العربة غير موجودة!');
+        if (!$car) {
+            return redirect()->back()->withErrors('Car not found!');
+        }
+
+        // Calculate the number of days between the provided reservation dates
+        $pickupDate = Carbon::parse($request->input('pickup_date'));
+        $returnDate = Carbon::parse($request->input('return_date'));
+        $days = $pickupDate->diffInDays($returnDate);
+
+        // Retrieve the seasonal pricing record based on the pickup date
+        $seasonPriceModel = $car->seasonPrices()
+            ->where('start_date', '<=', $pickupDate)
+            ->where('end_date', '>=', $pickupDate)
+            ->first();
+
+        if ($seasonPriceModel) {
+            $isSeason = true;
+            // Assume that the seasonal price record contains the following fields
+            $pricePerDay = $seasonPriceModel->price_per_day ?? $car->price;
+            $price2to5   = $seasonPriceModel->price_2_5_days;
+            $price6to20  = $seasonPriceModel->price_6_20_days;
+            $pricePlus20 = $seasonPriceModel->price_20_plus_days;
+        } else {
+            $isSeason = false;
+            // If no seasonal record exists, use the car's base prices
+            $pricePerDay = $car->price;
+            // Use the specific price for 2-5 days if available, or default to the base price
+            $price2to5   = $car->price_2_5_days ?: $car->price;
+            $price6to20  = $car->price_6_20_days ?: $car->price;
+            $pricePlus20 = $car->price_20_plus_days ?: $car->price;
+        }
+
+        $data = [
+            'price_per_day'   => $pricePerDay,
+            'price_2_to_5'    => $price2to5,
+            'price_6_to_20'   => $price6to20,
+            'price_plus_20'   => $pricePlus20,
+            'is_season'       => $isSeason,
+            'franchise_price' => $car->franchise_price ?? 6,
+            'pickup_date'     => $request->input('pickup_date'),
+            'return_date'     => $request->input('return_date'),
+            'car_name'        => $car->name,
+            'pickup_location' => $request->input('pickup_location'),
+            'dropoff_location'=> $request->input('dropoff_location'),
+            'car_id'          => $carId,
+        ];
+
+        return view('reservations.create', compact('data'));
     }
-
-    // حساب عدد الأيام بين تواريخ الحجز المُرسلة
-    $pickupDate = Carbon::parse($request->input('pickup_date'));
-    $returnDate = Carbon::parse($request->input('return_date'));
-    $days = $pickupDate->diffInDays($returnDate);
-
-    // البحث عن سجل أسعار الفصل المناسب بناءً على تاريخ الاستلام
-    $seasonPriceModel = $car->seasonPrices()
-        ->where('start_date', '<=', $pickupDate)
-        ->where('end_date', '>=', $pickupDate)
-        ->first();
-
-    if ($seasonPriceModel) {
-        $isSeason = true;
-        // نفترض أن سجل الأسعار الموسمية يحتوي على الحقول التالية
-        $pricePerDay = $seasonPriceModel->price_per_day ?? $car->price;
-        $price2to5   = $seasonPriceModel->price_2_5_days;
-        $price6to20  = $seasonPriceModel->price_6_20_days;
-        $pricePlus20 = $seasonPriceModel->price_20_plus_days;
-    } else {
-        $isSeason = false;
-        // إذا لم يوجد سجل للفصل، تأكد من تمرير أسعار السيارة الأساسية
-        $pricePerDay = $car->price;
-        // استخدم السعر المخصص للحجز بين 2-5 أيام إن وُجد، أو السعر الأساسي كافتراضي
-        $price2to5   = $car->price_2_5_days ?: $car->price;
-        $price6to20  = $car->price_6_20_days ?: $car->price;
-        $pricePlus20 = $car->price_20_plus_days ?: $car->price;
-    }
-
-    $data = [
-        'price_per_day'   => $pricePerDay,
-        'price_2_to_5'    => $price2to5,
-        'price_6_to_20'   => $price6to20,
-        'price_plus_20'   => $pricePlus20,
-        'is_season'       => $isSeason,
-        'franchise_price' => $car->franchise_price ?? 6,
-        'pickup_date'     => $request->input('pickup_date'),
-        'return_date'     => $request->input('return_date'),
-        'car_name'        => $car->name,
-        'pickup_location' => $request->input('pickup_location'),
-        'dropoff_location'=> $request->input('dropoff_location'),
-        'car_id'          => $carId,
-    ];
-
-    return view('reservations.create', compact('data'));
-}
-
 
     /**
-     * دالة تأكيد الحجز قبل الانتقال لنموذج الإضافة.
+     * Confirm the reservation details before proceeding to the creation form.
      */
     public function confirm(Request $request)
     {
@@ -128,14 +128,18 @@ class ReservationController extends Controller
 
         return redirect()->route('reservations.create', $data);
     }
+
+    /**
+     * Display the specified reservation.
+     */
     public function show($id)
     {
         $reservation = Reservation::findOrFail($id);
         return view('reservations.show', compact('reservation'));
     }
-    
+
     /**
-     * تخزين بيانات الحجز بعد التأكد من صحة البيانات وحساب السعر.
+     * Store a newly created reservation after validating data and calculating the price.
      */
     public function store(Request $request)
     {
@@ -158,26 +162,25 @@ class ReservationController extends Controller
             'franchise'       => 'nullable|boolean',
         ]);
 
-        // التحقق من توافر السيارة للفترة المحددة
+        // Check if the car is available for the specified period
         if (!$this->isCarAvailable($validated['car_id'], $validated['pickup_date'], $validated['return_date'])) {
-            return redirect()->back()->withErrors(['error' => 'عذرًا، السيارة غير متاحة في الفترة المحددة. يرجى اختيار تاريخ آخر.']);
+            return redirect()->back()->withErrors(['error' => 'Sorry, the car is not available for the selected period. Please choose a different date.']);
         }
 
         $car = Car::findOrFail($validated['car_id']);
 
-        // حساب عدد الأيام بين تاريخ الاستلام والإرجاع
+        // Calculate the number of days between the pickup and return dates
         $pickupDate = new \DateTime($validated['pickup_date']);
         $returnDate = new \DateTime($validated['return_date']);
         $days = $pickupDate->diff($returnDate)->days;
 
-        // محاولة استدعاء سجل أسعار الفصل المناسب إذا كان موجوداً
+        // Retrieve the seasonal pricing record if available
         $seasonPriceModel = $car->seasonPrices()
             ->where('start_date', '<=', $validated['pickup_date'])
             ->where('end_date', '>=', $validated['pickup_date'])
             ->first();
 
         if ($seasonPriceModel) {
-            // إذا وجد سجل أسعار للفصل، نستخدمه
             if ($days >= 2 && $days <= 5) {
                 $dailyPrice = $seasonPriceModel->price_2_5_days;
             } elseif ($days >= 6 && $days <= 20) {
@@ -188,13 +191,12 @@ class ReservationController extends Controller
                 $dailyPrice = $car->price;
             }
         } else {
-            // في حال عدم وجود سجل للفصول، نستخدم الأسعار المتدرجة من جدول السيارة
             if ($days >= 2 && $days <= 5) {
                 $dailyPrice = $car->price_2_5_days;
             } elseif ($days >= 6 && $days <= 20) {
                 $dailyPrice = $car->price_6_20_days;
             } elseif ($days > 20) {
-                $dailyPrice = isset($car->price_20_plus_days) ? $car->price_20_plus_days : $car->price;
+                $dailyPrice = $car->price_20_plus_days ?: $car->price;
             } else {
                 $dailyPrice = $car->price;
             }
@@ -202,7 +204,7 @@ class ReservationController extends Controller
 
         $totalPrice = $dailyPrice * $days;
 
-        // إضافة التكاليف الخاصة بالخيارات الإضافية
+        // Add the cost for additional options
         $totalPrice +=
               (($validated['gps'] ?? false) ? 1 * $days : 0)
             + (($validated['maxicosi'] ?? 0) * $days)
@@ -211,32 +213,35 @@ class ReservationController extends Controller
             + (($validated['full_tank'] ?? false) ? 60 : 0)
             + (($validated['franchise'] ?? false) ? $car->franchise_price : 0);
 
-        // إنشاء سجل الحجز
+        // Create the reservation record
         $reservation = new Reservation();
         $reservation->fill($validated);
         $reservation->car_name = $car->name;
         $reservation->total_price = $totalPrice;
         $reservation->save();
 
-        // محاولة إرسال تأكيد الحجز عبر البريد الإلكتروني
+        // Send email notifications to both the user and admin
         try {
+            // Send a confirmation email to the user
             Mail::to($reservation->email)->send(new ReservationConfirmation($reservation));
+
+            // Send a notification email to the admin
+            $adminEmail = config('mail.admin_email'); // Ensure this key is set in config/mail.php or .env
+            Mail::to($adminEmail)->send(new NewReservationAdmin($reservation));
         } catch (Exception $e) {
-            Log::error('خطأ أثناء إرسال تأكيد الحجز: ' . $e->getMessage());
+            Log::error('Error while sending reservation emails: ' . $e->getMessage());
         }
 
-        // التوجيه إلى الصفحة المناسبة بناءً على نوع المستخدم
+        // Redirect to the appropriate page based on the user role
         if (Auth::check() && Auth::user()->role == 'admin') {
-            return redirect()->route('reservations.index')->with('success', 'تم الحجز بنجاح!');
+            return redirect()->route('reservations.index')->with('success', 'Reservation created successfully!');
         }
 
-
-        // إذا كان المستخدم غير مسجل أو ليس مديرًا، يتم نقله إلى الصفحة الرئيسية
-        return redirect()->route('home')->with('success', 'تم الحجز بنجاح!');
+        return redirect()->route('home')->with('success', 'Reservation created successfully!');
     }
 
     /**
-     * عرض نموذج تعديل بيانات الحجز.
+     * Show the form for editing the specified reservation.
      */
     public function edit($id)
     {
@@ -246,7 +251,7 @@ class ReservationController extends Controller
     }
 
     /**
-     * تحديث بيانات الحجز وحساب السعر بناءً على البيانات المرسلة.
+     * Update the specified reservation and recalculate the price based on the provided data.
      */
     public function update(Request $request, $id)
     {
@@ -279,7 +284,7 @@ class ReservationController extends Controller
         $returnDate = new \DateTime($validated['return_date']);
         $days = $pickupDate->diff($returnDate)->days;
 
-        // استدعاء سجل أسعار الفصل المناسب بناءً على تاريخ الاستلام
+        // Retrieve the seasonal pricing record based on the pickup date
         $seasonPriceModel = $car->seasonPrices()
             ->where('start_date', '<=', $validated['pickup_date'])
             ->where('end_date', '>=', $validated['pickup_date'])
@@ -309,20 +314,20 @@ class ReservationController extends Controller
 
         $reservation->save();
 
-        return redirect()->route('reservations.index')->with('success', 'تم التعديل بنجاح!');
+        return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully!');
     }
 
     /**
-     * حذف الحجز.
+     * Delete the specified reservation.
      */
     public function destroy($id)
     {
         Reservation::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'تم الحذف بنجاح!');
+        return redirect()->back()->with('success', 'Reservation deleted successfully!');
     }
 
     /**
-     * دالة تحقق توافر السيارة في الفترة المحددة.
+     * Check if the car is available for the specified period.
      */
     protected function isCarAvailable($carId, $pickupDate, $returnDate)
     {

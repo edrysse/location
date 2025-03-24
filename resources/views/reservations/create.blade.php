@@ -60,7 +60,7 @@
 
             // زيادة 3% في حالة اختيار Credit Card كطريقة للدفع
             var paymentMethod = document.getElementById('payment_method').value;
-            if (paymentMethod === 'Credit Card') {
+            if (paymentMethod === 'Credit Card (+3%)') {
                 total *= 1.03;
             }
 
@@ -172,9 +172,8 @@
               </label>
               <select name="payment_method" id="payment_method" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                 <option value="" disabled selected>Select Payment Method</option>
-                <option value="Credit Card">Credit Card</option>
+                <option value="Credit Card (+3%)">Credit Card (+3%)</option>
                 <option value="Cash">Cash</option>
-                <option value="Bank Transfer">Bank Transfer</option>
               </select>
             </div>
 
@@ -222,7 +221,7 @@
               <!-- Booster Seat (Rehausseur) Option -->
               <div>
                 <label for="booster_seat" class="block text-sm font-semibold text-gray-700">
-                  <i class="fas fa-chair mr-2 text-blue-400"></i>Booster Seat (Rehausseur)
+                  <i class="fas fa-chair mr-2 text-blue-400"></i>Booster Seat (Rehausseur $1/day)
                 </label>
                 <select id="booster_seat" name="rehausseur" class="border rounded-md p-2" onchange="calculateTotal()">
                   <option value="0" selected>0</option>
@@ -261,7 +260,13 @@
                 </div>
               </div>
             </div>
-
+   <!-- Age Confirmation Checkbox -->
+   <div class="pt-4">
+    <label class="inline-flex items-center">
+      <input type="checkbox" name="age_confirmation" required class="form-checkbox h-5 w-5 text-blue-600">
+      <span class="ml-2 text-gray-700">I confirm that I am over 23 years old</span>
+    </label>
+  </div>
             <!-- Submit Button -->
             <div class="pt-4">
               <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md shadow-md transition-colors duration-300">

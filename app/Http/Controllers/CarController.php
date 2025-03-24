@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
-    // عرض قائمة السيارات للمستخدمين
+    // Display the list of cars to users
     public function index(Request $request)
     {
+        // يمكنك وضع dd($request->all()); هنا للتحقق من القيم المستقبلة
         $query = Car::where('available', true);
 
         if ($request->filled('pickup_location')) {
@@ -28,6 +29,7 @@ class CarController extends Controller
         }
 
         if ($request->filled('ac')) {
+            // تأكد من أن القيمة المرسلة تُحوّل بشكل صحيح إلى boolean
             $query->where('ac', filter_var($request->ac, FILTER_VALIDATE_BOOLEAN));
         }
 
@@ -35,19 +37,22 @@ class CarController extends Controller
             $query->where('transmission', $request->transmission);
         }
 
-        if ($request->filled('location')) {
-            $query->where('location', $request->location);
-        }
+        // حذف شرط "location" لأنه تم توحيده مع pickup_location
 
         $cars = $query->get();
 
         return view('cars', compact('cars'))
             ->with($request->only([
-                'pickup_location', 'name', 'fuel', 'ac', 'transmission', 'location'
+                'pickup_location', 'name', 'fuel', 'ac', 'transmission'
             ]));
     }
-
-    // عرض قائمة السيارات في واجهة الأدمن
+    public function availableCars()
+    {
+        // جلب السيارات المتاحة من قاعدة البيانات
+        $cars = Car::all(); // يمكنك تعديل الاستعلام حسب احتياجك
+        return view('cars.available_cars', compact('cars')); // تأكد أن اسم الفيو صحيح
+    }
+    // Display the list of cars in the admin interface
     public function adminindex(Request $request)
     {
         $query = Car::query();
@@ -72,25 +77,23 @@ class CarController extends Controller
             $query->where('transmission', $request->transmission);
         }
 
-        if ($request->filled('location')) {
-            $query->where('location', $request->location);
-        }
+        // حذف شرط "location" لأنه تم توحيده مع pickup_location
 
-        $cars = Car::orderBy('created_at', 'desc')->paginate(10);
+        $cars = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('cars.index', compact('cars'))
             ->with($request->only([
-                'pickup_location', 'name', 'fuel', 'ac', 'transmission', 'location'
+                'pickup_location', 'name', 'fuel', 'ac', 'transmission'
             ]));
     }
 
-    // عرض نموذج إضافة سيارة جديدة
+    // Show the form to add a new car
     public function create()
     {
         return view('cars.create');
     }
 
-    // تخزين بيانات السيارة الجديدة
+    // Store the data of a new car
     public function store(Request $request)
     {
         $request->validate([
@@ -100,19 +103,16 @@ class CarController extends Controller
             'luggage'           => 'required|integer',
             'ac'                => 'required|boolean',
             'transmission'      => 'required|string|max:50',
-            'price'             => 'required|numeric|min:0', // السعر الأساسي للسيارة
-            // يمكن الاستمرار بالحقل القديم إذا كنت لا تزال بحاجة له (price_2_5_days، price_6_10_days، price_20_days)
+            'price'             => 'required|numeric|min:0', // Basic car price
             'price_2_5_days'    => 'required|numeric|min:0',
             'price_6_10_days'   => 'required|numeric|min:0',
             'price_20_days'     => 'required|numeric|min:0',
-            'location'          => 'required|string|max:255',
+            'pickup_location'   => 'required|string|max:255',
             'available'         => 'required|boolean',
             'franchise_price'   => 'nullable|numeric|min:0',
-            'full_tank_price'   => 'nullable|numeric|min:0', // سعر الـ full-tank الخاص بالسيارة
-            // سعر الـ Franchise الخاص بالسيارة
+            'full_tank_price'   => 'nullable|numeric|min:0',
             'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
-            // بيانات أسعار الفصول، حيث نتوقع مصفوفة من الأسعار
-            'season_prices'                      => 'nullable|array',
+            'season_prices'     => 'nullable|array',
             'season_prices.*.season_name'        => 'required_with:season_prices|string|max:100',
             'season_prices.*.start_date'         => 'required_with:season_prices|date',
             'season_prices.*.end_date'           => 'required_with:season_prices|date',
@@ -122,16 +122,15 @@ class CarController extends Controller
         ]);
 
         $data = $request->all();
+        // تحويل حقل الموقع من pickup_location إلى location للتخزين في قاعدة البيانات
+        $data['location'] = $data['pickup_location'];
 
-        // رفع الصورة إن وُجدت
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('cars', 'public');
         }
 
-        // إنشاء السيارة في قاعدة البيانات
         $car = Car::create($data);
 
-        // تخزين بيانات أسعار الفصول إذا تم إرسالها
         if ($request->has('season_prices')) {
             foreach ($request->season_prices as $seasonPriceData) {
                 $car->seasonPrices()->create([
@@ -141,30 +140,28 @@ class CarController extends Controller
                     'price_2_5_days'    => $seasonPriceData['price_2_5_days'],
                     'price_6_20_days'   => $seasonPriceData['price_6_20_days'],
                     'price_20_plus_days'=> $seasonPriceData['price_20_plus_days'],
-                    'franchise_price' => $car->franchise_price,
-                    'full_tank_price'    => $car->full_tank_price,
-
-
+                    'franchise_price'   => $car->franchise_price,
+                    'full_tank_price'   => $car->full_tank_price,
                 ]);
             }
         }
 
-        return redirect()->route('cars.index')->with('success', 'السيارة تم إنشاؤها بنجاح.');
+        return redirect()->route('cars.index')->with('success', 'Car created successfully.');
     }
 
-    // عرض تفاصيل سيارة محددة
+    // Show the details of a specific car
     public function show(Car $car)
     {
         return view('cars.show', compact('car'));
     }
 
-    // عرض نموذج تعديل بيانات السيارة
+    // Show the form to edit car data
     public function edit(Car $car)
     {
         return view('cars.edit', compact('car'));
     }
 
-    // تحديث بيانات السيارة
+    // Update car data
     public function update(Request $request, Car $car)
     {
         $request->validate([
@@ -178,13 +175,12 @@ class CarController extends Controller
             'price_2_5_days'    => 'required|numeric|min:0',
             'price_6_10_days'   => 'required|numeric|min:0',
             'price_20_days'     => 'required|numeric|min:0',
-            'location'          => 'required|string|max:255',
+            'pickup_location'   => 'required|string|max:255',
             'available'         => 'required|boolean',
             'franchise_price'   => 'nullable|numeric|min:0',
-            'full_tank_price'   => 'nullable|numeric|min:0', // تحقق من صحة حقل الـ Full Tank
-
+            'full_tank_price'   => 'nullable|numeric|min:0',
             'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'season_prices'                      => 'nullable|array',
+            'season_prices'     => 'nullable|array',
             'season_prices.*.season_name'        => 'required_with:season_prices|string|max:100',
             'season_prices.*.start_date'         => 'required_with:season_prices|date',
             'season_prices.*.end_date'           => 'required_with:season_prices|date',
@@ -194,8 +190,8 @@ class CarController extends Controller
         ]);
 
         $data = $request->all();
+        $data['location'] = $data['pickup_location'];
 
-        // رفع الصورة في حالة تعديلها
         if ($request->hasFile('image')) {
             if ($car->image) {
                 Storage::disk('public')->delete($car->image);
@@ -203,10 +199,9 @@ class CarController extends Controller
             $data['image'] = $request->file('image')->store('cars', 'public');
         }
 
-        // تحديث بيانات السيارة
         $car->update($data);
 
-        // تحديث أسعار الفصول: حذف السجلات القديمة ثم إعادة إدخال الجديدة
+        // حذف الأسعار القديمة وإدخال الجديدة
         $car->seasonPrices()->delete();
         if ($request->has('season_prices')) {
             foreach ($request->season_prices as $seasonPriceData) {
@@ -217,58 +212,29 @@ class CarController extends Controller
                     'price_2_5_days'    => $seasonPriceData['price_2_5_days'],
                     'price_6_20_days'   => $seasonPriceData['price_6_20_days'],
                     'price_20_plus_days'=> $seasonPriceData['price_20_plus_days'],
-                    'franchise_price'    => $car->franchise_price,
-                    'full_tank_price'    => $car->full_tank_price,
+                    'franchise_price'   => $car->franchise_price,
+                    'full_tank_price'   => $car->full_tank_price,
                 ]);
             }
         }
 
-        return redirect()->route('cars.index')->with('success', 'تم تحديث السيارة بنجاح.');
+        return redirect()->route('cars.index')->with('success', 'Car updated successfully.');
     }
 
-    // حذف السيارة
+    // Delete a car
     public function destroy($id)
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Car::where('id', $id)->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        return redirect()->route('cars.index')->with('success', 'تم حذف السيارة بنجاح');
+        return redirect()->route('cars.index')->with('success', 'Car deleted successfully');
     }
 
-    // عرض جميع السيارات بغرض الاستخدام في الحجز أو العرض العام
-    public function availableCars()
+    // Display all cars for use in reservations or general display
+    public function allCars()
     {
         $cars = Car::all();
-        return view('cars.available_cars', compact('cars'));
-    }
-
-    // دالة التحقق من توافر السيارة لفترة محددة
-    public function checkAvailability(Request $request)
-    {
-        $carId      = $request->input('car_id');
-        $pickupDate = $request->input('pickup_date');
-        $returnDate = $request->input('return_date');
-
-        $existingReservations = Reservation::where('car_id', $carId)
-            ->where(function ($query) use ($pickupDate, $returnDate) {
-                $query->whereBetween('pickup_date', [$pickupDate, $returnDate])
-                      ->orWhereBetween('return_date', [$pickupDate, $returnDate])
-                      ->orWhere(function ($query) use ($pickupDate, $returnDate) {
-                          $query->where('pickup_date', '<=', $pickupDate)
-                                ->where('return_date', '>=', $returnDate);
-                      });
-            })
-            ->where('payment_status', 'paid')
-            ->exists();
-
-        if ($existingReservations) {
-            return response()->json([
-                'available' => false,
-                'message'   => 'عذرًا، السيارة غير متاحة في الفترة المحددة.'
-            ]);
-        }
-
-        return response()->json(['available' => true]);
+        return response()->json($cars);
     }
 }

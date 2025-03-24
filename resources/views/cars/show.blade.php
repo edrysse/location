@@ -1,34 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Car Details - {{ $car->name }}</title>
+  <title>{{ __('messages.car_details') }} - {{ $car->name }}</title>
 
-<!-- Meta Description -->
-<meta name="description" content="Discover all the details of {{ $car->name }} on DiamantinaCar. Explore features, pricing, availability, and more. Book your perfect ride today at diamantinacar.com!">
+  <!-- Meta Description -->
+  <meta name="description" content="{{ __('messages.car_details_desc', ['name' => $car->name]) }}">
 
-<!-- Meta Keywords -->
-<meta name="keywords" content="Car Details, {{ $car->name }}, DiamantinaCar, Car Rental, Rent a Car, Car Features, Booking">
+  <!-- Meta Keywords -->
+  <meta name="keywords" content="{{ __('messages.car_details_keywords', ['name' => $car->name]) }}">
 
-<!-- Robots -->
-<meta name="robots" content="index, follow">
+  <!-- Robots -->
+  <meta name="robots" content="index, follow">
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://diamantinacar.com/cars/{{ $car->slug }}">
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://diamantinacar.com/cars/{{ $car->slug }}">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:title" content="Car Details - {{ $car->name }} | DiamantinaCar">
-<meta property="og:description" content="Discover all the details of {{ $car->name }} on DiamantinaCar. Explore features, pricing, and availability. Book your ride today!">
-<meta property="og:image" content="{{ $car->image ? asset('storage/' . $car->image) : asset('hero-section.jpg') }}">
-<meta property="og:url" content="https://diamantinacar.com/cars/{{ $car->slug }}">
-<meta property="og:type" content="website">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="{{ __('messages.car_details') }} - {{ $car->name }} | DiamantinaCar">
+  <meta property="og:description" content="{{ __('messages.car_details_desc', ['name' => $car->name]) }}">
+  <meta property="og:image" content="{{ $car->image ? asset('storage/' . $car->image) : asset('hero-section.jpg') }}">
+  <meta property="og:url" content="https://diamantinacar.com/cars/{{ $car->slug }}">
+  <meta property="og:type" content="website">
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Car Details - {{ $car->name }} | DiamantinaCar">
-<meta name="twitter:description" content="Discover all the details of {{ $car->name }} on DiamantinaCar. Explore features, pricing, and availability. Book your ride today!">
-<meta name="twitter:image" content="{{ $car->image ? asset('storage/' . $car->image) : asset('hero-section.jpg') }}">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ __('messages.car_details') }} - {{ $car->name }} | DiamantinaCar">
+  <meta name="twitter:description" content="{{ __('messages.car_details_desc', ['name' => $car->name]) }}">
+  <meta name="twitter:image" content="{{ $car->image ? asset('storage/' . $car->image) : asset('hero-section.jpg') }}">
+
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
@@ -46,10 +47,8 @@
 </head>
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
     @include('partials.loader')
-
-  {{-- شريط التنقل --}}
-  @include('partials.navbar')
-  @include('partials.up')
+    @include('partials.navbar')
+    @include('partials.up')
 
   <!-- تفاصيل السيارة -->
   <div class="container mx-auto my-10 px-4">
@@ -61,7 +60,7 @@
             <img src="{{ asset('storage/' . $car->image) }}" loading="lazy" alt="{{ $car->name }}" class="w-full h-auto object-cover rounded-lg">
           @else
             <div class="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
-              <span class="text-gray-500">No Image Available</span>
+              <span class="text-gray-500">{{ __('messages.no_image') }}</span>
             </div>
           @endif
         </div>
@@ -71,35 +70,35 @@
             {{ $car->name }}
           </h2>
           <ul class="space-y-2 text-gray-600">
-            <li><i class="fa-solid fa-gas-pump text-blue-500 mr-2"></i><span class="font-semibold">Fuel:</span> {{ $car->fuel }}</li>
-            <li><i class="fa-solid fa-chair text-green-500 mr-2"></i><span class="font-semibold">Seats:</span> {{ $car->seats }}</li>
-            <li><i class="fa-solid fa-suitcase-rolling text-purple-500 mr-2"></i><span class="font-semibold">Luggage:</span> {{ $car->luggage }}</li>
-            <li><i class="fa-solid fa-snowflake text-blue-400 mr-2"></i><span class="font-semibold">AC:</span> {{ $car->ac ? 'Yes' : 'No' }}</li>
-            <li><i class="fa-solid fa-gear text-gray-500 mr-2"></i><span class="font-semibold">Transmission:</span> {{ $car->transmission }}</li>
-            <li><i class="fa-solid fa-map-marker-alt text-red-500 mr-2"></i><span class="font-semibold">Location:</span> {{ $car->location }}</li>
-            <li><i class="fa-solid fa-dollar-sign text-yellow-500 mr-2"></i><span class="font-semibold">Price/Day:</span> ${{ number_format($car->price, 2) }}</li>
-            <li><i class="fa-solid fa-money-bill-wave text-yellow-500 mr-2"></i><span class="font-semibold">Price 2-5 Days:</span> ${{ number_format($car->price_2_5_days, 2) }}</li>
-            <li><i class="fa-solid fa-money-check-alt text-yellow-500 mr-2"></i><span class="font-semibold">Price 6-10 Days:</span> ${{ number_format($car->price_6_10_days, 2) }}</li>
-            <li><i class="fa-solid fa-hand-holding-dollar text-yellow-500 mr-2"></i><span class="font-semibold">Price 20 Days:</span> ${{ number_format($car->price_20_days, 2) }}</li>
+            <li><i class="fa-solid fa-gas-pump text-blue-500 mr-2"></i><span class="font-semibold">{{ __('messages.fuel_details') }}:</span> {{ $car->fuel }}</li>
+            <li><i class="fa-solid fa-chair text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.seats_details') }}:</span> {{ $car->seats }}</li>
+            <li><i class="fa-solid fa-suitcase-rolling text-purple-500 mr-2"></i><span class="font-semibold">{{ __('messages.luggage_details') }}:</span> {{ $car->luggage }}</li>
+            <li><i class="fa-solid fa-snowflake text-blue-400 mr-2"></i><span class="font-semibold">{{ __('messages.ac_details') }}:</span> {{ $car->ac ? __('messages.yes') : __('messages.no') }}</li>
+            <li><i class="fa-solid fa-gear text-gray-500 mr-2"></i><span class="font-semibold">{{ __('messages.transmission_details') }}:</span> {{ $car->transmission }}</li>
+            <li><i class="fa-solid fa-map-marker-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.location_details') }}:</span> {{ $car->location }}</li>
+            <li><i class="fa-solid fa-dollar-sign text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_day') }}:</span> ${{ number_format($car->price, 2) }}</li>
+            <li><i class="fa-solid fa-money-bill-wave text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_2_5_days') }}:</span> ${{ number_format($car->price_2_5_days, 2) }}</li>
+            <li><i class="fa-solid fa-money-check-alt text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_6_10_days') }}:</span> ${{ number_format($car->price_6_10_days, 2) }}</li>
+            <li><i class="fa-solid fa-hand-holding-dollar text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_20_days') }}:</span> ${{ number_format($car->price_20_days, 2) }}</li>
             <li>
               <i class="fa-solid fa-store-alt text-indigo-500 mr-2"></i>
-              <span class="font-semibold">Franchise Price:</span>
+              <span class="font-semibold">{{ __('messages.franchise_price') }}:</span>
               @if(isset($car->franchise_price))
                 ${{ number_format($car->franchise_price, 2) }}
               @else
-                N/A
+                {{ __('messages.not_applicable') }}
               @endif
             </li>
             <li>
               <i class="fa-solid fa-gas-pump text-indigo-500 mr-2"></i>
-              <span class="font-semibold">Full Tank Price:</span>
+              <span class="font-semibold">{{ __('messages.full_tank_price') }}:</span>
               @if(isset($car->full_tank_price))
                 ${{ number_format($car->full_tank_price, 2) }}
               @else
-                N/A
+                {{ __('messages.not_applicable') }}
               @endif
             </li>
-            <li><i class="fa-solid fa-check-circle text-green-500 mr-2"></i><span class="font-semibold">Available:</span> {{ $car->available ? 'Yes' : 'No' }}</li>
+            <li><i class="fa-solid fa-check-circle text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.available') }}:</span> {{ $car->available ? __('messages.yes') : __('messages.no') }}</li>
           </ul>
         </div>
       </div>
@@ -108,7 +107,7 @@
       @if($car->seasonPrices && $car->seasonPrices->count())
       <div class="mt-8">
         <h3 class="text-2xl font-semibold text-gray-800 mb-4">
-          <i class="fa-solid fa-calendar-alt text-blue-500 mr-2"></i>Season Prices
+          <i class="fa-solid fa-calendar-alt text-blue-500 mr-2"></i>{{ __('messages.season_prices') }}
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           @foreach($car->seasonPrices as $season)
@@ -124,15 +123,15 @@
               <div class="text-gray-700 space-y-1">
                 <p>
                   <i class="fa-solid fa-money-bill-wave text-yellow-500 mr-1"></i>
-                  <span class="font-semibold">2-5 Days:</span> ${{ number_format($season->price_2_5_days, 2) }}
+                  <span class="font-semibold">{{ __('messages.price_2_5_days') }}:</span> ${{ number_format($season->price_2_5_days, 2) }}
                 </p>
                 <p>
                   <i class="fa-solid fa-money-check-alt text-yellow-500 mr-1"></i>
-                  <span class="font-semibold">6-20 Days:</span> ${{ number_format($season->price_6_20_days, 2) }}
+                  <span class="font-semibold">{{ __('messages.price_6_10_days') }}:</span> ${{ number_format($season->price_6_20_days, 2) }}
                 </p>
                 <p>
                   <i class="fa-solid fa-hand-holding-dollar text-yellow-500 mr-1"></i>
-                  <span class="font-semibold">20+ Days:</span> ${{ number_format($season->price_20_plus_days, 2) }}
+                  <span class="font-semibold">{{ __('messages.price_20_days') }}:</span> ${{ number_format($season->price_20_plus_days, 2) }}
                 </p>
               </div>
             </div>
@@ -143,14 +142,14 @@
 
       <!-- أزرار الإجراءات -->
       <div class="mt-8 flex justify-between">
-        <!-- زر Book Now لفتح المودال -->
+        <!-- زر الحجز -->
         <button id="openBookingModal" data-location="{{ $car->location }}" class="block bg-blue-600 hover:bg-blue-700 transition-colors text-white py-2 px-4 rounded-lg">
-            Book Now
-          </button>
+            {{ __('messages.book_now') }}
+        </button>
 
         <!-- زر العودة -->
         <a href="{{ route('available.cars') }}" class="inline-block bg-gray-600 hover:bg-gray-700 transition-colors text-white py-2 px-4 rounded-lg">
-          <i class="fa-solid fa-arrow-left mr-2"></i> Back to Car List
+          <i class="fa-solid fa-arrow-left mr-2"></i> {{ __('messages.back_to_car_list') }}
         </a>
       </div>
     </div>
@@ -163,9 +162,9 @@
               <div class="modal-header bg-blue-600 text-white">
                   <h5 class="modal-title" id="reservationModalLabel">
                       <i class="fas fa-calendar-check mr-2"></i>
-                      Reservation Details
+                      {{ __('messages.reservation_details') }}
                   </h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('messages.close') }}"></button>
               </div>
               <div class="modal-body">
                   <form id="reservationForm" action="{{ route('reservations.confirm') }}" method="POST" class="space-y-4">
@@ -175,10 +174,10 @@
                       <div>
                           <label for="modal_pickup_location" class="block text-gray-700 font-medium mb-2">
                               <i class="fas fa-map-marker-alt mr-1"></i>
-                              Pickup Location
+                              {{ __('messages.pickup_location') }}
                           </label>
                           <select name="pickup_location" id="modal_pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
-                              <option value="" disabled selected>Select Pickup Location</option>
+                              <option value="" disabled selected>{{ __('messages.select_pickup_location') }}</option>
                               <option value="Marrakech (Agence)">Marrakech (Agence)</option>
                               <option value="Marrakech medina">Marrakech medina</option>
                               <option value="Marrakech aéroport">Marrakech aéroport</option>
@@ -196,10 +195,10 @@
                       <div>
                           <label for="modal_dropoff_location" class="block text-gray-700 font-medium mb-2">
                               <i class="fas fa-map-marker-alt mr-1"></i>
-                              Drop-off Location
+                              {{ __('messages.dropoff_location') }}
                           </label>
                           <select name="dropoff_location" id="modal_dropoff_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
-                              <option value="" disabled selected>Select Drop-off Location</option>
+                              <option value="" disabled selected>{{ __('messages.select_dropoff_location') }}</option>
                               <option value="Marrakech (Agence)">Marrakech (Agence)</option>
                               <option value="Marrakech medina">Marrakech medina</option>
                               <option value="Marrakech aéroport">Marrakech aéroport</option>
@@ -217,7 +216,7 @@
                       <div>
                           <label for="modal_pickup_date" class="block text-gray-700 font-medium mb-2">
                               <i class="fas fa-calendar-alt mr-1"></i>
-                              Pickup Date
+                              {{ __('messages.pickup_date') }}
                           </label>
                           <input type="datetime-local" id="modal_pickup_date" name="pickup_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
                       </div>
@@ -225,13 +224,13 @@
                       <div>
                           <label for="modal_return_date" class="block text-gray-700 font-medium mb-2">
                               <i class="fas fa-calendar-alt mr-1"></i>
-                              Return Date
+                              {{ __('messages.return_date') }}
                           </label>
                           <input type="datetime-local" id="modal_return_date" name="return_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
                       </div>
                       <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200">
                           <i class="fas fa-check mr-2"></i>
-                          Confirm Reservation
+                          {{ __('messages.confirm_reservation') }}
                       </button>
                   </form>
               </div>
@@ -246,43 +245,29 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Modal Open Function -->
   <script>
- function formatDateTime(date) {
-  const pad = (num) => num.toString().padStart(2, '0');
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T10:00`;
-}
+    function formatDateTime(date) {
+      const pad = (num) => num.toString().padStart(2, '0');
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T10:00`;
+    }
 
-document.getElementById("openBookingModal").addEventListener("click", function(event) {
-  event.preventDefault();
+    document.getElementById("openBookingModal").addEventListener("click", function(event) {
+      event.preventDefault();
 
-  // قراءة موقع السيارة من data attribute
-  const carLocation = this.getAttribute("data-location");
-  document.getElementById("modal_pickup_location").value = carLocation;
+      // قراءة موقع السيارة من data attribute
+      const carLocation = this.getAttribute("data-location");
+      document.getElementById("modal_pickup_location").value = carLocation;
 
-  // ضبط التواريخ الافتراضية
-  const now = new Date();
-  const twoDaysLater = new Date();
-  twoDaysLater.setDate(now.getDate() + 2);
-  document.getElementById("modal_pickup_date").value = formatDateTime(now);
-  document.getElementById("modal_return_date").value = formatDateTime(twoDaysLater);
+      // ضبط التواريخ الافتراضية
+      const now = new Date();
+      const twoDaysLater = new Date();
+      twoDaysLater.setDate(now.getDate() + 2);
+      document.getElementById("modal_pickup_date").value = formatDateTime(now);
+      document.getElementById("modal_return_date").value = formatDateTime(twoDaysLater);
 
-  // عرض المودال باستخدام Bootstrap Modal
-  var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
-  modal.show();
-});
-
-
-      document.getElementById("openBookingModal").addEventListener("click", function(event) {
-          event.preventDefault();
-          // Set default dates
-          const now = new Date();
-          const twoDaysLater = new Date();
-          twoDaysLater.setDate(now.getDate() + 2);
-          document.getElementById("modal_pickup_date").value = formatDateTime(now);
-          document.getElementById("modal_return_date").value = formatDateTime(twoDaysLater);
-          // Show the modal using Bootstrap Modal
-          var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
-          modal.show();
-      });
+      // عرض المودال باستخدام Bootstrap Modal
+      var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
+      modal.show();
+    });
   </script>
 </body>
 </html>

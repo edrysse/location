@@ -30,7 +30,7 @@ class ReservationConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->subject('تأكيد الحجز الخاص بك')
+        return $this->subject('Confirm your reservation')
                     ->view('emails.reservation_confirmation');
     }
 }

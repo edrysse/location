@@ -34,7 +34,12 @@
           <a href="{{ route('contact.create') }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">Contact</a>
           <a href="{{ route('nav.about') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">About</a>
         <a href="{{ route('nav.terms') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">Terms & Conditions</a>
-
+                <a class="nav-link" href="/en">English</a>
+           
+                <a class="nav-link" href="/ar">العربية</a>
+        
+                <a class="nav-link" href="/fr">Français</a>
+         
 
           @auth
             <a href="{{ route('dashboard') }}" class="text-gray-800 hover:text-green-600 font-medium transition duration-300">Dashboard</a>
@@ -57,7 +62,17 @@
         <a href="{{ route('contact.create') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">Contact</a>
         <a href="{{ route('nav.about') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">About</a>
         <a href="{{ route('nav.terms') }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">Terms & Conditions</a>
-
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('lang/en') }}">English</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('lang/ar') }}">العربية</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('lang/fr') }}">Français</a>
+            </li>
+        </ul>
 
         @auth
 

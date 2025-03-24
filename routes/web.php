@@ -10,8 +10,17 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ContactController;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
+    Route::get('/', [Home1Controller::class, 'index'])->name('home');
+
+    Route::get('/available-cars', [CarController::class, 'availableCars'])->name('available.cars');
+
+    Route::get('/about', function () {
+        return view('about');
+    });
+
 // الصفحة الرئيسية
-Route::get('/', [Home1Controller::class, 'index'])->name('home');
 
 // صفحة الترحيب
 Route::get('/welcome', function () {
@@ -64,7 +73,6 @@ Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index'
 
 // السيارات (Cars)
 Route::resource('cars', CarController::class);
-Route::get('/available-cars', [CarController::class, 'availableCars'])->name('available.cars');
 Route::get('/cars', [CarController::class, 'index'])->name('cars');
 Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
 
@@ -137,4 +145,11 @@ Route::get('/generate-sitemap', function () {
         ->writeToFile(public_path('sitemap.xml'));
 
     return "تم إنشاء خريطة الموقع بنجاح!";
+});
+Route::get('lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'ar', 'fr'])) {
+        session(['applocale' => $locale]);
+    }
+    return redirect()->back();
+});
 });
