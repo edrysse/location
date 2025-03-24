@@ -3,8 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\App; // ✅ تأكد من استيراد App
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization; // ✅ استيراد LaravelLocalization
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL; // ✅ إضافة استيراد URL
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,10 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        App::setLocale(LaravelLocalization::setLocale());
         if (env('APP_ENV') === 'production') {
-            URL::forceScheme('https');
+            URL::forceScheme('https'); // ✅ فرض HTTPS في الإنتاج
         }
-        
+
+        App::setLocale(LaravelLocalization::setLocale());
     }
 }
