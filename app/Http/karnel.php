@@ -14,7 +14,9 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\Language::class, // إضافة Middleware اللغة هنا
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\LocaleMiddleware::class,
 
+            \App\Http\Middleware\RemoveLocalizationPrefix::class,
         ],
 
         // مجموعة API
@@ -23,6 +25,10 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
-
+    protected $routeMiddleware = [
+        // ميدلوييرات أخرى...
+        'remove.locale.prefix' => \App\Http\Middleware\RemoveLocalizationPrefix::class,
+    ];
+    
     // ...
 }

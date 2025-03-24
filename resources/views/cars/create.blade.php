@@ -16,6 +16,7 @@
     <div class="max-w-4xl mx-auto mt-10 px-6">
       <h1 class="text-3xl font-semibold text-center text-gray-800 mb-8">Add New Car</h1>
       <form action="{{ route('cars.store') }}" method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 space-y-6" id="carForm">
+
         @csrf
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <!-- Car Name -->

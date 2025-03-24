@@ -232,7 +232,7 @@
             <p class="text-gray-600 italic mb-4">"{{ $review->comment }}"</p>
             <div class="flex items-center space-x-4">
               @if($review->avatar)
-              <img src="{{ asset('storage/' . $review->avatar) }}" loading="lazy" class="w-16 h-16 rounded-full object-cover" alt="{{ __('messages.customer') }}">
+              <img src="{{ asset( $review->avatar) }}" loading="lazy" class="w-16 h-16 rounded-full object-cover" alt="{{ __('messages.customer') }}">
               @else
               <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded-full object-cover" alt="{{ __('messages.customer') }}">
               @endif

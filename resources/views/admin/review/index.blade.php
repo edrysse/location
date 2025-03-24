@@ -48,7 +48,7 @@
               <td class="px-4 py-4">{{ $loop->iteration }}</td>
               <td class="px-4 py-4">
                 @if($review->avatar)
-                  <img src="{{ asset('storage/' . $review->avatar) }}" alt="Avatar" class="w-12 h-12 object-cover rounded-full">
+                  <img src="{{ asset($review->avatar) }}" alt="Avatar" class="w-12 h-12 object-cover rounded-full">
                 @else
                   <span>No image available</span>
                 @endif

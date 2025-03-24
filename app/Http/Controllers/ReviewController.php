@@ -31,11 +31,15 @@ class ReviewController extends Controller
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
+      
         if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        } else {
+            $imageName = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+            $request->file('avatar')->move(public_path('avatars'), $imageName);
+            $data['avatar'] = 'avatars/' . $imageName;
+        }     else {
             $avatarPath = null;
         }
+        
 
         Review::create([
             'name' => $request->name,
@@ -67,12 +71,11 @@ class ReviewController extends Controller
         ]);
 
         if ($request->hasFile('avatar')) {
-            if ($review->avatar) {
-                Storage::disk('public')->delete($review->avatar);
-            }
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        } else {
-            $avatarPath = $review->avatar;
+            $imageName = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+            $request->file('avatar')->move(public_path('avatars'), $imageName);
+            $data['avatar'] = 'avatars/' . $imageName;
+        }     else {
+            $avatarPath = null;
         }
 
         $review->update([
