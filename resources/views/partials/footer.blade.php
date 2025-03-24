@@ -50,6 +50,19 @@
   const currentYear = new Date().getFullYear();
   const footerCopyTemplate = {!! json_encode(__('messages.footer_copy')) !!};
   document.getElementById('footer-year').innerHTML = footerCopyTemplate.replace(':year', currentYear);
+
+
+
+
+  document.querySelectorAll('link[href^="http://"], script[src^="http://"], img[src^="http://"]').forEach(function(element) {
+    var url = element.href || element.src;
+    if (url.startsWith('http://')) {
+        url = url.replace('http://', 'https://');
+        if (element.href) element.href = url;
+        if (element.src) element.src = url;
+    }
+});
+
 </script>
 
 <style>
