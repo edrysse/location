@@ -1,10 +1,10 @@
-# Use an official PHP runtime as a parent image
+# استخدم صورة PHP 8.1 مع FPM
 FROM php:8.1-fpm
 
-# Set working directory
+# ضبط مسار العمل
 WORKDIR /var/www/html
 
-# Install system dependencies
+# تثبيت الحزم المطلوبة
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -18,17 +18,20 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql mbstring zip exif pcntl
 
-# Install Composer
+# تثبيت Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy existing application directory contents
+# نسخ ملفات المشروع
 COPY . /var/www/html
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# ضبط الصلاحيات للمجلدات المهمة
+RUN chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port 8000
+# تثبيت حزم Composer
+RUN composer install --no-dev --optimize-autoloader
+
+# كشف المنفذ 8000
 EXPOSE 8000
 
-# Run Laravel
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000
+# تشغيل Laravel بطريقة آمنة
+CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"]
