@@ -28,7 +28,7 @@ class ReviewController extends Controller
             'name' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'comment' => 'required|string|max:1000',
-            'avatar' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'avatar' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:20048',
         ]);
 
       
@@ -39,6 +39,7 @@ class ReviewController extends Controller
         }     else {
             $avatarPath = null;
         }
+        
         
 
         Review::create([
@@ -67,7 +68,7 @@ class ReviewController extends Controller
             'name' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'comment' => 'required|string|max:1000',
-            'avatar' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'avatar' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:20048',
         ]);
 
       

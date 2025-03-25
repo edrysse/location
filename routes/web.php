@@ -12,9 +12,17 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-// إعادة توجيه الجذر إلى اللغة الإنجليزية
 Route::get('/', function () {
-    return redirect(LaravelLocalization::getLocalizedURL('en'));
+    $locale = session('applocale', 'en'); // افتراضيًا إلى "en" إذا لم تكن هناك لغة
+    return redirect(LaravelLocalization::getLocalizedURL($locale));
+});
+
+// ✅ مسار تغيير اللغة مع حفظها في الجلسة
+Route::get('lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'ar', 'fr'])) {
+        session(['applocale' => $locale]);
+    }
+    return redirect()->back();
 });
 
 Route::get('/test', function () {
