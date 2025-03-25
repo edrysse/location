@@ -63,17 +63,20 @@ class ReviewController extends Controller
 
         $avatarPath = $review->avatar; // استخدم الصورة الحالية إذا لم يتم رفع صورة جديدة
 
-    
         if ($request->hasFile('avatar')) {
+            // حذف الصورة القديمة من التخزين المحلي إذا كانت موجودة
             if ($review->avatar && file_exists(public_path($review->avatar))) {
                 unlink(public_path($review->avatar));
             }
             
-            $avatarPath = time() . '.' . $request->file('image')->getClientOriginalExtension();
-            $request->file('avatar')->move(public_path('uploads/avatars'), $avatarPath);
+            // رفع الصورة الجديدة إلى التخزين المحلي
+            $uploadedFile = $request->file('avatar');
+            // استخدم الحقل "avatar" للحصول على امتداد الملف
+            $avatarPath = time() . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->move(public_path('uploads/avatars'), $avatarPath);
             $data['avatar'] = 'uploads/avatars/' . $avatarPath;
         }
-
+        
 
         $review->update([
             'name' => $request->name,
