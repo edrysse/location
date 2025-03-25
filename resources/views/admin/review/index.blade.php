@@ -18,7 +18,7 @@
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Reviews Management</h1>
         <!-- زر إضافة ريفيو -->
-        <a href="{{ route('reviews.create') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+        <a href="{{ route('admin.reviews.create') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">
             <i class="fas fa-plus mr-1"></i> Add Review
         </a>
     </div>
