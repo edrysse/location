@@ -67,7 +67,7 @@ return [
     'confirm_reservation' => 'تأكيد الحجز',
     'car_details' => 'تفاصيل السيارة - :car_name',
     'discover_car' => 'اكتشف جميع تفاصيل :car_name على DiamantinaCar. استعرض الميزات والأسعار والتوافر، واحجز رحلتك المثالية اليوم على diamantinacar.com!',
-    
+
     'specifications' => 'مواصفات السيارة',
     'fuel' => 'الوقود',
     'seats' => 'عدد المقاعد',
@@ -156,11 +156,11 @@ return [
       // عناوين الصفحات
       'contact_us'          => 'اتصل بنا',
       'site_name'           => 'ديامانتينا كار',
-  
+
       // النصوص الخاصة بالصفحة
       'get_in_touch'        => 'ابقَ على تواصل',
       'contact_intro'       => 'لا تتردد في التواصل معنا عن طريق ملء النموذج أو من خلال التفاصيل أدناه. نحن في انتظار تواصلك معنا!',
-  
+
       // معلومات الاتصال
       'address_title'       => 'العنوان',
       'address_text'        => 'زاوية شارع 11 جانفييه شارع الأمير مولاي عبد الله، مراكش 40000',
@@ -170,7 +170,7 @@ return [
       'email_text'          => 'contact@diamantinacar.com',
       'website_title'       => 'الموقع الإلكتروني',
       'website_text'        => 'www.diamantinacar.com',
-  
+
       // النموذج
       'send_message'        => 'أرسل لنا رسالة',
       'your_name'           => 'اسمك',
@@ -221,30 +221,30 @@ return [
      'about_us'                  => 'من نحن',
      'site_name'                 => 'ديامانتينا كار',
      'about_us_intro'            => 'اعرف المزيد عن ديامانتينا كار',
-     
+
      // About Us Section
      'marrakech_airport_alt'     => 'مطار مراكش',
      'airport_car_rental_title'  => 'تأجير السيارات في مطار مراكش',
      'airport_car_rental_text'   => 'مطار مراكش المنارة الدولي هو ثاني أكبر مطار في المغرب، حيث يستقبل أكثر من 4 ملايين مسافر سنوياً.
                                      تقدم خدمة تأجير السيارات من ديامانتينا كار تجربة حجز سلسة في المطار. فور وصولك، يكون سائقونا في انتظارك مع السيارة المحجوزة لتأمين رحلة آمنة ومريحة.',
-     
+
      // Car Rental Options
      'gueliz_car_rental_title'   => 'تأجير السيارات في كيليز مراكش',
      'gueliz_car_rental_text'    => 'استكشف مراكش وما حولها من مناظر خلابة مع سياراتنا الفاخرة. من الأسواق التقليدية إلى جبال الأطلس الساحرة،
                                      تضمن ديامانتينا كار تجربة تأجير خالية من المتاعب مع خدمة عملاء متميزة وأسعار تنافسية.',
      'gueliz_image_alt'          => 'كيليز مراكش',
- 
+
      // Book Your Car Section
      'book_your_car_title'       => 'احجز سيارتك الآن',
      'book_your_car_text'        => 'أمّن تأجير سيارتك اليوم واستفد من أفضل الأسعار مع ديامانتينا كار. بدون رسوم خفية، متاح 24/7، وحجز فوري عبر الإنترنت.',
      'book_now'                  => 'احجز الآن',
- 
+
      // Who We Are Section
      'who_we_are_title'          => 'من نحن',
      'who_we_are_text'           => 'ديامانتينا كار هي خدمة تأجير سيارات رائدة توفر سيارات عالية الجودة بأسعار تنافسية.
                                      مهمتنا هي تبسيط عملية تأجير السيارات وجعلها ميسورة التكلفة وخالية من المتاعب، لضمان أفضل تجربة لك في مراكش.',
      'who_we_are_image_alt'      => 'من نحن',
- 
+
      // Our Values Section
      'our_values'                => 'قيمنا',
      'value_trust_title'         => 'الثقة والنزاهة',
@@ -253,7 +253,7 @@ return [
      'value_quality_text'        => 'نقدم خدمة عملاء عالية الجودة لضمان تجربة تأجير سلسة.',
      'value_customer_title'      => 'رضا العملاء',
      'value_customer_text'       => 'رضاك هو أولويتنا القصوى. نبذل قصارى جهدنا لتلبية احتياجاتك.',
- 
+
      // Contact Section
      'get_in_touch'              => 'ابقَ على تواصل',
      'get_in_touch_text'         => 'هل لديك أسئلة أو تحتاج مساعدة؟ فريقنا جاهز لمساعدتك.',
@@ -318,7 +318,7 @@ return [
     'dropoff_location'           => 'مكان التسليم:',
     'pickup_date'                => 'تاريخ الاستلام:',
     'return_date'                => 'تاريخ التسليم:',
-    'total_label'                => 'الإجمالي: $',
+    'total_label'                => 'الإجمالي:€ ',
     'name'                       => 'الاسم',
     'name_placeholder'           => 'اسمك الكامل',
     'email'                      => 'البريد الإلكتروني',
@@ -329,11 +329,11 @@ return [
     'select_payment_method'      => 'اختر طريقة الدفع',
     'credit_card'                => 'بطاقة ائتمان (+3%)',
     'cash'                       => 'نقداً',
-    'gps_option'                 => 'نظام تحديد المواقع (GPS) ($1/يوم)',
-    'maxicosi_option'            => 'ماكسيسو ($1/يوم)',
-    'child_seat_option'          => 'مقعد طفل ($1/يوم)',
-    'booster_seat_option'        => 'مقعد تعزيز (Rehausseur $1/يوم)',
-    'full_tank_option'           => 'خزان ممتلئ ($60)',
+    'gps_option'                 => 'نظام تحديد المواقع (GPS) (€1/يوم)',
+    'maxicosi_option'            => 'ماكسيسو (€1/يوم)',
+    'child_seat_option'          => 'مقعد طفل (€1/يوم)',
+    'booster_seat_option'        => 'مقعد تعزيز (Rehausseur €1/يوم)',
+    'full_tank_option'           => 'خزان ممتلئ (€60)',
     'franchise_price'            => 'سعر الفرنشايز',
     'not_available'              => 'غير متاح',
     'age_confirmation'           => 'أؤكد أن عمري أكثر من 23 سنة',
@@ -359,7 +359,7 @@ return [
     'per_day'                 => '/ يوم',
     'book_now'                => 'احجز الآن',
     'view_details'            => 'عرض التفاصيل',
-    
+
 
     'site_title'        => 'ديامانتينا كار',
     'site_logo_alt'     => 'شعار ديامانتينا كار',

@@ -67,7 +67,7 @@ return [
     'confirm_reservation' => 'Confirmer la réservation',
     'car_details' => 'Détails de la voiture - :car_name',
     'discover_car' => 'Découvrez tous les détails de :car_name sur DiamantinaCar. Parcourez les caractéristiques, les prix et la disponibilité, et réservez votre voyage idéal aujourd\'hui sur diamantinacar.com!',
-    
+
     'specifications' => 'Spécifications de la voiture',
     'fuel' => 'Carburant',
     'seats' => 'Nombre de sièges',
@@ -155,11 +155,11 @@ return [
       // Titres de pages
       'contact_us'          => 'Contactez-nous',
       'site_name'           => 'Diamantina Car',
-  
+
       // Textes de la page
       'get_in_touch'        => 'Restez en contact',
       'contact_intro'       => 'N\'hésitez pas à nous contacter en remplissant le formulaire ou par les détails ci-dessous. Nous attendons vos nouvelles !',
-  
+
       // Informations de contact
       'address_title'       => 'Adresse',
       'address_text'        => 'Angle de la rue 11 Janvier, Rue du Prince Moulay Abdellah, Marrakech 40000',
@@ -169,7 +169,7 @@ return [
       'email_text'          => 'contact@diamantinacar.com',
       'website_title'       => 'Site Web',
       'website_text'        => 'www.diamantinacar.com',
-  
+
       // Formulaire
       'send_message'        => 'Envoyez-nous un message',
       'your_name'           => 'Votre nom',
@@ -220,30 +220,30 @@ return [
      'about_us'                  => 'À propos de nous',
      'site_name'                 => 'Diamantina Car',
      'about_us_intro'            => 'En savoir plus sur Diamantina Car',
-     
+
      // Section À propos
      'marrakech_airport_alt'     => 'Aéroport de Marrakech',
      'airport_car_rental_title'  => 'Location de voitures à l\'aéroport de Marrakech',
      'airport_car_rental_text'   => 'L\'aéroport de Marrakech Ménara est le deuxième aéroport du Maroc, accueillant plus de 4 millions de passagers par an.
                                      Le service de location de voitures de Diamantina Car offre une expérience de réservation fluide à l\'aéroport. À votre arrivée, nos chauffeurs vous attendent avec la voiture réservée pour assurer un voyage sûr et confortable.',
-     
+
      // Options de location de voiture
      'gueliz_car_rental_title'   => 'Location de voitures à Gueliz, Marrakech',
      'gueliz_car_rental_text'    => 'Découvrez Marrakech et ses environs avec nos voitures de luxe. Des marchés traditionnels aux montagnes de l\'Atlas,
                                      Diamantina Car garantit une expérience de location sans tracas avec un excellent service client et des prix compétitifs.',
      'gueliz_image_alt'          => 'Gueliz, Marrakech',
- 
+
      // Réservez votre voiture
      'book_your_car_title'       => 'Réservez votre voiture maintenant',
      'book_your_car_text'        => 'Assurez la location de votre voiture aujourd\'hui et profitez des meilleurs prix avec Diamantina Car. Pas de frais cachés, disponible 24/7, et réservation instantanée en ligne.',
      'book_now'                  => 'Réservez ',
- 
+
      // Qui nous sommes
      'who_we_are_title'          => 'Qui nous sommes',
      'who_we_are_text'           => 'Diamantina Car est un service de location de voitures de premier plan qui propose des véhicules de haute qualité à des prix compétitifs.
                                      Notre mission est de simplifier le processus de location de voitures et de le rendre abordable et sans tracas, pour garantir la meilleure expérience pour vous à Marrakech.',
      'who_we_are_image_alt'      => 'Qui nous sommes',
- 
+
      // Nos valeurs
      'our_values'                => 'Nos valeurs',
      'value_trust_title'         => 'Confiance et intégrité',
@@ -252,7 +252,7 @@ return [
      'value_quality_text'        => 'Nous fournissons un service client de haute qualité pour garantir une expérience de location sans accroc.',
      'value_customer_title'      => 'Satisfaction client',
      'value_customer_text'       => 'Votre satisfaction est notre priorité. Nous faisons de notre mieux pour répondre à vos besoins.',
- 
+
      // Section Contact
      'get_in_touch'              => 'Restez en contact',
      'get_in_touch_text'         => 'Avez-vous des questions ou avez-vous besoin d\'aide ? Notre équipe est prête à vous aider.',
@@ -317,7 +317,7 @@ return [
     'dropoff_location'           => 'Lieu de dépôt :',
     'pickup_date'                => 'Date de ramassage :',
     'return_date'                => 'Date de retour :',
-    'total_label'                => 'Total : $',
+    'total_label'                => 'Total : €',
     'name'                       => 'Nom',
     'name_placeholder'           => 'Votre nom complet',
     'email'                      => 'Email',
@@ -328,11 +328,11 @@ return [
     'select_payment_method'      => 'Choisissez la méthode de paiement',
     'credit_card'                => 'Carte de crédit (+3%)',
     'cash'                       => 'Espèces',
-    'gps_option'                 => 'Système de navigation (GPS) ($1/jour)',
-    'maxicosi_option'            => 'Maxi-Cosi ($1/jour)',
-    'child_seat_option'          => 'Siège enfant ($1/jour)',
-    'booster_seat_option'        => 'Rehausseur ($1/jour)',
-    'full_tank_option'           => 'Plein d\'essence ($60)',
+    'gps_option'                 => 'Système de navigation (GPS) (€1/jour)',
+    'maxicosi_option'            => 'Maxi-Cosi (€1/jour)',
+    'child_seat_option'          => 'Siège enfant (€1/jour)',
+    'booster_seat_option'        => 'Rehausseur (€1/jour)',
+    'full_tank_option'           => 'Plein d\'essence (€60)',
     'franchise_price'            => 'Prix de la franchise',
     'not_available'              => 'Non disponible',
     'age_confirmation'           => 'Je confirme que j\'ai plus de 23 ans',
@@ -358,7 +358,7 @@ return [
     'per_day'                 => '/ jour',
     'book_now'                => 'Réservez ',
     'view_details'            => 'Voir les détails',
-    
+
 
     'site_title'        => 'Diamantina Car',
     'site_logo_alt'     => 'Logo de Diamantina Car',

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Home1Controller;
 use App\Http\Controllers\CarController;
@@ -13,27 +14,47 @@ use Spatie\Sitemap\Tags\Url;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Illuminate\Support\Facades\Session;
 
+/*
+|--------------------------------------------------------------------------
+| Redirect and Test Routes
+|--------------------------------------------------------------------------
+|
+| يتم إعادة توجيه المستخدم من الجذر إلى النسخة المحلية، وهناك مسار للاختبار.
+|
+*/
 
+// إعادة توجيه الجذر إلى "/en"
 Route::get('/', function () {
-    if (!Session::has('applocale')) {
-        Session::put('applocale', 'en'); // ✅ ضبط اللغة في الجلسة
-        return redirect(LaravelLocalization::getLocalizedURL('en'));
-    }
-
-    return redirect(LaravelLocalization::getLocalizedURL(Session::get('applocale')));
+    return redirect('/en');
 });
 
+
+// مجموعة المسارات مع البادئة اللغوية
+
+// اختبار: عرض URL باللغة الإنجليزية باستخدام LaravelLocalization
 Route::get('/test', function () {
     dd(LaravelLocalization::getLocalizedURL('en'));
 });
 
-//lang
-
+/*
+|--------------------------------------------------------------------------
+| Localized Routes Group
+|--------------------------------------------------------------------------
+|
+| جميع المسارات داخل المجموعة ستبدأ بالبادئة اللغوية (على سبيل المثال /en أو /ar).
+|
+*/
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
+    /*
+    |--------------------------------------------------------------------------
+    | الصفحات الثابتة والصفحة الرئيسية
+    |--------------------------------------------------------------------------
+    */
     Route::get('/', [Home1Controller::class, 'index'])->name('home');
     Route::get('/available-cars', [CarController::class, 'availableCars'])->name('available.cars');
 
+    // صفحة "عن الموقع" الأولى (انتبه إلى التعارض مع تعريف "/about" الثاني)
     Route::get('/about', function () {
         return view('about');
     })->name('about');
@@ -42,48 +63,86 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         return view('welcome');
     });
 
+    /*
+    |--------------------------------------------------------------------------
+    | لوحة التحكم (Dashboard)
+    |--------------------------------------------------------------------------
+    */
     Route::get('/dashboard', [Home1Controller::class, 'dashboard'])
         ->middleware(['auth', 'verified'])
         ->name('dashboard');
 
+    // تحميل مسارات المصادقة
     require __DIR__.'/auth.php';
 
+    /*
+    |--------------------------------------------------------------------------
+    | مسارات الاتصال (Contact)
+    |--------------------------------------------------------------------------
+    */
+    // مسارات عامة لإنشاء وتخزين رسالة الاتصال
     Route::get('/contact/create', [ContactController::class, 'create'])->name('contact.create');
     Route::get('/contact/test', [ContactController::class, 'test'])->name('contact.test');
     Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+    /*
+    |--------------------------------------------------------------------------
+    | المسارات المحمية (تتطلب مصادقة المستخدم)
+    |--------------------------------------------------------------------------
+    */
     Route::middleware('auth')->group(function () {
+
+        // ملف المستخدم (Profile)
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+        // مسارات التقييمات (Reviews)
         Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
         Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
+        // إدارة رسائل الاتصال
         Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
         Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
         Route::get('/contact/{contact}/edit', [ContactController::class, 'edit'])->name('contact.edit');
         Route::put('/contact/{contact}', [ContactController::class, 'update'])->name('contact.update');
         Route::delete('/contact/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');
 
+        // إدارة السيارات من لوحة الإدارة
         Route::get('/carsadmin', [CarController::class, 'adminindex'])->name('cars.index');
 
+        // إدارة الحجوزات
         Route::resource('reservations', ReservationController::class);
         Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.delete');
 
+        // عرض قائمة التقييمات للمستخدمين المسجلين
         Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
     });
 
+    /*
+    |--------------------------------------------------------------------------
+    | مسارات السيارات والحجوزات العامة
+    |--------------------------------------------------------------------------
+    */
+    // موارد السيارات
     Route::resource('cars', CarController::class);
     Route::get('/cars', [CarController::class, 'index'])->name('cars');
     Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
 
+    // مسارات الحجوزات الإضافية
     Route::post('/reservations/confirm', [ReservationController::class, 'confirm'])->name('reservations.confirm');
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 
+    /*
+    |--------------------------------------------------------------------------
+    | مسارات الدفع والبريد الإلكتروني
+    |--------------------------------------------------------------------------
+    */
+    // معالجة الدفع
     Route::post('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
 
+    // اختبار إرسال البريد الإلكتروني
     Route::get('/test-email', function () {
         try {
             Mail::raw('This is a test email', function ($message) {
@@ -96,6 +155,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         }
     });
 
+    /*
+    |--------------------------------------------------------------------------
+    | مسارات الإدارة الخاصة بالتقييمات (Reviews)
+    |--------------------------------------------------------------------------
+    */
     Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
         Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
@@ -103,9 +167,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
         Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     });
+
+    // مسارات إضافية للتقييمات (قد تكون زائدة عن الحاجة إذا تم تعريفها سابقًا)
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
 
+    /*
+    |--------------------------------------------------------------------------
+    | الصفحات الثابتة الإضافية (Navigation)
+    |--------------------------------------------------------------------------
+    */
+    // ملاحظة: تم تعريف مسار "/about" سابقًا، فهنا تم تغييره إلى اسم مختلف لتجنب التعارض
     Route::get('/about', function () {
         return view('nav.about');
     })->name('nav.about');
@@ -122,6 +194,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         return view('nav.payment');
     })->name('nav.payment');
 
+    /*
+    |--------------------------------------------------------------------------
+    | توليد خريطة الموقع (Sitemap)
+    |--------------------------------------------------------------------------
+    */
     Route::get('/generate-sitemap', function () {
         Sitemap::create()
             ->add(Url::create('/'))
@@ -132,6 +209,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         return "تم إنشاء خريطة الموقع بنجاح!";
     });
 
+    /*
+    |--------------------------------------------------------------------------
+    | تغيير اللغة (Language Switcher)
+    |--------------------------------------------------------------------------
+    */
     Route::get('lang/{locale}', function ($locale) {
         if (in_array($locale, ['en', 'ar', 'fr'])) {
             session(['applocale' => $locale]);

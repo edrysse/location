@@ -70,7 +70,8 @@
         <i class="fas fa-calendar-check mr-2 text-blue-500"></i>
         {{ __('messages.make_reservation') }}
       </h2>
-      <form action="{{ route('cars') }}" method="GET">
+
+      <form action="{{ LaravelLocalization::localizeURL(route('cars') )}}" method="GET">
         @csrf
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <!-- Pickup Location -->
@@ -212,7 +213,8 @@
       @endforeach
     </div>
     <div class="text-center mt-8">
-      <a href="/available-cars" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
+
+        <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}"  class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
         {{ __('messages.view_all_cars') }}
       </a>
     </div>
@@ -296,7 +298,7 @@
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('messages.close') }}"></button>
         </div>
         <div class="modal-body">
-          <form id="reservationForm" action="{{ route('reservations.confirm') }}" method="POST" class="space-y-4">
+          <form id="reservationForm" action="{{ LaravelLocalization::localizeURL(route('reservations.confirm') )}}" method="POST" class="space-y-4">
             @csrf
             <input type="hidden" name="car_id" id="car_id">
             <!-- Pickup Location -->
@@ -393,7 +395,7 @@
       var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
       modal.show();
     }
-    
+
     // Initialize Swiper for Testimonials Section only
     var testimonialSwiper = new Swiper('#testimonialSwiper', {
       slidesPerView: 1,

@@ -67,7 +67,7 @@ return [
     'confirm_reservation' => 'Confirm Reservation',
     'car_details' => 'Car Details - :car_name',
     'discover_car' => 'Discover all the details of :car_name on DiamantinaCar. Explore features, prices, and availability, and book your ideal trip today at diamantinacar.com!',
-    
+
     'specifications' => 'Car Specifications',
     'fuel' => 'Fuel',
     'seats' => 'Number of Seats',
@@ -156,11 +156,11 @@ return [
       // Page Titles
       'contact_us'          => 'Contact Us',
       'site_name'           => 'Diamantina Car',
-  
+
       // Page texts
       'get_in_touch'        => 'Stay in Touch',
       'contact_intro'       => 'Feel free to reach out to us by filling in the form or through the details below. We look forward to hearing from you!',
-  
+
       // Contact information
       'address_title'       => 'Address',
       'address_text'        => 'Corner of 11 January Street, Prince Moulay Abdellah Street, Marrakech 40000',
@@ -170,7 +170,7 @@ return [
       'email_text'          => 'contact@diamantinacar.com',
       'website_title'       => 'Website',
       'website_text'        => 'www.diamantinacar.com',
-  
+
       // Form
       'send_message'        => 'Send Us a Message',
       'your_name'           => 'Your Name',
@@ -221,30 +221,30 @@ return [
      'about_us'                  => 'About Us',
      'site_name'                 => 'Diamantina Car',
      'about_us_intro'            => 'Learn more about Diamantina Car',
-     
+
      // About Us Section
      'marrakech_airport_alt'     => 'Marrakech Airport',
      'airport_car_rental_title'  => 'Car Rental at Marrakech Airport',
      'airport_car_rental_text'   => 'Marrakech Menara International Airport is the second largest airport in Morocco, welcoming over 4 million passengers annually.
                                      The car rental service from Diamantina Car offers a seamless booking experience at the airport. Upon your arrival, our drivers will be waiting for you with the reserved car to ensure a safe and comfortable trip.',
-     
+
      // Car Rental Options
      'gueliz_car_rental_title'   => 'Car Rental in Gueliz, Marrakech',
      'gueliz_car_rental_text'    => 'Explore Marrakech and its stunning surroundings with our luxury cars. From traditional markets to the enchanting Atlas Mountains,
                                      Diamantina Car guarantees a hassle-free rental experience with outstanding customer service and competitive pricing.',
      'gueliz_image_alt'          => 'Gueliz, Marrakech',
- 
+
      // Book Your Car Section
      'book_your_car_title'       => 'Book Your Car Now',
      'book_your_car_text'        => 'Secure your car rental today and take advantage of the best prices with Diamantina Car. No hidden fees, available 24/7, and instant online booking.',
      'book_now'                  => 'Book Now',
- 
+
      // Who We Are Section
      'who_we_are_title'          => 'Who We Are',
      'who_we_are_text'           => 'Diamantina Car is a leading car rental service providing high-quality vehicles at competitive prices.
                                      Our mission is to simplify the car rental process and make it affordable and hassle-free, ensuring you have the best experience in Marrakech.',
      'who_we_are_image_alt'      => 'Who We Are',
- 
+
      // Our Values Section
      'our_values'                => 'Our Values',
      'value_trust_title'         => 'Trust and Integrity',
@@ -253,7 +253,7 @@ return [
      'value_quality_text'        => 'We offer high-quality customer service to ensure a seamless rental experience.',
      'value_customer_title'      => 'Customer Satisfaction',
      'value_customer_text'       => 'Your satisfaction is our top priority. We do our utmost to meet your needs.',
- 
+
      // Contact Section
      'get_in_touch'              => 'Get in Touch',
      'get_in_touch_text'         => 'Do you have questions or need assistance? Our team is ready to help you.',
@@ -318,7 +318,7 @@ return [
     'dropoff_location'           => 'Drop-off Location:',
     'pickup_date'                => 'Pickup Date:',
     'return_date'                => 'Return Date:',
-    'total_label'                => 'Total: $',
+    'total_label'                => 'Total: €',
     'name'                       => 'Name',
     'name_placeholder'           => 'Your Full Name',
     'email'                      => 'Email',
@@ -329,11 +329,11 @@ return [
     'select_payment_method'      => 'Select Payment Method',
     'credit_card'                => 'Credit Card (+3%)',
     'cash'                       => 'Cash',
-    'gps_option'                 => 'GPS System ($1/day)',
-    'maxicosi_option'            => 'Maxi-Cosi ($1/day)',
-    'child_seat_option'          => 'Child Seat ($1/day)',
-    'booster_seat_option'        => 'Booster Seat ($1/day)',
-    'full_tank_option'           => 'Full Tank ($60)',
+    'gps_option'                 => 'GPS System (€1/day)',
+    'maxicosi_option'            => 'Maxi-Cosi (€1/day)',
+    'child_seat_option'          => 'Child Seat (€1/day)',
+    'booster_seat_option'        => 'Booster Seat (€1/day)',
+    'full_tank_option'           => 'Full Tank (€60)',
     'franchise_price'            => 'Franchise Price',
     'not_available'              => 'Not Available',
     'age_confirmation'           => 'I confirm that I am over 23 years old',
@@ -359,7 +359,7 @@ return [
     'per_day'                 => '/ Day',
     'book_now'                => 'Book Now',
     'view_details'            => 'View Details',
-    
+
 
     'site_title'        => 'Diamantina Car',
     'site_logo_alt'     => 'Diamantina Car Logo',

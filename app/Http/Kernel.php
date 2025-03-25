@@ -7,28 +7,26 @@ class Kernel extends HttpKernel
 {
     protected $middlewareGroups = [
         'web' => [
-            // Middleware الأساسية
+            \App\Http\Middleware\RedirectToLocale::class, // تأكد أنه في البداية
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\Language::class, // إضافة Middleware اللغة هنا
+            \App\Http\Middleware\Language::class, // Middleware اللغة
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LocaleMiddleware::class,
-
-            \App\Http\Middleware\RemoveLocalizationPrefix::class,
+            \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+            \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirect::class,
+            \Mcamara\LaravelLocalization\Middleware\LocaleViewPath::class,
         ],
 
-        // مجموعة API
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
+
     protected $routeMiddleware = [
-        // ميدلوييرات أخرى...
-        'remove.locale.prefix' => \App\Http\Middleware\RemoveLocalizationPrefix::class,
+        // يمكنك إزالة 'redirect.locale' من هنا
     ];
-    
-    // ...
 }
