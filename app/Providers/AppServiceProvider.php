@@ -18,6 +18,8 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https'); // ✅ فرض HTTPS في الإنتاج
         }
 
+        Schema::defaultStringLength(191); // تجنب مشاكل قواعد البيانات
+
         App::setLocale(LaravelLocalization::setLocale());
     }
 }

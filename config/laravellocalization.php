@@ -1,5 +1,7 @@
 <?php
 return [
+    'locale' => 'en', // اللغة الافتراضية
+,
     'supportedLocales' => [
         'en' => [
             'name' => 'English',

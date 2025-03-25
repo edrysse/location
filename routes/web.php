@@ -14,8 +14,9 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 // إعادة توجيه الجذر إلى اللغة الإنجليزية
 Route::get('/', function () {
-    return redirect('/en');
+    return redirect(LaravelLocalization::getLocalizedURL('en'));
 });
+
 //lang
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
