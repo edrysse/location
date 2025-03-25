@@ -31,16 +31,13 @@ class ReviewController extends Controller
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:20048',
         ]);
 
-      
+        $avatarPath = null; // تحديد القيمة الافتراضية
+
         if ($request->hasFile('avatar')) {
             $imageName = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
             $request->file('avatar')->move(public_path('avatars'), $imageName);
-            $data['avatar'] = 'avatars/' . $imageName;
-        }     else {
-            $avatarPath = null;
+            $avatarPath = 'avatars/' . $imageName;
         }
-        
-        
 
         Review::create([
             'name' => $request->name,
@@ -52,14 +49,6 @@ class ReviewController extends Controller
         return redirect()->route('admin.reviews.index')->with('success', 'تم إضافة التقييم بنجاح!');
     }
 
-    // عرض نموذج تعديل التقييم
-    public function edit($id)
-    {
-        $review = Review::findOrFail($id);
-        return view('admin.review.edit', compact('review'));
-    }
-
-    // تحديث التقييم
     public function update(Request $request, $id)
     {
         $review = Review::findOrFail($id);
@@ -71,16 +60,18 @@ class ReviewController extends Controller
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:20048',
         ]);
 
-      
+        $avatarPath = $review->avatar; // استخدم الصورة الحالية إذا لم يتم رفع صورة جديدة
+
         if ($request->hasFile('avatar')) {
+            // حذف الصورة القديمة إن وجدت
+            if ($review->avatar) {
+                Storage::disk('public')->delete($review->avatar);
+            }
+
             $imageName = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
             $request->file('avatar')->move(public_path('avatars'), $imageName);
-            $data['avatar'] = 'avatars/' . $imageName;
+            $avatarPath = 'avatars/' . $imageName;
         }
-        
-        $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
-        
-
 
         $review->update([
             'name' => $request->name,
@@ -91,6 +82,16 @@ class ReviewController extends Controller
 
         return redirect()->route('admin.reviews.index')->with('success', 'تم تحديث التقييم بنجاح!');
     }
+
+
+    // عرض نموذج تعديل التقييم
+    public function edit($id)
+    {
+        $review = Review::findOrFail($id);
+        return view('admin.review.edit', compact('review'));
+    }
+
+   
 
     // حذف التقييم
     public function destroy($id)
