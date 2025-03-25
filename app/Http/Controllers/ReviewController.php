@@ -34,9 +34,11 @@ class ReviewController extends Controller
         $avatarPath = null; // تحديد القيمة الافتراضية
 
         if ($request->hasFile('avatar')) {
-            $imageName = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
-            $request->file('avatar')->move(public_path('avatars'), $imageName);
-            $avatarPath = 'avatars/' . $imageName;
+            $uploadedFile = $request->file('avatar');
+            $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
+                'folder' => 'reviews_avatars'
+            ]);
+            $avatarPath = $uploadedImage->getSecurePath(); // الحصول على الرابط المباشر للصورة
         }
 
         Review::create([
@@ -63,14 +65,16 @@ class ReviewController extends Controller
         $avatarPath = $review->avatar; // استخدم الصورة الحالية إذا لم يتم رفع صورة جديدة
 
         if ($request->hasFile('avatar')) {
-            // حذف الصورة القديمة إن وجدت
+            // حذف الصورة القديمة من Cloudinary إن وجدت
             if ($review->avatar) {
-                Storage::disk('public')->delete($review->avatar);
+                Cloudinary::destroy($review->avatar);
             }
 
-            $imageName = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
-            $request->file('avatar')->move(public_path('avatars'), $imageName);
-            $avatarPath = 'avatars/' . $imageName;
+            $uploadedFile = $request->file('avatar');
+            $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
+                'folder' => 'reviews_avatars'
+            ]);
+            $avatarPath = $uploadedImage->getSecurePath();
         }
 
         $review->update([

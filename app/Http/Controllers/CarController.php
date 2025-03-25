@@ -124,11 +124,15 @@ class CarController extends Controller
         $data = $request->all();
         $data['location'] = $data['pickup_location'];
                 // تحويل حقل الموقع من pickup_location إلى location للتخزين في قاعدة البيانات
-        if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
-            $request->file('image')->move(public_path('cars'), $imageName);
-            $data['image'] = 'cars/' . $imageName;
-        }
+
+    if ($request->hasFile('image')) {
+        $uploadedFile = $request->file('image');
+        $uploadedImageUrl = Cloudinary::upload($uploadedFile->getRealPath(), [
+            'folder' => 'cars'
+        ])->getSecurePath();
+
+        $data['image'] = $uploadedImageUrl;
+    }
 
 
 
@@ -184,7 +188,7 @@ class CarController extends Controller
             'available'         => 'required|boolean',
             'franchise_price'   => 'nullable|numeric|min:0',
             'full_tank_price'   => 'nullable|numeric|min:0',
-            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
             'season_prices'     => 'nullable|array',
             'season_prices.*.season_name'        => 'required_with:season_prices|string|max:100',
             'season_prices.*.start_date'         => 'required_with:season_prices|date',
@@ -197,12 +201,21 @@ class CarController extends Controller
         $data = $request->all();
         $data['location'] = $data['pickup_location'];
 
-      
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
-            $request->file('image')->move(public_path('cars'), $imageName);
-            $data['image'] = 'cars/' . $imageName;
+            // حذف الصورة القديمة من Cloudinary إن وجدت
+            if ($car->image) {
+                Cloudinary::destroy(pathinfo($car->image, PATHINFO_FILENAME));
+            }
+
+            // رفع الصورة الجديدة
+            $uploadedFile = $request->file('image');
+            $uploadedImageUrl = Cloudinary::upload($uploadedFile->getRealPath(), [
+                'folder' => 'cars'
+            ])->getSecurePath();
+
+            $data['image'] = $uploadedImageUrl;
         }
+
 
 
 
