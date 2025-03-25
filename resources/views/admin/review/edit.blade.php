@@ -73,7 +73,7 @@
                class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
         @if($review->avatar)
           <div class="mt-4 flex items-center space-x-4">
-            <img src="{{ asset('storage/' . $review->avatar) }}" alt="Avatar" class="w-24 h-24 object-cover rounded shadow">
+            <img src="{{ asset( $review->avatar) }}" alt="Avatar" class="w-24 h-24 object-cover rounded shadow">
             <span class="text-gray-500 text-sm">Current Avatar</span>
           </div>
         @endif

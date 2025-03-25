@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Session;
 use Cloudinary\Api\Upload\UploadApi;
 use Cloudinary\Configuration\Configuration;
 
+
 Route::get('/test-cloudinary', function () {
     try {
         // تأكد من تكوين Cloudinary بشكل صحيح
