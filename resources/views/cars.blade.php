@@ -31,7 +31,7 @@
         @foreach ($cars as $car)
           <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
             @if ($car->image)
-              <img src="{{ asset('storage/' . $car->image) }}" class="w-full h-48 object-cover" alt="{{ $car->name }}">
+              <img src="{{ asset($car->image) }}" class="w-full h-48 object-cover" alt="{{ $car->name }}">
             @else
               <img src="default-car.jpg" alt="{{ __('messages.default_car_alt') }}" class="w-full h-48 object-cover">
             @endif

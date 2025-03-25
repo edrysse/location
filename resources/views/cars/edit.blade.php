@@ -170,7 +170,7 @@ class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline
                  class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
           @if ($car->image)
             <div class="mt-4 flex items-center space-x-4">
-              <img src="{{ asset('storage/' . $car->image) }}" alt="{{ $car->name }}" class="rounded-lg w-40 h-40 object-cover shadow-md">
+              <img src="{{ asset( $car->image) }}" alt="{{ $car->name }}" class="rounded-lg w-40 h-40 object-cover shadow-md">
               <span class="text-gray-500 text-sm">Current Image</span>
             </div>
           @endif

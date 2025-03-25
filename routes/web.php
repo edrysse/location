@@ -107,6 +107,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::get('/contact/{contact}/edit', [ContactController::class, 'edit'])->name('contact.edit');
         Route::put('/contact/{contact}', [ContactController::class, 'update'])->name('contact.update');
         Route::delete('/contact/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');
+        Route::post('/cars', [CarController::class, 'store'])->name('cars.index');
 
         // إدارة السيارات من لوحة الإدارة
         Route::get('/carsadmin', [CarController::class, 'adminindex'])->name('cars.index');
