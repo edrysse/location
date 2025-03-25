@@ -153,7 +153,7 @@
       @foreach ($cars->take(3) as $car)
       <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
         @if ($car->image)
-          <img src="{{ asset('storage/' . $car->image) }}" loading="lazy" class="w-full h-48 object-cover" alt="{{ $car->name }}">
+          <img src="{{ asset($car->image) }}" loading="lazy" class="w-full h-48 object-cover" alt="{{ $car->name }}">
         @else
           <img src="default-car.jpg" alt="{{ __('messages.default_car') }}" class="w-full h-48 object-cover">
         @endif

@@ -110,7 +110,7 @@
           <!-- Price (6-10 Days) -->
           <div>
             <label for="price_6_10_days" class="block text-lg font-medium text-gray-700">
-              <i class="fas fa-clock mr-1"></i> Price (6-10 Days)
+              <i class="fas fa-clock mr-1"></i> Price (6-20 Days)
             </label>
             <input type="number" step="0.01" name="price_6_10_days" value="{{ old('price_6_10_days') }}" class="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             @error('price_6_10_days')
