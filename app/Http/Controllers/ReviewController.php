@@ -64,12 +64,12 @@ class ReviewController extends Controller
         ]);
 
         $avatarPath = $review->avatar; // استخدم الصورة الحالية إذا لم يتم رفع صورة جديدة
-
         if ($request->hasFile('avatar')) {
             // حذف الصورة القديمة من Cloudinary إن وجدت
             if ($review->avatar) {
                 // التحقق مما إذا كانت الصورة من Cloudinary
                 if (strpos($review->avatar, 'res.cloudinary.com') !== false) {
+                    // استخراج اسم الصورة من URL وحذفها من Cloudinary
                     Cloudinary::destroy(pathinfo(parse_url($review->avatar, PHP_URL_PATH), PATHINFO_FILENAME));
                 } else {
                     // حذف الصورة من التخزين المحلي إذا لم تكن من Cloudinary
@@ -80,11 +80,12 @@ class ReviewController extends Controller
             // رفع الصورة الجديدة إلى Cloudinary
             $uploadedFile = $request->file('avatar');
             $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
-                'folder' => 'reviews_avatars'
+                'folder' => 'reviews_avatars'  // تحديد مجلد رفع الصورة في Cloudinary
             ]);
+
+            // تخزين الرابط الأمن للصورة
             $avatarPath = $uploadedImage->getSecurePath();
         }
-
 
         $review->update([
             'name' => $request->name,

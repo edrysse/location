@@ -206,7 +206,7 @@ class CarController extends Controller
         if ($request->hasFile('image')) {
             // حذف الصورة القديمة من Cloudinary إن وجدت
             if ($car->image) {
-                // التحقق مما إذا كانت الصورة من Cloudinary
+                // تحقق إذا كانت الصورة من Cloudinary
                 if (strpos($car->image, 'res.cloudinary.com') !== false) {
                     Cloudinary::destroy(pathinfo(parse_url($car->image, PHP_URL_PATH), PATHINFO_FILENAME));
                 } else {
@@ -217,12 +217,18 @@ class CarController extends Controller
 
             // رفع الصورة الجديدة إلى Cloudinary
             $uploadedFile = $request->file('image');
-            $uploadedImageUrl = Cloudinary::upload($uploadedFile->getRealPath(), [
-                'folder' => 'cars'
-            ])->getSecurePath();
+            if ($uploadedFile) {
+                $uploadedImageUrl = Cloudinary::upload($uploadedFile->getRealPath(), [
+                    'folder' => 'cars'
+                ])->getSecurePath();
 
-            $data['image'] = $uploadedImageUrl;
+                $data['image'] = $uploadedImageUrl;
+            }
+        } else {
+            // إذا لم يتم إرسال صورة جديدة، يمكن أن تبقي على الصورة القديمة أو لا تعدلها
+            $data['image'] = $car->image;
         }
+
 
 
 
