@@ -81,7 +81,7 @@
           <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
           <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
           <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
-          
+
           <!-- زر تبديل اللغة (القائمة المنسدلة) -->
           <div class="relative inline-block text-left">
             <button type="button" id="language-menu-button" class="inline-flex justify-center items-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-expanded="false" aria-haspopup="true">
@@ -97,7 +97,7 @@
                 @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                   @if($localeCode != app()->getLocale())
                   <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
-                    <span class="flag-icon flag-icon-{{ $localeCode == 'ar' ? 'ma' : ($localeCode == 'en' ? 'us' : $localeCode) }} mr-2"></span> 
+                    <span class="flag-icon flag-icon-{{ $localeCode == 'ar' ? 'ma' : ($localeCode == 'en' ? 'us' : $localeCode) }} mr-2"></span>
                     {{ $properties['native'] }}
                   </a>
                   @endif

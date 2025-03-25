@@ -17,12 +17,12 @@
         </p>
 
         <nav class="footer-nav">
-          <a href="/about">{{ __('messages.footer_nav_about') }}</a>
-          <a href="/terms">{{ __('messages.footer_nav_terms') }}</a>
-          <a href="/contact/create">{{ __('messages.footer_nav_contact') }}</a>
-          <a href="/terms">{{ __('messages.footer_nav_privacy') }}</a>
-          <a href="/terms">{{ __('messages.footer_nav_general') }}</a>
-          <a href="/terms">{{ __('messages.footer_nav_payment') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}">{{ __('messages.footer_nav_about') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}"> {{ __('messages.footer_nav_terms') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}">{{ __('messages.footer_nav_contact') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}">{{ __('messages.footer_nav_privacy') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}"> {{ __('messages.footer_nav_general') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}"> {{ __('messages.footer_nav_payment') }}</a>
         </nav>
 
         <div class="footer-contact">

@@ -76,7 +76,7 @@
                         Reservation #{{ $reservation->id }}
                       </dt>
                       <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ $reservation->car_name }} - Total: ${{ number_format($reservation->total_price, 2) }}
+                        {{ $reservation->car_name }} - Total: €{{ number_format($reservation->total_price, 2) }}
                       </dd>
                     </div>
                   </div>
