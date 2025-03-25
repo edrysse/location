@@ -131,27 +131,23 @@
           <input type="number" step="0.01" name="price_20_days" id="price_20_days" value="{{ $car->price_20_days }}" required
                  class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-      <option value="" disabled selected>Select Location</option>
 
-      <select name="location" id="location" required>
-
-        class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <option value="" disabled selected>Select Location</option>
-
-    <option value="Marrakech (Agence)" {{ $car->pickup_location == 'Marrakech (Agence)' ? 'selected' : '' }}>Marrakech (Agence)</option>
-    <option value="Marrakech medina" {{ $car->pickup_location == 'Marrakech medina' ? 'selected' : '' }}>Marrakech medina</option>
-    <option value="Marrakech aéroport" {{ $car->pickup_location == 'Marrakech aéroport' ? 'selected' : '' }}>Marrakech aéroport</option>
-    <option value="Essaouira" {{ $car->pickup_location == 'Essaouira' ? 'selected' : '' }}>Essaouira</option>
-    <option value="Casablanca" {{ $car->pickup_location == 'Casablanca' ? 'selected' : '' }}>Casablanca</option>
-    <option value="Mohammedia" {{ $car->pickup_location == 'Mohammedia' ? 'selected' : '' }}>Mohammedia</option>
-    <option value="Agadir" {{ $car->pickup_location == 'Agadir' ? 'selected' : '' }}>Agadir</option>
-    <option value="Ouarzazate" {{ $car->pickup_location == 'Ouarzazate' ? 'selected' : '' }}>Ouarzazate</option>
-    <option value="Rabat" {{ $car->pickup_location == 'Rabat' ? 'selected' : '' }}>Rabat</option>
-    <option value="Tanger" {{ $car->pickup_location == 'Tanger' ? 'selected' : '' }}>Tanger</option>
-    <option value="Fès" {{ $car->pickup_location == 'Fès' ? 'selected' : '' }}>Fès</option>
+        <!-- location -->
+        <select name="pickup_location" id="pickup_location" required
+class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+<option value="" disabled selected>Select Location</option>
+<option value="Marrakech (Agence)" {{ $car->location == 'Marrakech (Agence)' ? 'selected' : '' }}>Marrakech (Agence)</option>
+<option value="Marrakech medina" {{ $car->location == 'Marrakech medina' ? 'selected' : '' }}>Marrakech medina</option>
+<option value="Marrakech aéroport" {{ $car->location == 'Marrakech aéroport' ? 'selected' : '' }}>Marrakech aéroport</option>
+<option value="Essaouira" {{ $car->location == 'Essaouira' ? 'selected' : '' }}>Essaouira</option>
+<option value="Casablanca" {{ $car->location == 'Casablanca' ? 'selected' : '' }}>Casablanca</option>
+<option value="Mohammedia" {{ $car->location == 'Mohammedia' ? 'selected' : '' }}>Mohammedia</option>
+<option value="Agadir" {{ $car->location == 'Agadir' ? 'selected' : '' }}>Agadir</option>
+<option value="Ouarzazate" {{ $car->location == 'Ouarzazate' ? 'selected' : '' }}>Ouarzazate</option>
+<option value="Rabat" {{ $car->location == 'Rabat' ? 'selected' : '' }}>Rabat</option>
+<option value="Tanger" {{ $car->location == 'Tanger' ? 'selected' : '' }}>Tanger</option>
+<option value="Fès" {{ $car->location == 'Fès' ? 'selected' : '' }}>Fès</option>
 </select>
-
-
 
         <!-- Available -->
         <div class="flex-1">
