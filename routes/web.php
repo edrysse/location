@@ -167,11 +167,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::put('/reviews/{id}', [ReviewController::class, 'update'])->name('reviews.update');
         Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
         Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-    });
 
     // مسارات إضافية للتقييمات (قد تكون زائدة عن الحاجة إذا تم تعريفها سابقًا)
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
+    });
+
 
     /*
     |--------------------------------------------------------------------------

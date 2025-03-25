@@ -68,15 +68,23 @@ class ReviewController extends Controller
         if ($request->hasFile('avatar')) {
             // حذف الصورة القديمة من Cloudinary إن وجدت
             if ($review->avatar) {
-                Cloudinary::destroy($review->avatar);
+                // التحقق مما إذا كانت الصورة من Cloudinary
+                if (strpos($review->avatar, 'res.cloudinary.com') !== false) {
+                    Cloudinary::destroy(pathinfo(parse_url($review->avatar, PHP_URL_PATH), PATHINFO_FILENAME));
+                } else {
+                    // حذف الصورة من التخزين المحلي إذا لم تكن من Cloudinary
+                    Storage::delete($review->avatar);
+                }
             }
 
+            // رفع الصورة الجديدة إلى Cloudinary
             $uploadedFile = $request->file('avatar');
             $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
                 'folder' => 'reviews_avatars'
             ]);
             $avatarPath = $uploadedImage->getSecurePath();
         }
+
 
         $review->update([
             'name' => $request->name,
