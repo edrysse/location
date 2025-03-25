@@ -20,6 +20,6 @@ return [
         ],
     ],
 
-    'useAcceptLanguageHeader' => true,
+    'useAcceptLanguageHeader' => false,
     'hideDefaultLocaleInURL' => false,
 ];
