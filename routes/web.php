@@ -13,16 +13,11 @@ use Spatie\Sitemap\Tags\Url;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::get('/', function () {
-    $locale = session('applocale', 'en'); // افتراضيًا إلى "en" إذا لم تكن هناك لغة
-    return redirect(LaravelLocalization::getLocalizedURL($locale));
-});
-
-// ✅ مسار تغيير اللغة مع حفظها في الجلسة
-Route::get('lang/{locale}', function ($locale) {
-    if (in_array($locale, ['en', 'ar', 'fr'])) {
-        session(['applocale' => $locale]);
+    if (!Session::has('applocale')) {
+        Session::put('applocale', 'en');
+        return redirect(LaravelLocalization::getLocalizedURL('en'));
     }
-    return redirect()->back();
+    return redirect(LaravelLocalization::getLocalizedURL(Session::get('applocale')));
 });
 
 Route::get('/test', function () {

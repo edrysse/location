@@ -16,11 +16,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if (env('APP_ENV') === 'production') {
-            URL::forceScheme('https'); // ✅ فرض HTTPS في الإنتاج
+            URL::forceScheme('https'); // ✅ فرض HTTPS في بيئة الإنتاج
         }
 
-        Schema::defaultStringLength(191); // تجنب مشاكل قواعد البيانات
+        Schema::defaultStringLength(191); // ✅ تجنب مشاكل قواعد البيانات
 
-        App::setLocale(LaravelLocalization::setLocale());
+        // ✅ ضبط اللغة تلقائيًا في الجلسة إذا لم يتم تعيينها مسبقًا
+        if (!session()->has('applocale')) {
+            session()->put('applocale', 'en');
+        }
+
+        App::setLocale(session('applocale')); // ✅ ضبط اللغة من الجلسة
     }
+
 }
