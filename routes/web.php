@@ -201,8 +201,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
     // مسارات إضافية للتقييمات (قد تكون زائدة عن الحاجة إذا تم تعريفها سابقًا)
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
+
     });
 
 

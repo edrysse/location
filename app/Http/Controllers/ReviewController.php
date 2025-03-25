@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use Illuminate\Support\Facades\Storage;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ReviewController extends Controller
 {
@@ -34,29 +33,13 @@ class ReviewController extends Controller
 
         $avatarPath = null; // تحديد القيمة الافتراضية
 
+      
         if ($request->hasFile('avatar')) {
-            $uploadedFile = $request->file('avatar');
-
-            // التحقق من أن الملف صالح
-            if ($uploadedFile->isValid()) {
-                // رفع الصورة إلى Cloudinary
-                $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
-                    'folder' => 'reviews_avatars'
-                ]);
-
-                // الحصول على الرابط الأمن للصورة
-                $avatarPath = $uploadedImage->getSecurePath();
-
-                // يمكنك الآن تخزين الرابط في قاعدة البيانات أو استخدامه
-                // مثال:
-                // $review->avatar = $avatarPath;
-                // $review->save();
-            } else {
-                // التعامل مع الخطأ في حالة أن الصورة غير صالحة
-                return response()->json(['error' => 'Invalid image file.'], 400);
-            }
+            $avatarPath = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+            $request->file('avatar')->move(public_path('uploads/avataras'), $avatarPath);
+            $data['avatar'] = 'uploads/avatars/' . $avatarPath;
         }
-
+     
         Review::create([
             'name' => $request->name,
             'position' => $request->position,
@@ -79,41 +62,17 @@ class ReviewController extends Controller
         ]);
 
         $avatarPath = $review->avatar; // استخدم الصورة الحالية إذا لم يتم رفع صورة جديدة
+
+    
         if ($request->hasFile('avatar')) {
-            // حذف الصورة القديمة من Cloudinary إن وجدت
-            if ($review->avatar) {
-                // التحقق مما إذا كانت الصورة من Cloudinary
-                if (strpos($review->avatar, 'res.cloudinary.com') !== false) {
-                    // استخراج اسم الصورة من URL وحذفها من Cloudinary
-                    Cloudinary::destroy(pathinfo(parse_url($review->avatar, PHP_URL_PATH), PATHINFO_FILENAME));
-                } else {
-                    // حذف الصورة من التخزين المحلي إذا لم تكن من Cloudinary
-                    Storage::delete($review->avatar);
-                }
+            if ($review->avatar && file_exists(public_path($review->avatar))) {
+                unlink(public_path($review->avatar));
             }
-
-            // رفع الصورة الجديدة إلى Cloudinary
-            $uploadedFile = $request->file('avatar');
-
-            if ($uploadedFile && $uploadedFile->isValid()) {  // تأكد من أن الملف صالح
-                // رفع الصورة الجديدة إلى Cloudinary
-                $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
-                    'folder' => 'reviews_avatars'  // تحديد مجلد رفع الصورة في Cloudinary
-                ]);
-
-                // تخزين الرابط الأمن للصورة
-                $avatarPath = $uploadedImage->getSecurePath();
-
-                // حفظ الرابط الجديد في قاعدة البيانات أو أي مكان آخر
-                $review->avatar = $avatarPath;
-                $review->save();
-            } else {
-                // إذا كانت الصورة غير صالحة، يمكنك إضافة منطق لمعالجة هذه الحالة، مثل عرض رسالة خطأ.
-                // مثال:
-                // return response()->json(['error' => 'Invalid image file.'], 400);
-            }
+            
+            $avatarPath = time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('avatar')->move(public_path('uploads/avatars'), $avatarPath);
+            $data['avatar'] = 'uploads/avatars/' . $avatarPath;
         }
-
 
 
         $review->update([
