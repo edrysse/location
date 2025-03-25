@@ -25,7 +25,7 @@
                             <x-nav-link :href="route('contact.index')" :active="request()->routeIs('contact.index')">Contacts</x-nav-link>
                         </li>
                         <li>
-                            <x-nav-link :href="route('reviews.index')" :active="request()->routeIs('reviews.index')">Reviews</x-nav-link>
+                            <x-nav-link :href="route('admin.reviews.index')" :active="request()->routeIs('admin.reviews.index')">Reviews</x-nav-link>
                         </li>
                         @can('viewAdminPages')
                         <li>
@@ -82,7 +82,7 @@
             <a href="{{ route('cars.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Cars</a>
             <a href="{{ route('reservations.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Reservations</a>
             <a href="{{ route('contact.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Contacts</a>
-            <a href="{{ route('reviews.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Reviews</a>
+            <a href="{{ route('admin.reviews.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Reviews</a>
             @can('viewAdminPages')
             <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Admin Dashboard</a>
             <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Manage Users</a>
