@@ -16,12 +16,18 @@ class Language
      */
     public function handle($request, Closure $next)
     {
-        // قراءة قيمة اللغة من الجلسة، وإذا لم تكن موجودة، استخدام اللغة الافتراضية من ملف config/app.php
-        $locale = session('applocale', config('app.locale'));
-        
+        // إذا كانت الجلسة لا تحتوي على 'applocale'، تعيينها إلى اللغة الافتراضية
+        if (!session()->has('applocale')) {
+            session()->put('applocale', 'en');
+        }
+
+        // قراءة قيمة اللغة من الجلسة
+        $locale = session('applocale');
+
         // تعيين لغة التطبيق
         App::setLocale($locale);
 
         return $next($request);
     }
+
 }
