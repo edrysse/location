@@ -36,10 +36,25 @@ class ReviewController extends Controller
 
         if ($request->hasFile('avatar')) {
             $uploadedFile = $request->file('avatar');
-            $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
-                'folder' => 'reviews_avatars'
-            ]);
-            $avatarPath = $uploadedImage->getSecurePath(); // الحصول على الرابط المباشر للصورة
+
+            // التحقق من أن الملف صالح
+            if ($uploadedFile->isValid()) {
+                // رفع الصورة إلى Cloudinary
+                $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
+                    'folder' => 'reviews_avatars'
+                ]);
+
+                // الحصول على الرابط الأمن للصورة
+                $avatarPath = $uploadedImage->getSecurePath();
+
+                // يمكنك الآن تخزين الرابط في قاعدة البيانات أو استخدامه
+                // مثال:
+                // $review->avatar = $avatarPath;
+                // $review->save();
+            } else {
+                // التعامل مع الخطأ في حالة أن الصورة غير صالحة
+                return response()->json(['error' => 'Invalid image file.'], 400);
+            }
         }
 
         Review::create([
@@ -80,7 +95,7 @@ class ReviewController extends Controller
             // رفع الصورة الجديدة إلى Cloudinary
             $uploadedFile = $request->file('avatar');
 
-            if ($uploadedFile) {
+            if ($uploadedFile && $uploadedFile->isValid()) {  // تأكد من أن الملف صالح
                 // رفع الصورة الجديدة إلى Cloudinary
                 $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
                     'folder' => 'reviews_avatars'  // تحديد مجلد رفع الصورة في Cloudinary
@@ -92,8 +107,13 @@ class ReviewController extends Controller
                 // حفظ الرابط الجديد في قاعدة البيانات أو أي مكان آخر
                 $review->avatar = $avatarPath;
                 $review->save();
+            } else {
+                // إذا كانت الصورة غير صالحة، يمكنك إضافة منطق لمعالجة هذه الحالة، مثل عرض رسالة خطأ.
+                // مثال:
+                // return response()->json(['error' => 'Invalid image file.'], 400);
             }
         }
+
 
 
         $review->update([

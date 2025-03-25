@@ -13,7 +13,39 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Illuminate\Support\Facades\Session;
+use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Configuration\Configuration;
 
+Route::get('/test-cloudinary', function () {
+    try {
+        // تأكد من تكوين Cloudinary بشكل صحيح
+        $cloudinaryConfig = config('services.cloudinary');
+
+        Configuration::instance([
+            'cloud' => [
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_key'    => env('CLOUDINARY_API_KEY'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
+            ],
+            'url' => [
+                'secure' => true
+            ]
+        ]);
+
+        // رفع صورة باستخدام رابط صحيح (رابط صورة تجريبي من حساب demo الخاص بـ Cloudinary)
+        $response = (new UploadApi())->upload('https://res.cloudinary.com/demo/image/upload/sample.jpg');
+
+        return response()->json([
+            'message'  => 'تم الاتصال بكلاوديناري بنجاح!',
+            'response' => $response
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error'   => 'فشل الاتصال بكلاوديناري!',
+            'message' => $e->getMessage()
+        ]);
+    }
+});
 /*
 |--------------------------------------------------------------------------
 | Redirect and Test Routes

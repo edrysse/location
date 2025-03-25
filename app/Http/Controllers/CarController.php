@@ -7,8 +7,6 @@ use App\Models\CarSeasonPrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-
 
 class CarController extends Controller
 {
@@ -126,15 +124,11 @@ class CarController extends Controller
         $data = $request->all();
         $data['location'] = $data['pickup_location'];
                 // تحويل حقل الموقع من pickup_location إلى location للتخزين في قاعدة البيانات
-
-    if ($request->hasFile('image')) {
-        $uploadedFile = $request->file('image');
-        $uploadedImageUrl = Cloudinary::upload($uploadedFile->getRealPath(), [
-            'folder' => 'cars'
-        ])->getSecurePath();
-
-        $data['image'] = $uploadedImageUrl;
-    }
+                if ($request->hasFile('image')) {
+                    $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                    $request->file('image')->move(public_path('uploads/cars'), $imageName);
+                    $data['image'] = 'uploads/cars/' . $imageName;
+                }
 
 
 
@@ -203,25 +197,16 @@ class CarController extends Controller
         $data = $request->all();
         $data['location'] = $data['pickup_location'];
 
+     
         if ($request->hasFile('image')) {
-            // تحقق إذا كانت الصورة موجودة
-            $uploadedFile = $request->file('image');
-            if ($uploadedFile) {
-                // رفع الصورة الجديدة إلى Cloudinary
-                $uploadedImageUrl = Cloudinary::upload($uploadedFile->getRealPath(), [
-                    'folder' => 'cars'
-                ])->getSecurePath();
-
-                // تعيين الرابط الآمن للصورة الجديدة
-                $data['image'] = $uploadedImageUrl;
+            if ($car->image && file_exists(public_path($car->image))) {
+                unlink(public_path($car->image));
             }
-        } else {
-            // إذا لم يتم إرسال صورة جديدة، يمكن أن تبقي على الصورة القديمة
-            $data['image'] = $car->image;
+            
+            $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('uploads/cars'), $imageName);
+            $data['image'] = 'uploads/cars/' . $imageName;
         }
-
-
-
 
 
 
