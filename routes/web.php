@@ -17,6 +17,9 @@ Route::get('/', function () {
     dd(LaravelLocalization::getLocalizedURL('en'));
 });
 
+Route::get('/test', function () {
+    dd(LaravelLocalization::getLocalizedURL('en'));
+});
 
 //lang
 
