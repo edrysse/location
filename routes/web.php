@@ -11,12 +11,15 @@ use App\Http\Controllers\ContactController;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Illuminate\Support\Facades\Session;
+
 
 Route::get('/', function () {
     if (!Session::has('applocale')) {
-        Session::put('applocale', 'en');
+        Session::put('applocale', 'en'); // ✅ ضبط اللغة في الجلسة
         return redirect(LaravelLocalization::getLocalizedURL('en'));
     }
+
     return redirect(LaravelLocalization::getLocalizedURL(Session::get('applocale')));
 });
 
