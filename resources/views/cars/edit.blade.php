@@ -131,9 +131,13 @@
           <input type="number" step="0.01" name="price_20_days" id="price_20_days" value="{{ $car->price_20_days }}" required
                  class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-<select name="pickup_location" id="location" required
+      <option value="" disabled selected>Select Location</option>
+
+      <select name="location" id="location" required>
+
         class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <option value="" disabled>Select Location</option>
+    <option value="" disabled selected>Select Location</option>
+
     <option value="Marrakech (Agence)" {{ $car->pickup_location == 'Marrakech (Agence)' ? 'selected' : '' }}>Marrakech (Agence)</option>
     <option value="Marrakech medina" {{ $car->pickup_location == 'Marrakech medina' ? 'selected' : '' }}>Marrakech medina</option>
     <option value="Marrakech aéroport" {{ $car->pickup_location == 'Marrakech aéroport' ? 'selected' : '' }}>Marrakech aéroport</option>

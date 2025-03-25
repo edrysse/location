@@ -46,7 +46,7 @@ class ReviewController extends Controller
             'avatar' => $avatarPath,
         ]);
 
-        return redirect()->route('admin.reviews.index')->with('success', 'تم إضافة التقييم بنجاح!');
+        return redirect()->route('admin.reviews.index')->with('success', 'Rating added successfully!');
     }
 
     public function update(Request $request, $id)
@@ -80,7 +80,7 @@ class ReviewController extends Controller
             'avatar' => $avatarPath,
         ]);
 
-        return redirect()->route('admin.reviews.index')->with('success', 'تم تحديث التقييم بنجاح!');
+        return redirect()->route('admin.reviews.index')->with('success', 'Rating updated successfully!');
     }
 
 
@@ -91,7 +91,7 @@ class ReviewController extends Controller
         return view('admin.review.edit', compact('review'));
     }
 
-   
+
 
     // حذف التقييم
     public function destroy($id)
@@ -102,6 +102,6 @@ class ReviewController extends Controller
         }
         $review->delete();
 
-        return redirect()->route('admin.reviews.index')->with('success', 'تم حذف التقييم بنجاح!');
+        return redirect()->route('admin.reviews.index')->with('success', 'Rating deleted successfully!');
     }
 }

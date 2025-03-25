@@ -122,20 +122,20 @@ class CarController extends Controller
         ]);
 
         $data = $request->all();
-        // تحويل حقل الموقع من pickup_location إلى location للتخزين في قاعدة البيانات
         $data['location'] = $data['pickup_location'];
+                // تحويل حقل الموقع من pickup_location إلى location للتخزين في قاعدة البيانات
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
             $request->file('image')->move(public_path('cars'), $imageName);
             $data['image'] = 'cars/' . $imageName;
         }
-        
-        
+
+
 
         $car = new Car();
         $car->fill($data);
         $car->save();
-        
+
         if ($request->has('season_prices')) {
             foreach ($request->season_prices as $seasonPriceData) {
                 $car->seasonPrices()->create([
@@ -153,7 +153,7 @@ class CarController extends Controller
 
         return redirect()->route('cars.index')->with('success', 'Car created successfully.');
     }
-  
+
     // Show the details of a specific car
     public function show(Car $car)
     {
@@ -180,7 +180,7 @@ class CarController extends Controller
             'price_2_5_days'    => 'required|numeric|min:0',
             'price_6_10_days'   => 'required|numeric|min:0',
             'price_20_days'     => 'required|numeric|min:0',
-            'location'   => 'required|string|max:255',
+            'pickup_location'   => 'required|string|max:255',
             'available'         => 'required|boolean',
             'franchise_price'   => 'nullable|numeric|min:0',
             'full_tank_price'   => 'nullable|numeric|min:0',
@@ -195,17 +195,16 @@ class CarController extends Controller
         ]);
 
         $data = $request->all();
-     
-        if (isset($data['pickup_location'])) {
-            $data['location'] = $data['pickup_location'];
-        }
+        $data['location'] = $data['pickup_location'];
+
+      
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
             $request->file('image')->move(public_path('cars'), $imageName);
             $data['image'] = 'cars/' . $imageName;
         }
-        
-        
+
+
 
         $car->update($data);
 
