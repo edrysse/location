@@ -16,6 +16,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 Route::get('/', function () {
     return redirect('/en');
 });
+//lang
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
