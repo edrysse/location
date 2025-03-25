@@ -180,7 +180,7 @@ class CarController extends Controller
             'price_2_5_days'    => 'required|numeric|min:0',
             'price_6_10_days'   => 'required|numeric|min:0',
             'price_20_days'     => 'required|numeric|min:0',
-            'pickup_location'   => 'required|string|max:255',
+            'location'   => 'required|string|max:255',
             'available'         => 'required|boolean',
             'franchise_price'   => 'nullable|numeric|min:0',
             'full_tank_price'   => 'nullable|numeric|min:0',
@@ -195,8 +195,10 @@ class CarController extends Controller
         ]);
 
         $data = $request->all();
-        $data['location'] = $data['pickup_location'];
-
+     
+        if (isset($data['pickup_location'])) {
+            $data['location'] = $data['pickup_location'];
+        }
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
             $request->file('image')->move(public_path('cars'), $imageName);
