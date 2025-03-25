@@ -14,18 +14,17 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 // إعادة توجيه الجذر إلى اللغة الإنجليزية
 Route::get('/', function () {
-    dd(LaravelLocalization::getLocalizedURL('en'));
+    LaravelLocalization::getLocalizedURL('en');
 });
 
 Route::get('/test', function () {
-    dd(LaravelLocalization::getLocalizedURL('en'));
+    LaravelLocalization::getLocalizedURL('en');
 });
 
 //lang
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
-    Route::get('/', [Home1Controller::class, 'index'])->name('home');
     Route::get('/available-cars', [CarController::class, 'availableCars'])->name('available.cars');
 
     Route::get('/about', function () {
