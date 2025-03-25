@@ -79,13 +79,22 @@ class ReviewController extends Controller
 
             // رفع الصورة الجديدة إلى Cloudinary
             $uploadedFile = $request->file('avatar');
-            $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
-                'folder' => 'reviews_avatars'  // تحديد مجلد رفع الصورة في Cloudinary
-            ]);
 
-            // تخزين الرابط الأمن للصورة
-            $avatarPath = $uploadedImage->getSecurePath();
+            if ($uploadedFile) {
+                // رفع الصورة الجديدة إلى Cloudinary
+                $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
+                    'folder' => 'reviews_avatars'  // تحديد مجلد رفع الصورة في Cloudinary
+                ]);
+
+                // تخزين الرابط الأمن للصورة
+                $avatarPath = $uploadedImage->getSecurePath();
+
+                // حفظ الرابط الجديد في قاعدة البيانات أو أي مكان آخر
+                $review->avatar = $avatarPath;
+                $review->save();
+            }
         }
+
 
         $review->update([
             'name' => $request->name,
