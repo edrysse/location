@@ -45,7 +45,7 @@ class ReservationController extends Controller
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
         }
-        $reservations = Reservation::orderBy('created_at', 'desc')->paginate(10);
+        $reservations = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('reservations.index', compact(
             'reservations',
