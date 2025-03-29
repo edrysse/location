@@ -123,14 +123,23 @@ class CarController extends Controller
 
         $data = $request->all();
         $data['location'] = $data['pickup_location'];
-                // تحويل حقل الموقع من pickup_location إلى location للتخزين في قاعدة البيانات
-                if ($request->hasFile('image')) {
-                    $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
-                    $request->file('image')->move(public_path('uploads/cars'), $imageName);
-                    $data['image'] = 'uploads/cars/' . $imageName;
-                }
 
+        // Create uploads directory if it doesn't exist
+        $uploadPath = public_path('uploads/cars');
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            
+            // Move the image to the uploads directory
+            $image->move($uploadPath, $imageName);
+            
+            // Store the relative path in the database
+            $data['image'] = 'uploads/cars/' . $imageName;
+        }
 
         $car = new Car();
         $car->fill($data);
@@ -197,18 +206,30 @@ class CarController extends Controller
         $data = $request->all();
         $data['location'] = $data['pickup_location'];
 
-     
-        if ($request->hasFile('image')) {
-            if ($car->image && file_exists(public_path($car->image))) {
-                unlink(public_path($car->image));
-            }
-            
-            $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
-            $request->file('image')->move(public_path('uploads/cars'), $imageName);
-            $data['image'] = 'uploads/cars/' . $imageName;
+        // Create uploads directory if it doesn't exist
+        $uploadPath = public_path('uploads/cars');
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
         }
 
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($car->image) {
+                $oldImagePath = public_path($car->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
 
+            $image = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            
+            // Move the image to the uploads directory
+            $image->move($uploadPath, $imageName);
+            
+            // Store the relative path in the database
+            $data['image'] = 'uploads/cars/' . $imageName;
+        }
 
         $car->update($data);
 

@@ -33,19 +33,25 @@ class ReviewController extends Controller
 
         $data = $request->all();
 
-        // في حال كان لدينا حقل pickup_location للتحويل، يمكن إضافته
         if (isset($data['pickup_location'])) {
             $data['location'] = $data['pickup_location'];
         }
 
-        // منطق رفع الصورة مثل CarController
+        // Create uploads directory if it doesn't exist
+        $uploadPath = public_path('uploads/avatars');
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
+
         if ($request->hasFile('avatar')) {
-            $uploadedFile = $request->file('avatar');
-            if ($uploadedFile && $uploadedFile->isValid()) {
-                $avatarName = time() . '.' . $uploadedFile->getClientOriginalExtension();
-                $uploadedFile->move(public_path('uploads/avatars'), $avatarName);
-                $data['avatar'] = 'uploads/avatars/' . $avatarName;
-            }
+            $image = $request->file('avatar');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            
+            // Move the image to the uploads directory
+            $image->move($uploadPath, $imageName);
+            
+            // Store the relative path in the database
+            $data['avatar'] = 'uploads/avatars/' . $imageName;
         }
 
         Review::create([
@@ -83,31 +89,36 @@ class ReviewController extends Controller
             $data['location'] = $data['pickup_location'];
         }
 
-        // استخدام الصورة القديمة افتراضيًا
-        $avatarPath = $review->avatar;
+        // Create uploads directory if it doesn't exist
+        $uploadPath = public_path('uploads/avatars');
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
 
         if ($request->hasFile('avatar')) {
-            // حذف الصورة القديمة من التخزين المحلي إذا كانت موجودة
-            if ($review->avatar && file_exists(public_path($review->avatar))) {
-                unlink(public_path($review->avatar));
+            // Delete old image if exists
+            if ($review->avatar) {
+                $oldImagePath = public_path($review->avatar);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
-            $uploadedFile = $request->file('avatar');
-            if ($uploadedFile && $uploadedFile->isValid()) {
-                $avatarName = time() . '.' . $uploadedFile->getClientOriginalExtension();
-                $uploadedFile->move(public_path('uploads/avatars'), $avatarName);
-                $avatarPath = 'uploads/avatars/' . $avatarName;
-            }
-            $data['avatar'] = $avatarPath;
-        } else {
-            // إذا لم يتم رفع صورة جديدة، يبقى المسار القديم
-            $data['avatar'] = $avatarPath;
+
+            $image = $request->file('avatar');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            
+            // Move the image to the uploads directory
+            $image->move($uploadPath, $imageName);
+            
+            // Store the relative path in the database
+            $data['avatar'] = 'uploads/avatars/' . $imageName;
         }
 
         $review->update([
             'name'     => $data['name'],
             'position' => $data['position'],
             'comment'  => $data['comment'],
-            'avatar'   => $data['avatar'],
+            'avatar'   => $data['avatar'] ?? $review->avatar,
         ]);
 
         return redirect()->route('admin.reviews.index')->with('success', 'Rating updated successfully!');
