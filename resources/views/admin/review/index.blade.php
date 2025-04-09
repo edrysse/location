@@ -14,7 +14,7 @@
     @include('partials.up')
 
   <div class="container mx-auto mt-12 px-6 mb-16">
- 
+
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Reviews Management</h1>
         <!-- زر إضافة ريفيو -->
@@ -57,7 +57,7 @@
               <td class="px-4 py-4">{{ $review->position }}</td>
               <td class="px-4 py-4">{{ $review->comment }}</td>
               <td class="px-4 py-4 flex gap-2">
-                <a href="{{ route('admin.reviews.edit', $review->id) }}" class="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                <a href="{{ route('admin.reviews.edit', $review->id) }}" class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition duration-300">
                   <i class="fas fa-edit mr-1"></i> Edit
                 </a>
                 <form action="{{ route('admin.reviews.destroy', $review->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">

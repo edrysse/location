@@ -43,7 +43,7 @@
           <i class="fas fa-user mr-1"></i> Name
         </label>
         <input type="text" name="name" id="name" value="{{ $review->name }}" required
-               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
       </div>
 
       <!-- Position Field -->
@@ -52,7 +52,7 @@
           <i class="fas fa-briefcase mr-1"></i> Position
         </label>
         <input type="text" name="position" id="position" value="{{ $review->position }}" required
-               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
       </div>
 
       <!-- Comment Field -->
@@ -61,7 +61,7 @@
           <i class="fas fa-comment mr-1"></i> Comment
         </label>
         <textarea name="comment" id="comment" required
-                  class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">{{ $review->comment }}</textarea>
+                  class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">{{ $review->comment }}</textarea>
       </div>
 
       <!-- Avatar Field -->
@@ -70,7 +70,7 @@
           <i class="fas fa-image mr-1"></i> Avatar (Optional)
         </label>
         <input type="file" name="avatar" id="avatar"
-               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
         @if($review->avatar)
           <div class="mt-4 flex items-center space-x-4">
             <img src="{{ asset( $review->avatar) }}" alt="Avatar" class="w-24 h-24 object-cover rounded shadow">
@@ -82,7 +82,7 @@
       <!-- Action Buttons -->
       <div class="mt-8 flex justify-end gap-4">
         <button type="submit"
-                class="px-8 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                class="px-8 py-3 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all">
           <i class="fas fa-save mr-2"></i> Save Changes
         </button>
         <a href="{{ route('admin.reviews.index') }}"

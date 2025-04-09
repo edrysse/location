@@ -9,7 +9,7 @@
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+<body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
   @include('partials.loader')
   @include('partials.navbar')
   @include('partials.up')
@@ -31,28 +31,28 @@
           <p class="text-gray-600">{{ __('messages.contact_intro') }}</p>
           <div class="space-y-4">
             <div class="flex items-center">
-              <i class="fas fa-map-marker-alt text-blue-600 text-xl mr-4"></i>
+              <i class="fas fa-map-marker-alt text-red-600 text-xl mr-4"></i>
               <div>
                 <h3 class="text-xl font-medium text-gray-700">{{ __('messages.address_title') }}</h3>
                 <p class="text-gray-600">{{ __('messages.address_text') }}</p>
               </div>
             </div>
             <div class="flex items-center">
-              <i class="fas fa-phone-alt text-blue-600 text-xl mr-4"></i>
+              <i class="fas fa-phone-alt text-red-600 text-xl mr-4"></i>
               <div>
                 <h3 class="text-xl font-medium text-gray-700">{{ __('messages.phone_title') }}</h3>
                 <p class="text-gray-600">{{ __('messages.phone_text') }}</p>
               </div>
             </div>
             <div class="flex items-center">
-              <i class="fas fa-envelope text-blue-600 text-xl mr-4"></i>
+              <i class="fas fa-envelope text-red-600 text-xl mr-4"></i>
               <div>
                 <h3 class="text-xl font-medium text-gray-700">{{ __('messages.email_title') }}</h3>
                 <p class="text-gray-600">{{ __('messages.email_text') }}</p>
               </div>
             </div>
             <div class="flex items-center">
-              <i class="fas fa-globe text-blue-600 text-xl mr-4"></i>
+              <i class="fas fa-globe text-red-600 text-xl mr-4"></i>
               <div>
                 <h3 class="text-xl font-medium text-gray-700">{{ __('messages.website_title') }}</h3>
                 <p class="text-gray-600">{{ __('messages.website_text') }}</p>
@@ -69,34 +69,34 @@
               <label for="name" class="block text-gray-700 font-medium mb-2">
                 {{ __('messages.your_name') }} <span class="text-red-500">*</span>
               </label>
-              <input type="text" name="name" id="name" placeholder="{{ __('messages.name_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+              <input type="text" name="name" id="name" placeholder="{{ __('messages.name_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" required>
             </div>
             <div>
               <label for="email" class="block text-gray-700 font-medium mb-2">
                 {{ __('messages.your_email') }} <span class="text-red-500">*</span>
               </label>
-              <input type="email" name="email" id="email" placeholder="{{ __('messages.email_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+              <input type="email" name="email" id="email" placeholder="{{ __('messages.email_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" required>
             </div>
             <div>
               <label for="phone" class="block text-gray-700 font-medium mb-2">
                 {{ __('messages.your_phone') }} <span class="text-red-500">*</span>
               </label>
-              <input type="text" name="phone" id="phone" placeholder="{{ __('messages.phone_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+              <input type="text" name="phone" id="phone" placeholder="{{ __('messages.phone_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" required>
             </div>
             <div>
               <label for="subject" class="block text-gray-700 font-medium mb-2">
                 {{ __('messages.subject') }} <span class="text-red-500">*</span>
               </label>
-              <input type="text" name="subject" id="subject" placeholder="{{ __('messages.subject_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+              <input type="text" name="subject" id="subject" placeholder="{{ __('messages.subject_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" required>
             </div>
             <div>
               <label for="message" class="block text-gray-700 font-medium mb-2">
                 {{ __('messages.your_message') }} <span class="text-red-500">*</span>
               </label>
-              <textarea name="message" id="message" rows="5" placeholder="{{ __('messages.message_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+              <textarea name="message" id="message" rows="5" placeholder="{{ __('messages.message_placeholder') }}" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" required></textarea>
             </div>
             <div class="text-center">
-              <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition duration-300">
+              <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition duration-300">
                 <i class="fas fa-paper-plane mr-2"></i>{{ __('messages.send') }}
               </button>
             </div>

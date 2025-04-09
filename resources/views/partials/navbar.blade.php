@@ -65,7 +65,7 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+<body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
   <!-- Navbar -->
   <nav class="bg-white shadow-lg sticky top-0 z-50">
     <div class="max-w-screen-xl mx-auto px-4">
@@ -76,11 +76,11 @@
         </a>
         <!-- قائمة التنقل الرئيسية للشاشات المكتبية -->
         <div class="hidden md:flex space-x-6 items-center">
-          <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
 
           <!-- زر تبديل اللغة (القائمة المنسدلة) -->
           <div class="relative inline-block text-left">
@@ -130,7 +130,7 @@
             </div>
           </div>
           <!-- زر القائمة الرئيسية للجوال -->
-          <button id="mobile-menu-button" class="text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-600">
+          <button id="mobile-menu-button" class="text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-600">
             <i class="fas fa-bars fa-2x"></i>
           </button>
         </div>
@@ -139,11 +139,11 @@
     <!-- قائمة الجوال -->
     <div id="mobile-menu" class="md:hidden hidden">
       <div class="px-4 pt-2 pb-4 space-y-2 bg-white shadow-lg">
-        <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
         @auth
           <a href="{{ LaravelLocalization::localizeURL(route('dashboard')) }}" class="block text-gray-800 hover:text-green-600 font-medium transition duration-300">{{ __('messages.dashboard') }}</a>
         @endauth
@@ -152,7 +152,7 @@
           <p class="text-gray-600 text-sm mb-2">{{ __('messages.language') }}</p>
           @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
             @if($localeCode != app()->getLocale())
-            <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" class="block text-gray-800 hover:text-blue-600 font-medium transition duration-300">{{ $properties['native'] }}</a>
+            <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ $properties['native'] }}</a>
             @endif
           @endforeach
         </div>

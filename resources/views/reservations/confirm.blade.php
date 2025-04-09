@@ -66,25 +66,25 @@
                 <!-- Name -->
                 <div class="form-group mb-4">
                     <label for="name" class="text-lg font-medium text-gray-700">Your Name *</label>
-                    <input type="text" name="name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                    <input type="text" name="name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500" required>
                 </div>
 
                 <!-- Email -->
                 <div class="form-group mb-4">
                     <label for="email" class="text-lg font-medium text-gray-700">Your Email *</label>
-                    <input type="email" name="email" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                    <input type="email" name="email" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500" required>
                 </div>
 
                 <!-- Phone -->
                 <div class="form-group mb-4">
                     <label for="phone" class="text-lg font-medium text-gray-700">Your Phone *</label>
-                    <input type="text" name="phone" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                    <input type="text" name="phone" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500" required>
                 </div>
 
                 <!-- Flight Number -->
                 <div class="form-group mb-4">
                     <label for="flight_number" class="text-lg font-medium text-gray-700">Flight Number</label>
-                    <input type="text" name="flight_number" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                    <input type="text" name="flight_number" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500">
                 </div>
 
                 <!-- Age Confirmation -->
@@ -96,14 +96,14 @@
                 <!-- Payment Method -->
                 <div class="form-group mb-6">
                     <label for="payment_method" class="text-lg font-medium text-gray-700">Choose Payment Method</label>
-                    <select name="payment_method" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+                    <select name="payment_method" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500" required>
                         <option value="cash_on_delivery">Cash</option>
                         <option value="online">Credit Card (+3%)</option>
                     </select>
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full py-3 bg-blue-600 text-white text-lg font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" class="w-full py-3 bg-red-600 text-white text-lg font-medium rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
                     Reserve
                 </button>
             </div>

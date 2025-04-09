@@ -64,7 +64,7 @@
             <td class="px-4 py-3">
               <span class="message-preview">{{ \Illuminate\Support\Str::limit($contact->message, 100) }}</span>
               @if(strlen($contact->message) > 100)
-                <button id="read-more-{{ $contact->id }}" class="read-more text-blue-500" onclick="toggleMessage({{ $contact->id }});">
+                <button id="read-more-{{ $contact->id }}" class="read-more text-red-500" onclick="toggleMessage({{ $contact->id }});">
                   <i class="fas fa-arrow-down"></i> Read More
                 </button>
                 <div id="full-message-{{ $contact->id }}" class="full-message">{{ $contact->message }}</div>
@@ -73,7 +73,7 @@
             <td class="px-4 py-3">{{ $contact->created_at->format('Y-m-d') }}</td>
             <td class="px-4 py-3 flex gap-2">
               <!-- Show Button -->
-              <a href="{{ route('contact.show', $contact->id) }}" class="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-300">
+              <a href="{{ route('contact.show', $contact->id) }}" class="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 transition duration-300">
                 <i class="fas fa-eye"></i>
               </a>
               <!-- Edit Button -->

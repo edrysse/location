@@ -45,7 +45,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+<body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
     @include('partials.loader')
     @include('partials.navbar')
     @include('partials.up')
@@ -70,10 +70,10 @@
             {{ $car->name }}
           </h2>
           <ul class="space-y-2 text-gray-600">
-            <li><i class="fa-solid fa-gas-pump text-blue-500 mr-2"></i><span class="font-semibold">{{ __('messages.fuel_details') }}:</span> {{ $car->fuel }}</li>
+            <li><i class="fa-solid fa-gas-pump text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.fuel_details') }}:</span> {{ $car->fuel }}</li>
             <li><i class="fa-solid fa-chair text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.seats_details') }}:</span> {{ $car->seats }}</li>
             <li><i class="fa-solid fa-suitcase-rolling text-purple-500 mr-2"></i><span class="font-semibold">{{ __('messages.luggage_details') }}:</span> {{ $car->luggage }}</li>
-            <li><i class="fa-solid fa-snowflake text-blue-400 mr-2"></i><span class="font-semibold">{{ __('messages.ac_details') }}:</span> {{ $car->ac ? __('messages.yes') : __('messages.no') }}</li>
+            <li><i class="fa-solid fa-snowflake text-red-400 mr-2"></i><span class="font-semibold">{{ __('messages.ac_details') }}:</span> {{ $car->ac ? __('messages.yes') : __('messages.no') }}</li>
             <li><i class="fa-solid fa-gear text-gray-500 mr-2"></i><span class="font-semibold">{{ __('messages.transmission_details') }}:</span> {{ $car->transmission }}</li>
             <li><i class="fa-solid fa-map-marker-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.location_details') }}:</span> {{ $car->location }}</li>
             <li><i class="fa-solid fa-dollar-sign text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_day') }}:</span> €{{ number_format($car->price, 2) }}</li>
@@ -107,7 +107,7 @@
       @if($car->seasonPrices && $car->seasonPrices->count())
       <div class="mt-8">
         <h3 class="text-2xl font-semibold text-gray-800 mb-4">
-          <i class="fa-solid fa-calendar-alt text-blue-500 mr-2"></i>{{ __('messages.season_prices') }}
+          <i class="fa-solid fa-calendar-alt text-red-500 mr-2"></i>{{ __('messages.season_prices') }}
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           @foreach($car->seasonPrices as $season)
@@ -143,7 +143,7 @@
       <!-- أزرار الإجراءات -->
       <div class="mt-8 flex justify-between">
         <!-- زر الحجز -->
-        <button id="openBookingModal" data-location="{{ $car->location }}" class="block bg-blue-600 hover:bg-blue-700 transition-colors text-white py-2 px-4 rounded-lg">
+        <button id="openBookingModal" data-location="{{ $car->location }}" class="block bg-red-600 hover:bg-red-700 transition-colors text-white py-2 px-4 rounded-lg">
             {{ __('messages.book_now') }}
         </button>
 
@@ -159,7 +159,7 @@
   <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
-              <div class="modal-header bg-blue-600 text-white">
+              <div class="modal-header bg-red-600 text-white">
                   <h5 class="modal-title" id="reservationModalLabel">
                       <i class="fas fa-calendar-check mr-2"></i>
                       {{ __('messages.reservation_details') }}
@@ -176,19 +176,12 @@
                               <i class="fas fa-map-marker-alt mr-1"></i>
                               {{ __('messages.pickup_location') }}
                           </label>
-                          <select name="pickup_location" id="modal_pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
+                          <select name="pickup_location" id="modal_pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
                               <option value="" disabled selected>{{ __('messages.select_pickup_location') }}</option>
                               <option value="Marrakech (Agence)">Marrakech (Agence)</option>
                               <option value="Marrakech medina">Marrakech medina</option>
                               <option value="Marrakech aéroport">Marrakech aéroport</option>
-                              <option value="Essaouira">Essaouira</option>
-                              <option value="Casablanca">Casablanca</option>
-                              <option value="Mohammedia">Mohammedia</option>
-                              <option value="Agadir">Agadir</option>
-                              <option value="Ouarzazate">Ouarzazate</option>
-                              <option value="Rabat">Rabat</option>
-                              <option value="Tanger">Tanger</option>
-                              <option value="Fès">Fès</option>
+
                           </select>
                       </div>
                       <!-- Drop-off Location -->
@@ -197,19 +190,12 @@
                               <i class="fas fa-map-marker-alt mr-1"></i>
                               {{ __('messages.dropoff_location') }}
                           </label>
-                          <select name="dropoff_location" id="modal_dropoff_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
+                          <select name="dropoff_location" id="modal_dropoff_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
                               <option value="" disabled selected>{{ __('messages.select_dropoff_location') }}</option>
                               <option value="Marrakech (Agence)">Marrakech (Agence)</option>
                               <option value="Marrakech medina">Marrakech medina</option>
                               <option value="Marrakech aéroport">Marrakech aéroport</option>
-                              <option value="Essaouira">Essaouira</option>
-                              <option value="Casablanca">Casablanca</option>
-                              <option value="Mohammedia">Mohammedia</option>
-                              <option value="Agadir">Agadir</option>
-                              <option value="Ouarzazate">Ouarzazate</option>
-                              <option value="Rabat">Rabat</option>
-                              <option value="Tanger">Tanger</option>
-                              <option value="Fès">Fès</option>
+                
                           </select>
                       </div>
                       <!-- Pickup Date -->
@@ -218,7 +204,7 @@
                               <i class="fas fa-calendar-alt mr-1"></i>
                               {{ __('messages.pickup_date') }}
                           </label>
-                          <input type="datetime-local" id="modal_pickup_date" name="pickup_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
+                          <input type="datetime-local" id="modal_pickup_date" name="pickup_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
                       </div>
                       <!-- Return Date -->
                       <div>
@@ -226,9 +212,9 @@
                               <i class="fas fa-calendar-alt mr-1"></i>
                               {{ __('messages.return_date') }}
                           </label>
-                          <input type="datetime-local" id="modal_return_date" name="return_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
+                          <input type="datetime-local" id="modal_return_date" name="return_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
                       </div>
-                      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+                      <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition duration-200">
                           <i class="fas fa-check mr-2"></i>
                           {{ __('messages.confirm_reservation') }}
                       </button>

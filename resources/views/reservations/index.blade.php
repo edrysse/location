@@ -26,7 +26,7 @@
         <!-- Total Reservations -->
         <div class="bg-white shadow rounded-lg p-6">
           <div class="flex items-center">
-            <div class="bg-blue-500 rounded-full p-3">
+            <div class="bg-red-500 rounded-full p-3">
               <i class="fas fa-calendar-check text-white text-2xl"></i>
             </div>
             <div class="ml-4">
@@ -63,7 +63,7 @@
         <div class="text-center">
           <label for="month" class="block text-gray-700 font-medium mb-2">Select Month</label>
           <input type="month" name="month" id="month" class="border rounded-lg px-3 py-2 w-full mb-2" value="{{ request('month', date('Y-m')) }}">
-          <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+          <button type="submit" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-200">
             <i class="fas fa-search mr-2"></i>
             View Data
           </button>
@@ -96,7 +96,7 @@
           </div>
         </div>
         <div class="mt-4 text-right">
-          <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+          <button type="submit" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-200">
             <i class="fas fa-filter mr-2"></i>
             Apply Filters
           </button>
@@ -152,7 +152,7 @@
               <td class="py-2 px-4 border-b">{{ $reservation->franchise ? 'Yes' : 'No' }}</td>
               <td class="py-2 px-4 border-b">€{{ number_format($reservation->total_price, 2) }}</td>
               <td class="py-2 px-4 border-b text-center">
-                <a href="{{ route('reservations.edit', $reservation->id) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
+                <a href="{{ route('reservations.edit', $reservation->id) }}" class="text-yellow-500 hover:text-yellow-700">Edit</a>
                 <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" class="inline-block ml-2">
                   @csrf
                   @method('DELETE')

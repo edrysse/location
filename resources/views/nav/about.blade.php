@@ -10,7 +10,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+<body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
     @include('partials.loader')
     @include('partials.navbar')
     @include('partials.up')
@@ -82,7 +82,7 @@
           {{ __('messages.book_your_car_text') }}
         </p>
         <div class="mt-6">
-          <a href="/available-cars" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition duration-200">
+          <a href="/available-cars" class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition duration-200">
             {{ __('messages.book_now') }}
           </a>
         </div>
@@ -91,7 +91,7 @@
   </section>
 
   <!-- Who We Are Section -->
-  <section class="container mx-auto my-12 px-4 bg-blue-50 py-8 rounded-lg shadow-lg">
+  <section class="container mx-auto my-12 px-4 bg-red-50 py-8 rounded-lg shadow-lg">
     <div class="flex flex-col md:flex-row items-center gap-8">
       <!-- المحتوى النصي -->
       <div class="md:w-1/2 text-center md:text-left">
@@ -116,17 +116,17 @@
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-        <i class="fas fa-handshake text-blue-600 text-4xl mb-4"></i>
+        <i class="fas fa-handshake text-red-600 text-4xl mb-4"></i>
         <h3 class="text-xl font-semibold mb-2">{{ __('messages.value_trust_title') }}</h3>
         <p class="text-gray-600">{{ __('messages.value_trust_text') }}</p>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-        <i class="fas fa-car text-blue-600 text-4xl mb-4"></i>
+        <i class="fas fa-car text-red-600 text-4xl mb-4"></i>
         <h3 class="text-xl font-semibold mb-2">{{ __('messages.value_quality_title') }}</h3>
         <p class="text-gray-600">{{ __('messages.value_quality_text') }}</p>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-        <i class="fas fa-star text-blue-600 text-4xl mb-4"></i>
+        <i class="fas fa-star text-red-600 text-4xl mb-4"></i>
         <h3 class="text-xl font-semibold mb-2">{{ __('messages.value_customer_title') }}</h3>
         <p class="text-gray-600">{{ __('messages.value_customer_text') }}</p>
       </div>
@@ -142,7 +142,7 @@
       {{ __('messages.get_in_touch_text') }}
     </p>
     <div class="mt-6">
-      <a href="/contact/create" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-200">
+      <a href="/contact/create" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-200">
         {{ __('messages.contact_us') }}
       </a>
     </div>

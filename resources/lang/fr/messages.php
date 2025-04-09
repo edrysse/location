@@ -369,4 +369,27 @@ return [
     'terms_conditions'  => 'Conditions générales',
     'dashboard'         => 'Tableau de bord',
     'language'          => 'Langue',
+    'faqs' => 'FAQ',
+'faqs_description' => 'Questions fréquentes sur la location de voitures',
+'faq_question_1' => 'Quels documents fournir pour récupérer la voiture ?',
+'faq_answer_1' => 'Apporter : <br>- Pièce d\'identité valide <br>- Permis de conduire valide pour tous les conducteurs',
+'faq_question_2' => 'Quel âge minimum pour louer ?',
+'faq_answer_2' => '21 ans minimum avec 1 an de permis. Les moins de 23 ans doivent souscrire l\'assurance jeune conducteur',
+'faq_question_3' => 'Quelle politique de kilométrage ?',
+'faq_answer_3' => 'Deux options : 400 km/jour limité ou kilométrage illimité selon la formule choisie',
+'faq_question_4' => 'Quel est le dépôt de garantie ?',
+'faq_answer_4' => 'Blocage de 10% de la valeur du véhicule sur carte bancaire pendant la location',
+'faq_question_5' => 'État des routes au Maroc ?',
+'faq_answer_5' => 'Autoroutes et grandes villes bien entretenues, préférer 4x4 pour les zones reculées',
+'faq_question_6' => 'Limites de vitesse ?',
+'faq_answer_6' => '60 km/h en ville, 90-100 sur routes normales, 120 sur autoroutes',
+
+'confirmation_title' => 'Réservation Confirmée',
+'success_message'    => 'Votre réservation a été confirmée !',
+'wa_instruction'     => 'Veuillez vérifier WhatsApp pour confirmer les détails de la réservation. Si WhatsApp ne s\'ouvre pas automatiquement, cliquez sur le bouton ci-dessous.',
+'open_whatsapp'      => 'Ouvrir WhatsApp',
+'redirect_info'      => 'Vous serez redirigé sous peu si la nouvelle fenêtre ne s\'ouvre pas.',
+
+'confirm_booking_message' => "Bonjour,\nJe souhaite confirmer ma réservation de voiture. Détails:\nVéhicule: :car\nLieu de prise en charge: :pickup\nLieu de dépose: :dropoff\nDate de prise en charge: :pickup_date\nDate de retour: :return_date\nVeuillez confirmer la réservation.",
+
 ];

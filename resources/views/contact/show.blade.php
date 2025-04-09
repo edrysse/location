@@ -29,7 +29,7 @@
         <p><strong>Submitted At:</strong> {{ $contact->created_at->format('Y-m-d H:i') }}</p>
       </div>
       <div class="mt-6">
-        <a href="{{ route('contact.index') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300">
+        <a href="{{ route('contact.index') }}" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300">
           <i class="fas fa-arrow-left mr-2"></i> Back to Contacts
         </a>
       </div>

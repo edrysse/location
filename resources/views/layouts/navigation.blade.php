@@ -50,7 +50,7 @@
                         class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-xl z-50">
                         <ul class="py-2">
                             <li>
-                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-600 hover:text-white transition rounded-md">Profile</a>
+                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-gray-800 hover:bg-red-600 hover:text-white transition rounded-md">Profile</a>
                             </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
@@ -77,17 +77,17 @@
     <!-- Mobile Menu -->
     <div x-show="open" class="sm:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Dashboard</a>
-            <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Home</a>
-            <a href="{{ route('cars.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Cars</a>
-            <a href="{{ route('reservations.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Reservations</a>
-            <a href="{{ route('contact.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Contacts</a>
-            <a href="{{ route('admin.reviews.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-blue-500 transition">Reviews</a>
+            <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Dashboard</a>
+            <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Home</a>
+            <a href="{{ route('cars.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Cars</a>
+            <a href="{{ route('reservations.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Reservations</a>
+            <a href="{{ route('contact.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Contacts</a>
+            <a href="{{ route('admin.reviews.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Reviews</a>
             @can('viewAdminPages')
             <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Admin Dashboard</a>
             <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Manage Users</a>
             @endcan
-            
+
             <!-- Profile and Logout Links in Mobile Menu -->
             <div class=""> <!-- لضبط الزر في أقصى اليمين -->
                 <button @click="dropdownOpen = !dropdownOpen" class="block w-full max-w-xs text-left px-3 py-2 rounded-md text-base font-medium text-white bg-gray-800 hover:text-black hover:bg-gray-600 transition">
@@ -99,7 +99,7 @@
                 </button>
             </div>
             <div x-show="dropdownOpen" x-cloak @click.away="dropdownOpen = false" x-transition class="bg-gray-700 py-2 rounded-md">
-                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-white hover:bg-blue-500">Profile</a>
+                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-white hover:bg-red-500">Profile</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="w-full text-left px-4 py-2 text-white hover:bg-red-500">Log Out</button>

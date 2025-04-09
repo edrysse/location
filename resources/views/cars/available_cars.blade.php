@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <!-- Meta Tags -->
     <meta name="description" content="{{ __('messages.description') }}">
     <meta name="keywords" content="Car Rental, Rental Cars, DiamntinaCar">
@@ -26,26 +26,26 @@
     <meta name="twitter:description" content="{{ __('messages.description') }}">
     <meta name="twitter:image" content="https://diamantinacar.com/assets/hero-section.jpg">
 </head>
-<body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+<body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
     @include('partials.loader')
     @include('partials.navbar')
-    
+
     <!-- Hero Section -->
     <section class="relative bg-cover bg-center h-96" style="background-image: url('/assets/hero-section.jpg');">
         <div class="absolute inset-0 bg-black opacity-50"></div>
         <div class="container mx-auto h-full flex flex-col justify-center items-center relative z-10">
             <h1 class="text-5xl font-bold text-white mb-4">{{ __('messages.available_cars') }}</h1>
             <p class="text-xl text-white mb-6">{{ __('messages.find_best_cars') }}</p>
-            <a href="#reservation" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
+            <a href="#reservation" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
                 {{ __('messages.book_now') }}
             </a>
         </div>
     </section>
-    
+
     <!-- Car Listing Section -->
     <section class="container mx-auto my-12 px-4">
         <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
-            <i class="fas fa-car mr-2 text-blue-500"></i>
+            <i class="fas fa-car mr-2 text-red-500"></i>
             {{ __('messages.available_cars') }}
         </h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -58,7 +58,7 @@
               @endif
               <div class="p-6">
                 <h5 class="text-xl font-bold text-gray-800 flex items-center mb-4">
-                  <i class="fas fa-car-side text-blue-500 mr-2"></i>
+                  <i class="fas fa-car-side text-red-500 mr-2"></i>
                   {{ $car->name }}
                 </h5>
                 <!-- تفاصيل السيارة -->
@@ -98,11 +98,11 @@
                 <!-- الأزرار -->
                 <div class="mt-4 flex flex-wrap gap-4">
                     <!-- زر الحجز -->
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex-1"
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex-1"
                             onclick="openModal({{ $car->id }}, this)" data-location="{{ $car->location }}">
                         {{ __('messages.book_now') }}
                     </button>
-    
+
                     <!-- زر عرض التفاصيل -->
                     <a href="{{ route('cars.show', $car->id) }}"
                        class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center">
@@ -115,12 +115,12 @@
             @endforeach
         </div>
     </section>
-    
+
     <!-- نافذة الحجز (Modal) -->
     <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-blue-600 text-white">
+                <div class="modal-header bg-red-600 text-white">
                     <h5 class="modal-title" id="reservationModalLabel">
                         <i class="fas fa-calendar-check mr-2"></i>
                         {{ __('messages.reservation_details') }}
@@ -137,19 +137,11 @@
                                 <i class="fas fa-map-marker-alt mr-1"></i>
                                 {{ __('messages.pickup_location') }}
                             </label>
-                            <select name="pickup_location" id="modal_pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
+                            <select name="pickup_location" id="modal_pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
                                 <option value="" disabled selected>{{ __('messages.select_pickup_location') }}</option>
-                                <option value="Marrakech (Agence)">Marrakech (Agence)</option>
-                                <option value="Marrakech medina">Marrakech medina</option>
-                                <option value="Marrakech aéroport">Marrakech aéroport</option>
-                                <option value="Essaouira">Essaouira</option>
-                                <option value="Casablanca">Casablanca</option>
-                                <option value="Mohammedia">Mohammedia</option>
-                                <option value="Agadir">Agadir</option>
-                                <option value="Ouarzazate">Ouarzazate</option>
-                                <option value="Rabat">Rabat</option>
-                                <option value="Tanger">Tanger</option>
-                                <option value="Fès">Fès</option>
+                             
+
+
                             </select>
                         </div>
                         <!-- مكان التسليم -->
@@ -158,19 +150,12 @@
                                 <i class="fas fa-map-marker-alt mr-1"></i>
                                 {{ __('messages.dropoff_location') }}
                             </label>
-                            <select name="dropoff_location" id="modal_dropoff_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
+                            <select name="dropoff_location" id="modal_dropoff_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
                                 <option value="" disabled selected>{{ __('messages.select_dropoff_location') }}</option>
                                 <option value="Marrakech (Agence)">Marrakech (Agence)</option>
                                 <option value="Marrakech medina">Marrakech medina</option>
                                 <option value="Marrakech aéroport">Marrakech aéroport</option>
-                                <option value="Essaouira">Essaouira</option>
-                                <option value="Casablanca">Casablanca</option>
-                                <option value="Mohammedia">Mohammedia</option>
-                                <option value="Agadir">Agadir</option>
-                                <option value="Ouarzazate">Ouarzazate</option>
-                                <option value="Rabat">Rabat</option>
-                                <option value="Tanger">Tanger</option>
-                                <option value="Fès">Fès</option>
+
                             </select>
                         </div>
                         <!-- تاريخ الاستلام -->
@@ -179,7 +164,7 @@
                                 <i class="fas fa-calendar-alt mr-1"></i>
                                 {{ __('messages.pickup_date') }}
                             </label>
-                            <input type="datetime-local" id="modal_pickup_date" name="pickup_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
+                            <input type="datetime-local" id="modal_pickup_date" name="pickup_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
                         </div>
                         <!-- تاريخ العودة -->
                         <div>
@@ -187,9 +172,9 @@
                                 <i class="fas fa-calendar-alt mr-1"></i>
                                 {{ __('messages.return_date') }}
                             </label>
-                            <input type="datetime-local" id="modal_return_date" name="return_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500" required>
+                            <input type="datetime-local" id="modal_return_date" name="return_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
                         </div>
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+                        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition duration-200">
                             <i class="fas fa-check mr-2"></i>
                             {{ __('messages.confirm_reservation') }}
                         </button>
@@ -198,10 +183,10 @@
             </div>
         </div>
     </div>
-    
+
     @include('partials.footer')
     @include('partials.up')
-    
+
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -211,25 +196,25 @@
             const pad = (num) => num.toString().padStart(2, '0');
             return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T10:00`;
         }
-    
+
         function openModal(carId, button) {
             // تعيين قيمة car_id في النموذج
             document.getElementById('car_id').value = carId;
-    
+
             // قراءة موقع السيارة من الزر المُضغط
             const carLocation = button.getAttribute('data-location');
-    
+
             // تعيين القيمة الافتراضية لمكان الاستلام
             const pickupLocationSelect = document.getElementById('modal_pickup_location');
             pickupLocationSelect.value = carLocation;
-    
+
             // تعيين التواريخ الافتراضية
             const now = new Date();
             const twoDaysLater = new Date();
             twoDaysLater.setDate(now.getDate() + 2);
             document.getElementById("modal_pickup_date").value = formatDateTime(now);
             document.getElementById("modal_return_date").value = formatDateTime(twoDaysLater);
-    
+
             // عرض النافذة
             var modal = new bootstrap.Modal(document.getElementById('reservationModal'));
             modal.show();

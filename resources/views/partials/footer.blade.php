@@ -4,9 +4,9 @@
       <!-- النصف الأيسر: الخريطة -->
       <div class="footer-map">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3396.8903034677296!2d-7.997843874640759!3d31.636853741379525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafee8d0646b1c5%3A0x6b91008ef7884c88!2sDiamantina%20car%20rental!5e0!3m2!1sar!2s!4v1742535516858!5m2!1sar!2s"
-          width="100%" height="300" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3396.8903034677296!2d-7.997843874640759!3d31.636853741379525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafee8d0646b1c5%3A0x6b91008ef7884c88!2sDiamantina%20car%20rental!5e0!3m2!1sar!2s!4v1742535516858!5m2!1sar!2s"
+        width="100%" height="400" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
       </div>
 
       <!-- النصف الأيمن: النص والمعلومات -->
@@ -82,14 +82,28 @@
   }
 
   .footer-map {
-    flex: 1;
-    max-width: 45%;
-  }
+  flex: 1;
+  max-width: 45%;
+  margin-bottom: 20px; /* إضافة هامش أسفل الخريطة */
+}
 
-  .footer-map iframe {
-    width: 100%;
-    border-radius: 8px;
+.footer-map iframe {
+  width: 100%;
+  height: 100%; /* جعل الارتفاع مرنًا */
+  min-height: 300px; /* الحد الأدنى للارتفاع */
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .footer-map {
+    max-width: 100%;
+    margin-bottom: 10px;
   }
+  
+  .footer-map iframe {
+    height: 300px; /* زيادة الارتفاع في الشاشات الصغيرة */
+  }
+}
 
   .footer-text {
     flex: 1;
@@ -119,7 +133,7 @@
   }
 
   .footer-nav a:hover {
-    color: rgb(1, 135, 224);
+    color:red;
   }
 
   .footer-contact p {
@@ -129,7 +143,8 @@
 
   .footer-contact i {
     margin-right: 8px;
-    color: rgb(1, 135, 224);
+    color:    red;
+    ;
   }
 
   .footer-social {
@@ -150,7 +165,7 @@
   }
 
   .footer-social a:hover {
-    background: rgb(1, 135, 224);
+    background:red;
     transform: scale(1.1);
   }
 

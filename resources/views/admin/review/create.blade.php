@@ -49,7 +49,7 @@
           <i class="fas fa-user mr-1"></i> Name
         </label>
         <input type="text" name="name" id="name" required
-               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
       </div>
 
       <!-- Position Field -->
@@ -58,7 +58,7 @@
           <i class="fas fa-briefcase mr-1"></i> Job Title
         </label>
         <input type="text" name="position" id="position" required
-               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
       </div>
 
       <!-- Comment Field -->
@@ -67,7 +67,7 @@
           <i class="fas fa-comment mr-1"></i> Comment
         </label>
         <textarea name="comment" id="comment" required
-                  class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                  class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
       </div>
 
       <!-- Customer Image Field -->
@@ -76,13 +76,13 @@
           <i class="fas fa-image mr-1"></i> Customer Image
         </label>
         <input type="file" name="avatar" id="avatar"
-               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+               class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
       </div>
 
       <!-- Submit Button -->
       <div class="mt-8 flex justify-end">
         <button type="submit"
-                class="px-8 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                class="px-8 py-3 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all">
           <i class="fas fa-plus mr-2"></i> Add Review
         </button>
       </div>

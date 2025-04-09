@@ -37,7 +37,7 @@
             @endif
             <div class="p-6">
               <h5 class="text-xl font-bold text-gray-800 flex items-center mb-4">
-                <i class="fas fa-car-side text-blue-500 mr-2"></i>
+                <i class="fas fa-car-side text-red-500 mr-2"></i>
                 {{ $car->name }}
               </h5>
               <!-- Car Details -->
@@ -84,7 +84,7 @@
                         'pickup_date' => request('pickup_date'),
                         'return_date' => request('return_date')
                     ]) }}"
-                   class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 text-center">
+                   class="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 text-center">
                   {{ __('messages.book_now') }}
                 </a>
                 <!-- View Details Button -->

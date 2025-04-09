@@ -371,4 +371,32 @@ return [
     'dashboard'         => 'Dashboard',
     'language'          => 'Language',
     'whoops' => 'whoops',
+
+    'faqs' => 'FAQ',
+'faqs_description' => 'Frequently asked questions about car rental',
+'faq_question_1' => 'What documents are required?',
+'faq_answer_1' => 'Bring: <br>- Valid ID (passport or national ID) <br>- Valid driver\'s license for all drivers',
+'faq_question_2' => 'What is the minimum age?',
+'faq_answer_2' => '21 years old with 1 year driving experience. Drivers under 23 need young driver insurance',
+'faq_question_3' => 'What\'s the mileage policy?',
+'faq_answer_3' => 'Two options: 400 km/day limited or unlimited mileage depending on the package',
+'faq_question_4' => 'What about the security deposit?',
+'faq_answer_4' => '10% of vehicle value temporarily blocked on credit card during rental period',
+'faq_question_5' => 'Road conditions in Morocco?',
+'faq_answer_5' => 'Excellent highways and major cities, recommend 4x4 for remote areas',
+'faq_question_6' => 'Speed limits?',
+'faq_answer_6' => '60 km/h in cities, 90-100 on regular roads, 120 on highways',
+
+'terms_agreement' => 'I agree to the',
+'terms_link' => 'Terms & Conditions',
+'email_note' => 'We will use this email to contact you for reservation confirmation',
+
+ 'confirmation_title' => 'Reservation Confirmed',
+    'success_message'    => 'Your reservation has been confirmed!',
+    'wa_instruction'     => 'Please check WhatsApp to confirm the reservation details. If WhatsApp does not open automatically, click the button below.',
+    'open_whatsapp'      => 'Open WhatsApp',
+    'redirect_info'      => 'You will be redirected shortly if the new window does not open.',
+
+    'confirm_booking_message' => "Hello,\nI would like to confirm my car reservation. Details:\nCar: :car\nPickup Location: :pickup\nDropoff Location: :dropoff\nPickup Date: :pickup_date\nReturn Date: :return_date\nPlease confirm the booking.",
+
 ];

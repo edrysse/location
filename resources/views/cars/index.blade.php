@@ -23,7 +23,7 @@
 
       <!-- Add New Car Button -->
       <div class="flex justify-end mb-6">
-        <a href="{{ route('cars.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+        <a href="{{ route('cars.create') }}" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition duration-300">
           <i class="fas fa-plus mr-2"></i>
           Add New Car
         </a>
@@ -85,14 +85,7 @@
                 <option value="Marrakech (Agence)" {{ request('pickup_location') == 'Marrakech (Agence)' ? 'selected' : '' }}>Marrakech (Agence)</option>
                 <option value="Marrakech medina" {{ request('pickup_location') == 'Marrakech medina' ? 'selected' : '' }}>Marrakech medina</option>
                 <option value="Marrakech aéroport" {{ request('pickup_location') == 'Marrakech aéroport' ? 'selected' : '' }}>Marrakech aéroport</option>
-                <option value="Essaouira" {{ request('pickup_location') == 'Essaouira' ? 'selected' : '' }}>Essaouira</option>
-                <option value="Casablanca" {{ request('pickup_location') == 'Casablanca' ? 'selected' : '' }}>Casablanca</option>
-                <option value="Mohammedia" {{ request('pickup_location') == 'Mohammedia' ? 'selected' : '' }}>Mohammedia</option>
-                <option value="Agadir" {{ request('pickup_location') == 'Agadir' ? 'selected' : '' }}>Agadir</option>
-                <option value="Ouarzazate" {{ request('pickup_location') == 'Ouarzazate' ? 'selected' : '' }}>Ouarzazate</option>
-                <option value="Rabat" {{ request('pickup_location') == 'Rabat' ? 'selected' : '' }}>Rabat</option>
-                <option value="Tanger" {{ request('pickup_location') == 'Tanger' ? 'selected' : '' }}>Tanger</option>
-                <option value="Fès" {{ request('pickup_location') == 'Fès' ? 'selected' : '' }}>Fès</option>
+
               </select>
 
             </div>
@@ -101,7 +94,7 @@
             <div class="flex-shrink-0">
               <button
                 type="submit"
-                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 whitespace-nowrap"
+                class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-300 whitespace-nowrap"
               >
                 <i class="fas fa-filter mr-2"></i>
                 Apply Filters
@@ -205,7 +198,7 @@
                     @foreach($car->seasonPrices as $season)
                       <button
                         type="button"
-                        class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 text-xs flex items-center"
+                        class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 text-xs flex items-center"
                         onclick="showSeasonModal(
                           '{{ $season->season_name }}',
                           '{{ number_format($season->price_2_5_days, 2) }}',
@@ -290,7 +283,7 @@
           <div class="px-6 py-4">
             <div class="grid grid-cols-1 gap-4">
               <div class="flex items-center">
-                <i class="fas fa-calendar-day text-blue-500 mr-2"></i>
+                <i class="fas fa-calendar-day text-red-500 mr-2"></i>
                 <span class="font-semibold text-gray-700">2-5 Days:</span>
                 <span class="ml-auto text-gray-800">€<span id="modalPrice25"></span></span>
               </div>
@@ -307,7 +300,7 @@
             </div>
           </div>
           <div class="px-6 py-4 flex justify-end">
-            <button onclick="closeSeasonModal()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
+            <button onclick="closeSeasonModal()" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-300">
               Close
             </button>
           </div>

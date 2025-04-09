@@ -28,7 +28,7 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+<body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
   @include('partials.navbar')
   @include('partials.up')
 
@@ -46,7 +46,7 @@
       </p>
     </div>
   </section>
-  
+
   <!-- Content Section -->
   <section class="container mx-auto my-16 px-4">
     <div class="grid gap-12 md:grid-cols-2">
@@ -57,7 +57,7 @@
         </div>
         <div class="p-8">
           <div class="flex items-center mb-4">
-            <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
+            <div class="flex items-center justify-center bg-red-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-calendar-check text-xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.make_reservation') }}</h2>
@@ -67,7 +67,7 @@
           </p>
         </div>
       </article>
-  
+
       <!-- بطاقة القسم 2: Use of the Car -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0 order-2 md:order-1">
@@ -75,7 +75,7 @@
         </div>
         <div class="p-8 order-1 md:order-2">
           <div class="flex items-center mb-4">
-            <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
+            <div class="flex items-center justify-center bg-red-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-car-side text-xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.use_car') }}</h2>
@@ -85,7 +85,7 @@
           </p>
         </div>
       </article>
-  
+
       <!-- بطاقة القسم 3: Condition & Liability -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0">
@@ -93,7 +93,7 @@
         </div>
         <div class="p-8">
           <div class="flex items-center mb-4">
-            <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
+            <div class="flex items-center justify-center bg-red-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-clipboard-list text-xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.condition_liability') }}</h2>
@@ -103,7 +103,7 @@
           </p>
         </div>
       </article>
-  
+
       <!-- بطاقة القسم 4: Delivery / Collection -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0 order-2 md:order-1">
@@ -111,7 +111,7 @@
         </div>
         <div class="p-8 order-1 md:order-2">
           <div class="flex items-center mb-4">
-            <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
+            <div class="flex items-center justify-center bg-red-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-truck text-xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.delivery_collection') }}</h2>
@@ -121,7 +121,7 @@
           </p>
         </div>
       </article>
-  
+
       <!-- بطاقة القسم 5: Fuel Policy -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0">
@@ -129,7 +129,7 @@
         </div>
         <div class="p-8">
           <div class="flex items-center mb-4">
-            <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
+            <div class="flex items-center justify-center bg-red-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-gas-pump text-xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.fuel_policy') }}</h2>
@@ -139,7 +139,7 @@
           </p>
         </div>
       </article>
-  
+
       <!-- بطاقة القسم 6: Insurance -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0 order-2 md:order-1">
@@ -147,7 +147,7 @@
         </div>
         <div class="p-8 order-1 md:order-2">
           <div class="flex items-center mb-4">
-            <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
+            <div class="flex items-center justify-center bg-red-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-shield-alt text-xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.insurance') }}</h2>
@@ -157,7 +157,7 @@
           </p>
         </div>
       </article>
-  
+
       <!-- بطاقة القسم 7: Assistance -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0">
@@ -165,7 +165,7 @@
         </div>
         <div class="p-8">
           <div class="flex items-center mb-4">
-            <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
+            <div class="flex items-center justify-center bg-red-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-wrench text-xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.assistance') }}</h2>
@@ -175,7 +175,7 @@
           </p>
         </div>
       </article>
-  
+
       <!-- بطاقة القسم 8: Payment / Deposit -->
       <article class="flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-105">
         <div class="flex-shrink-0 order-2 md:order-1">
@@ -183,7 +183,7 @@
         </div>
         <div class="p-8 order-1 md:order-2">
           <div class="flex items-center mb-4">
-            <div class="flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 mr-4">
+            <div class="flex items-center justify-center bg-red-600 text-white rounded-full w-12 h-12 mr-4">
               <i class="fas fa-credit-card text-xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-gray-800">{{ __('messages.payment_deposit') }}</h2>
@@ -195,7 +195,7 @@
       </article>
     </div>
   </section>
-  
+
   <!-- Custom Animations -->
   <style>
     @keyframes fadeInDown {
@@ -213,7 +213,7 @@
       animation: fadeInUp 1s ease-out;
     }
   </style>
-  
+
   @include('partials.footer')
 
   <!-- Bootstrap JS -->

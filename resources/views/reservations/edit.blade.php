@@ -49,7 +49,7 @@
             <label for="car_id" class="block text-sm font-medium text-gray-700">
               <i class="fas fa-car-side mr-1"></i> Car
             </label>
-            <select name="car_id" id="car_id" required class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="car_id" id="car_id" required class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
               <option value="">Select a car</option>
               @foreach($cars as $car)
                 <option value="{{ $car->id }}" {{ old('car_id', $reservation->car_id) == $car->id ? 'selected' : '' }}>
@@ -68,7 +68,7 @@
               <i class="fas fa-map-marker-alt mr-1"></i> Pickup Location
             </label>
             <input type="text" name="pickup_location" id="pickup_location" value="{{ old('pickup_location', $reservation->pickup_location) }}" required
-                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
             @error('pickup_location')
               <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
@@ -80,7 +80,7 @@
               <i class="fas fa-map-marker-alt mr-1"></i> Dropoff Location
             </label>
             <input type="text" name="dropoff_location" id="dropoff_location" value="{{ old('dropoff_location', $reservation->dropoff_location) }}" required
-                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
             @error('dropoff_location')
               <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
@@ -92,7 +92,7 @@
               <i class="fas fa-calendar-alt mr-1"></i> Pickup Date
             </label>
             <input type="date" name="pickup_date" id="pickup_date" value="{{ old('pickup_date', \Carbon\Carbon::parse($reservation->pickup_date)->format('Y-m-d')) }}" required
-                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
             @error('pickup_date')
               <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
@@ -104,7 +104,7 @@
               <i class="fas fa-calendar-alt mr-1"></i> Return Date
             </label>
             <input type="date" name="return_date" id="return_date" value="{{ old('return_date', \Carbon\Carbon::parse($reservation->return_date)->format('Y-m-d')) }}" required
-                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
             @error('return_date')
               <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
@@ -116,7 +116,7 @@
               <i class="fas fa-user mr-1"></i> Name
             </label>
             <input type="text" name="name" id="name" value="{{ old('name', $reservation->name) }}" required
-                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
             @error('name')
               <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
@@ -128,7 +128,7 @@
               <i class="fas fa-envelope mr-1"></i> Email
             </label>
             <input type="email" name="email" id="email" value="{{ old('email', $reservation->email) }}" required
-                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
             @error('email')
               <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
@@ -140,7 +140,7 @@
               <i class="fas fa-phone mr-1"></i> Phone
             </label>
             <input type="text" name="phone" id="phone" value="{{ old('phone', $reservation->phone) }}" required
-                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
             @error('phone')
               <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
@@ -152,7 +152,7 @@
               <i class="fas fa-credit-card mr-1"></i> Payment Status
             </label>
             <select name="payment_status" id="payment_status" required
-                    class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
               <option value="Pending" {{ old('payment_status', $reservation->payment_status) == 'Pending' ? 'selected' : '' }}>Pending</option>
               <option value="Paid" {{ old('payment_status', $reservation->payment_status) == 'Paid' ? 'selected' : '' }}>Paid</option>
             </select>
@@ -167,7 +167,7 @@
               <i class="fas fa-money-check-alt mr-1"></i> Payment Method
             </label>
             <select name="payment_method" id="payment_method"
-                    class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
               <option value="Credit Card" {{ old('payment_method', $reservation->payment_method) == 'Credit Card' ? 'selected' : '' }}>Credit Card</option>
               <option value="Cash" {{ old('payment_method', $reservation->payment_method) == 'Cash' ? 'selected' : '' }}>Cash</option>
               <option value="PayPal" {{ old('payment_method', $reservation->payment_method) == 'PayPal' ? 'selected' : '' }}>PayPal</option>
@@ -202,7 +202,7 @@
             <label for="maxicosi" class="block text-sm font-medium text-gray-700">
               <i class="fas fa-child mr-1"></i> Maxicosi
             </label>
-            <select name="maxicosi" id="maxicosi" class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="maxicosi" id="maxicosi" class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
               <option value="0" {{ old('maxicosi', $reservation->maxicosi) == 0 ? 'selected' : '' }}>0</option>
               <option value="1" {{ old('maxicosi', $reservation->maxicosi) == 1 ? 'selected' : '' }}>1</option>
               <option value="2" {{ old('maxicosi', $reservation->maxicosi) == 2 ? 'selected' : '' }}>2</option>
@@ -217,7 +217,7 @@
             <label for="siege_bebe" class="block text-sm font-medium text-gray-700">
               <i class="fas fa-child mr-1"></i> Child Seat
             </label>
-            <select name="siege_bebe" id="siege_bebe" class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="siege_bebe" id="siege_bebe" class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
               <option value="0" {{ old('siege_bebe', $reservation->siege_bebe) == 0 ? 'selected' : '' }}>0</option>
               <option value="1" {{ old('siege_bebe', $reservation->siege_bebe) == 1 ? 'selected' : '' }}>1</option>
               <option value="2" {{ old('siege_bebe', $reservation->siege_bebe) == 2 ? 'selected' : '' }}>2</option>
@@ -232,7 +232,7 @@
             <label for="rehausseur" class="block text-sm font-medium text-gray-700">
               <i class="fas fa-child mr-1"></i> Booster Seat
             </label>
-            <select name="rehausseur" id="rehausseur" class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="rehausseur" id="rehausseur" class="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
               <option value="0" {{ old('rehausseur', $reservation->rehausseur) == 0 ? 'selected' : '' }}>0</option>
               <option value="1" {{ old('rehausseur', $reservation->rehausseur) == 1 ? 'selected' : '' }}>1</option>
               <option value="2" {{ old('rehausseur', $reservation->rehausseur) == 2 ? 'selected' : '' }}>2</option>
@@ -285,7 +285,7 @@
 
         <!-- Submit Button -->
         <div class="mt-8 flex justify-center">
-          <button type="submit" class="px-8 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+          <button type="submit" class="px-8 py-3 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all">
             <i class="fas fa-save mr-2"></i> Update Reservation
           </button>
         </div>

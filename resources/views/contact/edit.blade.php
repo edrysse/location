@@ -34,36 +34,36 @@
         <!-- Name Field -->
         <div>
           <label for="name" class="block text-gray-700 font-medium">Your Name</label>
-          <input type="text" name="name" id="name" value="{{ $contact->name }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" required>
+          <input type="text" name="name" id="name" value="{{ $contact->name }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500" required>
         </div>
 
         <!-- Email Field -->
         <div>
           <label for="email" class="block text-gray-700 font-medium">Your Email</label>
-          <input type="email" name="email" id="email" value="{{ $contact->email }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" required>
+          <input type="email" name="email" id="email" value="{{ $contact->email }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500" required>
         </div>
 
         <!-- Phone Field -->
         <div>
           <label for="phone" class="block text-gray-700 font-medium">Your Phone</label>
-          <input type="text" name="phone" id="phone" value="{{ $contact->phone }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" required>
+          <input type="text" name="phone" id="phone" value="{{ $contact->phone }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500" required>
         </div>
 
         <!-- Subject Field -->
         <div>
           <label for="subject" class="block text-gray-700 font-medium">Subject</label>
-          <input type="text" name="subject" id="subject" value="{{ $contact->subject }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" required>
+          <input type="text" name="subject" id="subject" value="{{ $contact->subject }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500" required>
         </div>
 
         <!-- Message Field -->
         <div>
           <label for="message" class="block text-gray-700 font-medium">Your Message</label>
-          <textarea name="message" id="message" rows="5" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" required>{{ $contact->message }}</textarea>
+          <textarea name="message" id="message" rows="5" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-red-500 focus:border-red-500" required>{{ $contact->message }}</textarea>
         </div>
 
         <!-- Submit Button -->
         <div class="text-center">
-          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md shadow-md transition-colors duration-300">
+          <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-md shadow-md transition-colors duration-300">
             <i class="fas fa-check mr-2"></i>Update Message
           </button>
         </div>
