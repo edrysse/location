@@ -116,7 +116,9 @@
         <!-- Kilometer -->
         <div>
           <label class="block text-lg font-medium text-gray-700">Kilometer</label>
-          <input type="number" name="kilometer" value="{{ old('kilometer', $car->kilometer) }}" class="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-500" required>
+          <input type="text" name="kilometer"  value="{{ old('kilometer', $car->kilometer) }}" class="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-500" required>
+
+
         </div>
 
         <!-- Location -->
