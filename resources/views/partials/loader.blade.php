@@ -1,6 +1,6 @@
 <div id="loader" class="fixed inset-0 flex flex-col items-center justify-center bg-white z-50">
     <!-- استخدام الترجمة للـ alt الخاص بالصورة -->
-    <img src="{{ asset('assets/new-logo.png') }}" alt="{{ __('messages.logo_alt') }}" class="h-20 animate-pulse-scale">
+    <img src="{{ asset('assets/new-logo.png') }}" alt="{{ __('messages.logo_alt') }}" class="h-28 animate-pulse-scale">
     <!-- استخدام الترجمة للنص الذي يظهر أثناء التحميل -->
     <p class="mt-4 text-gray-700 text-lg">{{ __('messages.loading') }}</p>
 </div>
