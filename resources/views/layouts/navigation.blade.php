@@ -15,8 +15,9 @@
                         <li>
                             <x-nav-link :href="route('home')" :active="request()->routeIs('home')">Home</x-nav-link>
                         </li>
+                        <!-- مستخدم عادي -->
                         <li>
-                            <x-nav-link :href="route('cars.index')" :active="request()->routeIs('cars.index')">Cars</x-nav-link>
+                            <x-nav-link :href="route('admin.cars.index')" :active="request()->routeIs('admin.cars.index')">Cars</x-nav-link>
                         </li>
                         <li>
                             <x-nav-link :href="route('reservations.index')" :active="request()->routeIs('reservations.index')">Reservations</x-nav-link>
@@ -36,16 +37,24 @@
                         </li>
                         @endcan
                     </ul>
+
                 </div>
             </div>
             <div class="hidden sm:flex sm:items-center">
                 <div class="relative">
+                    @auth
                     <button @click="dropdownOpen = !dropdownOpen" class="flex items-center px-3 py-2 text-white bg-gray-800 hover:bg-gray-700 rounded-md">
                         <span class="mr-2">{{ Auth::user()->name }}</span>
                         <svg class="h-5 w-5 fill-current transform transition-transform" :class="{'rotate-180': dropdownOpen}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </button>
+                    @else
+                    <div class="flex space-x-4">
+                        <a href="{{ route('login') }}" class="text-white hover:text-gray-300">Login</a>
+                        <a href="{{ route('register') }}" class="text-white hover:text-gray-300">Register</a>
+                    </div>
+                    @endauth
                     <div x-show="dropdownOpen" x-cloak @click.away="dropdownOpen = false" x-transition
                         class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-xl z-50">
                         <ul class="py-2">
@@ -79,7 +88,7 @@
         <div class="px-2 pt-2 pb-3 space-y-1">
             <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Dashboard</a>
             <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Home</a>
-            <a href="{{ route('cars.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Cars</a>
+            <a href="{{ route('cars') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Cars</a>
             <a href="{{ route('reservations.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Reservations</a>
             <a href="{{ route('contact.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Contacts</a>
             <a href="{{ route('admin.reviews.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-black hover:bg-red-500 transition">Reviews</a>
@@ -90,6 +99,7 @@
 
             <!-- Profile and Logout Links in Mobile Menu -->
             <div class=""> <!-- لضبط الزر في أقصى اليمين -->
+                @auth
                 <button @click="dropdownOpen = !dropdownOpen" class="block w-full max-w-xs text-left px-3 py-2 rounded-md text-base font-medium text-white bg-gray-800 hover:text-black hover:bg-gray-600 transition">
                     {{ Auth::user()->name }}
                     <!-- أيقونة دروب داون -->
@@ -97,7 +107,14 @@
                         ▼
                     </span>
                 </button>
+                @else
+                <div class="space-y-2">
+                    <a href="{{ route('login') }}" class="block w-full text-center px-3 py-2 text-white hover:bg-gray-700 rounded-md">Login</a>
+                    <a href="{{ route('register') }}" class="block w-full text-center px-3 py-2 text-white hover:bg-gray-700 rounded-md">Register</a>
+                </div>
+                @endauth
             </div>
+            @auth
             <div x-show="dropdownOpen" x-cloak @click.away="dropdownOpen = false" x-transition class="bg-gray-700 py-2 rounded-md">
                 <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-white hover:bg-red-500">Profile</a>
                 <form method="POST" action="{{ route('logout') }}">
@@ -105,6 +122,7 @@
                     <button type="submit" class="w-full text-left px-4 py-2 text-white hover:bg-red-500">Log Out</button>
                 </form>
             </div>
+            @endauth
         </div>
     </div>
 </nav>

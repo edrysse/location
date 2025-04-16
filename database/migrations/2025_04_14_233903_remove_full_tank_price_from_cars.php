@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cars', function (Blueprint $table) {
-            $table->decimal('franchise_price', 8, 2)->nullable()->after('price_20_days');
+            $table->dropColumn('full_tank_price');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cars', function (Blueprint $table) {
-            $table->dropColumn('franchise_price');
+            $table->decimal('full_tank_price', 8, 2)->nullable();
         });
     }
 };

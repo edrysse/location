@@ -1,7 +1,7 @@
 <aside class="w-64 bg-gray-900 text-white h-screen fixed hidden md:block">
     <div class="p-4 flex items-center justify-center border-b border-gray-700">
       <a href="{{ route('dashboard') }}">
-        <img src="{{ asset('assets/diam-logo.png') }}" alt="Diamantina Car Logo" class="h-16 animate-pulse-scale">
+        <img src="{{ asset('assets/new-logo.png') }}" alt="Diamantina Car Logo" class="h-16 animate-pulse-scale">
       </a>
     </div>
     <nav class="mt-4">

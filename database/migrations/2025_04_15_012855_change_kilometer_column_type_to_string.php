@@ -9,22 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('cars', function (Blueprint $table) {
-            $table->decimal('full_tank_price', 8, 2)->nullable()->after('franchise_price');
+            $table->string('kilometer')->change();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('cars', function (Blueprint $table) {
-            $table->dropColumn('full_tank_price');
+            $table->integer('kilometer')->change();
         });
     }
-
 };

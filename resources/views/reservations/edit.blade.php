@@ -242,44 +242,24 @@
             @enderror
           </div>
 
-          <!-- Full Tank -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">
-              <i class="fas fa-gas-pump mr-1"></i> Full Tank ($60)
+          <!-- Franchise -->
+          <div class="mb-6">
+            <label class="inline-flex items-center">
+              <input type="checkbox" name="franchise" class="form-checkbox h-5 w-5 text-red-600" value="1" {{ old('franchise', $reservation->franchise) ? 'checked' : '' }}>
+              <span class="ml-2 text-gray-700">
+                <i class="fas fa-shield-alt mr-1"></i> {{ __('messages.franchise_option') }} (€{{ number_format($reservation->car->franchise_price, 2) }})
+              </span>
             </label>
-            <div class="mt-2 flex items-center space-x-4">
-              <label class="inline-flex items-center">
-                <input type="radio" name="full_tank" value="1" {{ old('full_tank', $reservation->full_tank) == 1 ? 'checked' : '' }} class="form-radio">
-                <span class="ml-2">Yes</span>
-              </label>
-              <label class="inline-flex items-center">
-                <input type="radio" name="full_tank" value="0" {{ old('full_tank', $reservation->full_tank) == 0 ? 'checked' : '' }} class="form-radio">
-                <span class="ml-2">No</span>
-              </label>
-            </div>
-            @error('full_tank')
-              <p class="text-red-500 text-xs italic">{{ $message }}</p>
-            @enderror
           </div>
 
-          <!-- Franchise -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">
-              <i class="fas fa-shield-alt mr-1"></i> Franchise ($6/Day)
+          <!-- Rachat Franchise -->
+          <div class="mb-6">
+            <label class="inline-flex items-center">
+              <input type="checkbox" name="rachat_franchise" class="form-checkbox h-5 w-5 text-red-600" value="1" {{ old('rachat_franchise', $reservation->rachat_franchise) ? 'checked' : '' }}>
+              <span class="ml-2 text-gray-700">
+                <i class="fas fa-shield-alt mr-1"></i> {{ __('messages.rachat_franchise_option') }} (€{{ number_format($reservation->car->rachat_franchise_price, 2) }})
+              </span>
             </label>
-            <div class="mt-2 flex items-center space-x-4">
-              <label class="inline-flex items-center">
-                <input type="radio" name="franchise" value="1" {{ old('franchise', $reservation->franchise) == 1 ? 'checked' : '' }} class="form-radio">
-                <span class="ml-2">Yes</span>
-              </label>
-              <label class="inline-flex items-center">
-                <input type="radio" name="franchise" value="0" {{ old('franchise', $reservation->franchise) == 0 ? 'checked' : '' }} class="form-radio">
-                <span class="ml-2">No</span>
-              </label>
-            </div>
-            @error('franchise')
-              <p class="text-red-500 text-xs italic">{{ $message }}</p>
-            @enderror
           </div>
         </div>
 

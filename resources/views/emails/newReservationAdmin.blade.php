@@ -1,5 +1,5 @@
 <div style="text-align: center; margin-bottom: 20px;">
-    <img src="'assets/diam-logo.png'" alt="{{ config('app.name') }} Logo" style="max-width: 200px;">
+    <img src="'assets/new-logo.png'" alt="{{ config('app.name') }} Logo" style="max-width: 200px;">
 </div>
 
 # New Reservation Received

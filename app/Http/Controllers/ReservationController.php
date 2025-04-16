@@ -68,46 +68,85 @@ class ReservationController extends Controller
         }
 
         // حساب عدد الأيام بين تواريخ الحجز
-        $pickupDate = Carbon::parse($request->input('pickup_date'));
-        $returnDate = Carbon::parse($request->input('return_date'));
-        $days = $pickupDate->diffInDays($returnDate);
+        try {
+            // التحقق من وجود التواريخ
+            if (!$request->input('pickup_date') || !$request->input('return_date')) {
+                $pickupDate = now();
+                $returnDate = now()->addDay();
+            } else {
+                $pickupDate = Carbon::parse($request->input('pickup_date'))->startOfDay();
+                $returnDate = Carbon::parse($request->input('return_date'))->startOfDay();
+            }
 
-        // جلب بيانات الأسعار الموسمية إن وُجدت
-        $seasonPriceModel = $car->seasonPrices()
-            ->where('start_date', '<=', $pickupDate)
-            ->where('end_date', '>=', $pickupDate)
-            ->first();
+            $days = max(1, $pickupDate->diffInDays($returnDate));
 
-        if ($seasonPriceModel) {
-            $isSeason = true;
-            $pricePerDay = $seasonPriceModel->price_per_day ?? $car->price;
-            $price2to5   = $seasonPriceModel->price_2_5_days;
-            $price6to20  = $seasonPriceModel->price_6_20_days;
-            $pricePlus20 = $seasonPriceModel->price_20_plus_days;
-        } else {
-            $isSeason = false;
-            $pricePerDay = $car->price;
-            $price2to5   = $car->price_2_5_days ?: $car->price;
-            $price6to20  = $car->price_6_20_days ?: $car->price;
-            $pricePlus20 = $car->price_20_plus_days ?: $car->price;
+            // جلب بيانات الأسعار الموسمية إن وُجدت
+            $seasonPriceModel = $car->seasonPrices()
+                ->whereDate('start_date', '<=', $pickupDate->format('Y-m-d'))
+                ->whereDate('end_date', '>=', $pickupDate->format('Y-m-d'))
+                ->first();
+
+            \Log::info('Date Check', [
+                'pickup' => $pickupDate->format('Y-m-d'),
+                'return' => $returnDate->format('Y-m-d'),
+                'days' => $days,
+                'found_season' => $seasonPriceModel ? true : false
+            ]);
+
+            if ($seasonPriceModel) {
+                $data = [
+                    'car' => $car,
+                    'car_id' => $car->id,
+                    'pickup_date' => $pickupDate->format('Y-m-d'),
+                    'return_date' => $returnDate->format('Y-m-d'),
+                    'pickup_location' => $request->input('pickup_location'),
+                    'return_location' => $request->input('dropoff_location'),
+                    'season_price' => $seasonPriceModel,
+                    'franchise_price' => $car->franchise_price,
+                    'rachat_franchise_price' => $car->rachat_franchise_price
+                ];
+            } else {
+                $data = [
+                    'car' => $car,
+                    'car_id' => $car->id,
+                    'pickup_date' => $pickupDate->format('Y-m-d'),
+                    'return_date' => $returnDate->format('Y-m-d'),
+                    'pickup_location' => $request->input('pickup_location'),
+                    'return_location' => $request->input('dropoff_location'),
+                    'price_per_day' => $car->price,
+                    'price_2_days' => $car->price_2_days,
+                    'price_3_7_days' => $car->price_3_7_days,
+                    'price_7_plus_days' => $car->price_7_plus_days,
+                    'franchise_price' => $car->franchise_price,
+                    'rachat_franchise_price' => $car->rachat_franchise_price
+                ];
+            }
+
+            return view('reservations.create', compact('data'));
+        } catch (\Exception $e) {
+            \Log::error('Error in reservation creation', [
+                'error' => $e->getMessage(),
+                'car_id' => $carId
+            ]);
+
+            // استخدام الأسعار الافتراضية
+            $data = [
+                'car' => $car,
+                'car_id' => $car->id,
+                'pickup_date' => $pickupDate->format('Y-m-d'),
+                'return_date' => $returnDate->format('Y-m-d'),
+                'pickup_location' => $request->input('pickup_location'),
+                'return_location' => $request->input('return_location'),
+                'price_per_day' => $car->price,
+                'price_2_days' => $car->price_2_days,
+                'price_3_7_days' => $car->price_3_7_days,
+                'price_7_plus_days' => $car->price_7_plus_days,
+                'franchise_price' => $car->franchise_price,
+                'rachat_franchise_price' => $car->rachat_franchise_price
+            ];
+
+            return view('reservations.create', compact('data'));
         }
-
-        $data = [
-            'price_per_day'   => $pricePerDay,
-            'price_2_to_5'    => $price2to5,
-            'price_6_to_20'   => $price6to20,
-            'price_plus_20'   => $pricePlus20,
-            'is_season'       => $isSeason,
-            'franchise_price' => $car->franchise_price ?? 6,
-            'pickup_date'     => $request->input('pickup_date'),
-            'return_date'     => $request->input('return_date'),
-            'car_name'        => $car->name,
-            'pickup_location' => $request->input('pickup_location'),
-            'dropoff_location'=> $request->input('dropoff_location'),
-            'car_id'          => $carId,
-        ];
-
-        return view('reservations.create', compact('data'));
     }
 
     /**
@@ -159,6 +198,7 @@ class ReservationController extends Controller
             'rehausseur'      => 'nullable|integer|min:0|max:2',
             'full_tank'       => 'nullable|boolean',
             'franchise'       => 'nullable|boolean',
+            'rachat_franchise' => 'nullable|boolean',
         ]);
 
         // التحقق من توفر السيارة للفترة المطلوبة
@@ -180,22 +220,22 @@ class ReservationController extends Controller
             ->first();
 
         if ($seasonPriceModel) {
-            if ($days >= 2 && $days <= 5) {
-                $dailyPrice = $seasonPriceModel->price_2_5_days;
-            } elseif ($days >= 6 && $days <= 20) {
-                $dailyPrice = $seasonPriceModel->price_6_20_days;
-            } elseif ($days > 20) {
-                $dailyPrice = $seasonPriceModel->price_20_plus_days;
+            if ($days === 2) {
+                $dailyPrice = $seasonPriceModel->price_2_days;
+            } elseif ($days >= 3 && $days <= 7) {
+                $dailyPrice = $seasonPriceModel->price_3_7_days;
+            } elseif ($days > 7) {
+                $dailyPrice = $seasonPriceModel->price_7_plus_days;
             } else {
                 $dailyPrice = $car->price;
             }
         } else {
-            if ($days >= 2 && $days <= 5) {
-                $dailyPrice = $car->price_2_5_days;
-            } elseif ($days >= 6 && $days <= 20) {
-                $dailyPrice = $car->price_6_20_days;
-            } elseif ($days > 20) {
-                $dailyPrice = $car->price_20_plus_days ?: $car->price;
+            if ($days === 2) {
+                $dailyPrice = $car->price_2_days;
+            } elseif ($days >= 3 && $days <= 7) {
+                $dailyPrice = $car->price_3_7_days;
+            } elseif ($days > 7) {
+                $dailyPrice = $car->price_7_plus_days;
             } else {
                 $dailyPrice = $car->price;
             }
@@ -210,7 +250,8 @@ class ReservationController extends Controller
             + (($validated['siege_bebe'] ?? 0) * $days)
             + (($validated['rehausseur'] ?? 0) * $days)
             + (($validated['full_tank'] ?? false) ? 60 : 0)
-            + (($validated['franchise'] ?? false) ? $car->franchise_price : 0);
+            + (($validated['franchise'] ?? false) ? $car->franchise_price : 0)
+            + (($validated['rachat_franchise'] ?? false) ? $car->rachat_franchise_price : 0);
 
         // إنشاء سجل الحجز
         $reservation = new Reservation();
@@ -240,7 +281,7 @@ class ReservationController extends Controller
             ]
         );
         $encodedMessage = urlencode($message);
-        $waUrl = "https://wa.me/212616885638?text=" . $encodedMessage;
+        $waUrl = "https://wa.me/0660565730?text=" . $encodedMessage;
 
         // إذا كان المستخدم إداري يتم إعادة التوجيه إلى لوحة الحجوزات
         if (Auth::check() && Auth::user()->role == 'admin') {
@@ -283,6 +324,7 @@ class ReservationController extends Controller
             'rehausseur'      => 'nullable|integer|min:0|max:2',
             'full_tank'       => 'nullable|boolean',
             'franchise'       => 'nullable|boolean',
+            'rachat_franchise' => 'nullable|boolean',
         ]);
 
         $reservation = Reservation::findOrFail($id);
@@ -302,17 +344,25 @@ class ReservationController extends Controller
             ->first();
 
         if ($seasonPriceModel) {
-            if ($days >= 2 && $days <= 5) {
-                $dailyPrice = $seasonPriceModel->price_2_5_days;
-            } elseif ($days >= 6 && $days <= 20) {
-                $dailyPrice = $seasonPriceModel->price_6_20_days;
-            } elseif ($days > 20) {
-                $dailyPrice = $seasonPriceModel->price_20_plus_days;
+            if ($days === 2) {
+                $dailyPrice = $seasonPriceModel->price_2_days;
+            } elseif ($days >= 3 && $days <= 7) {
+                $dailyPrice = $seasonPriceModel->price_3_7_days;
+            } elseif ($days > 7) {
+                $dailyPrice = $seasonPriceModel->price_7_plus_days;
             } else {
                 $dailyPrice = $car->price;
             }
         } else {
-            $dailyPrice = $car->price;
+            if ($days === 2) {
+                $dailyPrice = $car->price_2_days;
+            } elseif ($days >= 3 && $days <= 7) {
+                $dailyPrice = $car->price_3_7_days;
+            } elseif ($days > 7) {
+                $dailyPrice = $car->price_7_plus_days;
+            } else {
+                $dailyPrice = $car->price;
+            }
         }
 
         $reservation->total_price = ($dailyPrice * $days) +
@@ -321,7 +371,8 @@ class ReservationController extends Controller
             (($validated['siege_bebe'] ?? 0) * $days) +
             (($validated['rehausseur'] ?? 0) * $days) +
             (($validated['full_tank'] ?? false) ? 60 : 0) +
-            (($validated['franchise'] ?? false) ? $car->franchise_price : 0);
+            (($validated['franchise'] ?? false) ? $car->franchise_price : 0) +
+            (($validated['rachat_franchise'] ?? false) ? $car->rachat_franchise_price : 0);
 
         $reservation->save();
 

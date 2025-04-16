@@ -64,36 +64,34 @@
                 <!-- تفاصيل السيارة -->
                 <div class="grid grid-cols-2 gap-4 text-gray-600 text-sm">
                   <div class="flex items-center">
-                    <i class="fas fa-snowflake mr-1"></i>
-                    <span>AC: {{ $car->ac ? __('messages.yes') : __('messages.no') }}</span>
+                    <i class="fas fa-users mr-1"></i>
+                    <span>{{ __('messages.seats') }}: {{ $car->seats }}</span>
                   </div>
                   <div class="flex items-center">
                     <i class="fas fa-gas-pump mr-1"></i>
                     <span>{{ __('messages.fuel') }}: {{ $car->fuel }}</span>
                   </div>
                   <div class="flex items-center">
-                    <i class="fas fa-users mr-1"></i>
-                    <span>{{ __('messages.seats') }}: {{ $car->seats }}</span>
-                  </div>
-                  <div class="flex items-center">
-                    <i class="fas fa-suitcase-rolling mr-1"></i>
-                    <span>{{ __('messages.luggage') }}: {{ $car->luggage }}</span>
-                  </div>
-                  <div class="flex items-center">
-                    <i class="fas fa-cogs mr-1"></i>
+                    <i class="fas fa-gear mr-1"></i>
                     <span>{{ __('messages.transmission') }}: {{ $car->transmission }}</span>
                   </div>
+                
                   <div class="flex items-center">
                     <i class="fas fa-map-marker-alt mr-1"></i>
                     <span>{{ __('messages.location') }}: {{ $car->location }}</span>
+                  </div>
+                  <div class="flex items-center col-span-2">
+                    <i class="fas fa-road mr-1"></i>
+                    <span>{{ __('messages.kilometer') }}: {{ $car->kilometer }}</span>
                   </div>
                 </div>
                 <!-- سعر الإيجار -->
                 <div class="mt-4 bg-green-50 p-3 rounded-md text-center">
                   <p class="text-lg font-bold text-green-600">
                     <i class="fas fa-dollar-sign mr-1"></i>
-                    €{{ $car->price }} / {{ __('messages.day') }}
+                    €{{ number_format($car->price, 2) }} / {{ __('messages.today') }}
                   </p>
+              
                 </div>
                 <!-- الأزرار -->
                 <div class="mt-4 flex flex-wrap gap-4">
@@ -139,9 +137,9 @@
                             </label>
                             <select name="pickup_location" id="modal_pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
                                 <option value="" disabled selected>{{ __('messages.select_pickup_location') }}</option>
-                             
-
-
+                                @foreach($locations as $location)
+                                    <option value="{{ $location }}">{{ $location }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <!-- مكان التسليم -->

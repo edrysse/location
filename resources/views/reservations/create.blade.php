@@ -12,17 +12,23 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // تمرير المتغيرات السعرية مع التأكد من أنها ليست null
-        // يتم تمرير القيم من الـ controller عبر المتغير $data
-        var pricePerDay = Number({{ $data['price_per_day'] }});
-        var price2to5 = Number({{ $data['price_2_to_5'] }});
-        var price6to20 = Number({{ $data['price_6_to_20'] }});
-        var pricePlus20 = Number({{ $data['price_plus_20'] }});
-        var franchisePrice = Number({{ $data['franchise_price'] }});
+        // تعريف المتغيرات العامة للأسعار
+        @if(isset($data['season_price']))
+            const pricePerDay = {{ $data['season_price']->price_per_day }};
+            const price2Days = {{ $data['season_price']->price_2_days }};
+            const price3to7Days = {{ $data['season_price']->price_3_7_days }};
+            const price7PlusDays = {{ $data['season_price']->price_7_plus_days }};
+        @else
+            const pricePerDay = {{ $data['price_per_day'] }};
+            const price2Days = {{ $data['price_2_days'] ?? $data['price_per_day'] }};
+            const price3to7Days = {{ $data['price_3_7_days'] ?? $data['price_per_day'] }};
+            const price7PlusDays = {{ $data['price_7_plus_days'] ?? $data['price_per_day'] }};
+        @endif
+
+        const franchisePrice = {{ $data['franchise_price'] ?? 0 }};
+        const rachatFranchisePrice = {{ $data['rachat_franchise_price'] ?? 0 }};
 
         function calculateTotal() {
-            console.log("{{ __('messages.calculating_total') }}");
-
             const pickupDateInput = document.getElementById('pickup_date_input');
             const returnDateInput = document.getElementById('return_date_input');
             if (!pickupDateInput || !returnDateInput) return;
@@ -30,52 +36,57 @@
             const pickupDate = new Date(pickupDateInput.value);
             const returnDate = new Date(returnDateInput.value);
             const msPerDay = 1000 * 60 * 60 * 24;
-            const diffDays = Math.ceil((returnDate - pickupDate) / msPerDay);
+            const diffDays = Math.round((returnDate - pickupDate) / msPerDay);
             const days = diffDays > 0 ? diffDays : 1;
-            console.log("{{ __('messages.days_count') }}", days);
 
-            let dailyPrice;
+            console.log('Days:', days);
+
+            // تحديد السعر الإجمالي حسب عدد الأيام
+            let total;
             if (days === 1) {
-                dailyPrice = pricePerDay;
-            } else if (days >= 2 && days <= 5) {
-                dailyPrice = price2to5;
-            } else if (days >= 6 && days <= 20) {
-                dailyPrice = price6to20;
-            } else if (days > 20) {
-                dailyPrice = pricePlus20;
+                total = pricePerDay;
+            } else if (days === 2) {
+                total = price2Days * 2;  // ضرب سعر اليومين في 2
+            } else if (days >= 3 && days <= 7) {
+                total = price3to7Days * days;
             } else {
-                dailyPrice = pricePerDay;
+                total = price7PlusDays * days;
             }
 
-            let total = dailyPrice * days;
+            console.log('Base total:', total);
 
-            // إضافة التكاليف الخاصة بالخيارات الإضافية
-            const gps = document.querySelector('input[name="gps"]:checked')?.value === '1' ? 1 * days : 0;
-            const maxicosi = (parseInt(document.getElementById('maxicosi')?.value) || 0) * days;
-            const childSeat = (parseInt(document.getElementById('siege_bebe')?.value) || 0) * days;
-            // إذا كنت تستخدم خيارات أخرى يمكن إضافتها هنا بنفس الطريقة
+            // إضافة الخيارات الإضافية
+            const gps = document.querySelector('input[name="gps"]:checked')?.value === '1' ? 5 : 0;
+            const maxicosi = parseInt(document.getElementById('maxicosi')?.value) || 0;
+            const childSeat = parseInt(document.getElementById('siege_bebe')?.value) || 0;
             const fullTank = document.querySelector('input[name="full_tank"]:checked')?.value === '1' ? 60 : 0;
-            const franchise = document.querySelector('input[name="franchise"]:checked')?.value === '1' ? franchisePrice * days : 0;
+            const franchise = document.querySelector('input[name="franchise"]:checked')?.value === '1' ? franchisePrice : 0;
+            const rachatFranchise = document.querySelector('input[name="rachat_franchise"]:checked')?.value === '1' ? rachatFranchisePrice : 0;
 
-            total += gps + maxicosi + childSeat + fullTank + franchise;
+            // إضافة التكاليف اليومية
+            total += (gps * days);
+            total += (maxicosi * 3 * days);
+            total += (childSeat * 3 * days);
+            total += fullTank;
+            total += franchise; // Franchise is charged only once
+            total += (rachatFranchise * days);
 
-            // زيادة 3% في حالة اختيار Credit Card كطريقة للدفع
-            var paymentMethod = document.getElementById('payment_method').value;
-            if (paymentMethod === 'Credit Card (+3%)') {
+            // إضافة الضريبة إذا تم اختيارها
+            if (document.querySelector('input[name="vat"]:checked')?.value === '1') {
                 total *= 1.03;
             }
 
-            console.log("{{ __('messages.total_cost') }}", total);
+            // عرض المجموع
             document.getElementById('total').innerText = "{{ __('messages.total_label') }} " + total.toFixed(2);
         }
 
-        // إضافة event listener لجميع عناصر الإدخال والاختيار لحساب التكلفة عند تغييرها
-        document.querySelectorAll('input, select').forEach(element => {
+        // حساب المجموع الأولي عند تحميل الصفحة
+        calculateTotal();
+
+        // إضافة مستمعي الأحداث
+        document.querySelectorAll('input[type="radio"], input[type="number"], select').forEach(function(element) {
             element.addEventListener('change', calculateTotal);
         });
-
-        // حساب التكلفة عند تحميل الصفحة
-        calculateTotal();
     });
   </script>
 
@@ -113,9 +124,9 @@
             {{ __('messages.reservation_information') }}
           </h2>
           <div class="text-sm text-gray-600 space-y-1">
-            <p><strong>{{ __('messages.car') }}</strong> {{ $data['car_name'] }}</p>
+            <p><strong>{{ __('messages.car') }}</strong> {{ $data['car']->name }}</p>
             <p><strong>{{ __('messages.pickup_location') }}</strong> {{ $data['pickup_location'] }}</p>
-            <p><strong>{{ __('messages.dropoff_location') }}</strong> {{ $data['dropoff_location'] }}</p>
+            <p><strong>{{ __('messages.return_location') }}</strong> {{ $data['return_location'] }}</p>
             <p><strong>{{ __('messages.pickup_date') }}</strong> {{ $data['pickup_date'] }}</p>
             <p><strong>{{ __('messages.return_date') }}</strong> {{ $data['return_date'] }}</p>
           </div>
@@ -133,7 +144,7 @@
             <input type="hidden" id="return_date_input" name="return_date" value="{{ $data['return_date'] }}">
             <input type="hidden" name="car_id" value="{{ $data['car_id'] }}">
             <input type="hidden" name="pickup_location" value="{{ $data['pickup_location'] }}">
-            <input type="hidden" name="dropoff_location" value="{{ $data['dropoff_location'] }}">
+            <input type="hidden" name="dropoff_location" value="{{ $data['return_location'] }}">
             <!-- حالة الدفع المخفية (افتراضي: pending) -->
             <input type="hidden" name="payment_status" value="pending">
 
@@ -153,9 +164,7 @@
                 {{ __('messages.email') }}
               </label>
               <input type="email" name="email" id="email" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="{{ __('messages.email_placeholder') }}">
-              <div class="text-sm text-gray-500 mt-1">
-                {{ __('messages.email_note') }}
-              </div>
+              <p class="text-sm text-gray-500 mt-1">{{ __('messages.email_note') }}</p>
             </div>
 
             <!-- حقل الهاتف -->
@@ -165,6 +174,48 @@
                 {{ __('messages.phone') }}
               </label>
               <input type="text" name="phone" id="phone" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="{{ __('messages.phone_placeholder') }}">
+            </div>
+
+            <!-- Franchise Options -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">
+                    <i class="fas fa-shield-alt text-red-500 mr-2"></i>
+                    {{ __('messages.franchise_options') }}
+                </label>
+                <div class="mt-2 space-y-2">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <input type="radio" name="franchise" id="franchise_yes" value="1" class="h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="franchise_yes" class="ml-2 text-sm text-gray-600">
+                                <i class="fas fa-shield-halved text-blue-500 mr-1"></i>
+                                {{ __('messages.franchise') }} 
+                                @if(isset($car))
+                                    ({{ $car->franchise_price }} DH)
+                                @endif
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="franchise" id="franchise_no" value="0" class="h-4 w-4 text-indigo-600 border-gray-300" checked>
+                            <label for="franchise_no" class="ml-2 text-sm text-gray-600">{{ __('messages.no') }}</label>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <input type="radio" name="rachat_franchise" id="rachat_franchise_yes" value="1" class="h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="rachat_franchise_yes" class="ml-2 text-sm text-gray-600">
+                                <i class="fas fa-shield-heart text-green-500 mr-1"></i>
+                                {{ __('messages.rachat_franchise') }}
+                                @if(isset($car))
+                                    ({{ $car->rachat_franchise_price }} DH)
+                                @endif
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="rachat_franchise" id="rachat_franchise_no" value="0" class="h-4 w-4 text-indigo-600 border-gray-300" checked>
+                            <label for="rachat_franchise_no" class="ml-2 text-sm text-gray-600">{{ __('messages.no') }}</label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- حقول خيارات إضافية مخفية -->
@@ -197,14 +248,6 @@
               </label>
               <input type="radio" name="full_tank" value="1"> نعم
               <input type="radio" name="full_tank" value="0" checked> لا
-            </div>
-
-            <div class="hidden">
-              <label for="franchise" class="block text-sm font-semibold text-gray-700">
-                {{ __('messages.franchise') }}
-              </label>
-              <input type="radio" name="franchise" value="1"> نعم
-              <input type="radio" name="franchise" value="0" checked> لا
             </div>
 
             <!-- الموافقة على الشروط والأحكام -->

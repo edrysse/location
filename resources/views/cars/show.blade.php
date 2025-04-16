@@ -71,33 +71,16 @@
           </h2>
           <ul class="space-y-2 text-gray-600">
             <li><i class="fa-solid fa-gas-pump text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.fuel_details') }}:</span> {{ $car->fuel }}</li>
-            <li><i class="fa-solid fa-chair text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.seats_details') }}:</span> {{ $car->seats }}</li>
-            <li><i class="fa-solid fa-suitcase-rolling text-purple-500 mr-2"></i><span class="font-semibold">{{ __('messages.luggage_details') }}:</span> {{ $car->luggage }}</li>
-            <li><i class="fa-solid fa-snowflake text-red-400 mr-2"></i><span class="font-semibold">{{ __('messages.ac_details') }}:</span> {{ $car->ac ? __('messages.yes') : __('messages.no') }}</li>
-            <li><i class="fa-solid fa-gear text-gray-500 mr-2"></i><span class="font-semibold">{{ __('messages.transmission_details') }}:</span> {{ $car->transmission }}</li>
-            <li><i class="fa-solid fa-map-marker-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.location_details') }}:</span> {{ $car->location }}</li>
-            <li><i class="fa-solid fa-dollar-sign text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_day') }}:</span> €{{ number_format($car->price, 2) }}</li>
-            <li><i class="fa-solid fa-money-bill-wave text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_2_5_days') }}:</span> €{{ number_format($car->price_2_5_days, 2) }}</li>
-            <li><i class="fa-solid fa-money-check-alt text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_6_10_days') }}:</span> €{{ number_format($car->price_6_10_days, 2) }}</li>
-            <li><i class="fa-solid fa-hand-holding-dollar text-yellow-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_20_days') }}:</span> €{{ number_format($car->price_20_days, 2) }}</li>
-            <li>
-              <i class="fa-solid fa-store-alt text-indigo-500 mr-2"></i>
-              <span class="font-semibold">{{ __('messages.franchise_price') }}:</span>
-              @if(isset($car->franchise_price))
-                €{{ number_format($car->franchise_price, 2) }}
-              @else
-                {{ __('messages.not_applicable') }}
-              @endif
-            </li>
-            <li>
-              <i class="fa-solid fa-gas-pump text-indigo-500 mr-2"></i>
-              <span class="font-semibold">{{ __('messages.full_tank_price') }}:</span>
-              @if(isset($car->full_tank_price))
-                €{{ number_format($car->full_tank_price, 2) }}
-              @else
-                {{ __('messages.not_applicable') }}
-              @endif
-            </li>
+            <li><i class="fa-solid fa-users text-blue-500 mr-2"></i><span class="font-semibold">{{ __('messages.seats') }}:</span> {{ $car->seats }}</li>
+            <li><i class="fa-solid fa-gear text-purple-500 mr-2"></i><span class="font-semibold">{{ __('messages.transmission') }}:</span> {{ $car->transmission }}</li>
+            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_per_day') }}:</span> €{{ number_format($car->price, 2) }}</li>
+            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_2_days') }}:</span> €{{ number_format($car->price_2_days, 2) }}</li>
+            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_3_7_days') }}:</span> €{{ number_format($car->price_3_7_days, 2) }}</li>
+            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_7_plus_days') }}:</span> €{{ number_format($car->price_7_plus_days, 2) }}</li>
+            <li><i class="fa-solid fa-shield-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.franchise_price') }}:</span> {{ $car->franchise_price ? '€' . number_format($car->franchise_price, 2) : __('messages.not_available') }}</li>
+            <li><i class="fa-solid fa-shield-alt text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.rachat_franchise_price') }}:</span> {{ $car->rachat_franchise_price ? '€' . number_format($car->rachat_franchise_price, 2) : __('messages.not_available') }}</li>
+            <li><i class="fa-solid fa-map-marker-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.location') }}:</span> {{ $car->location }}</li>
+            <li><i class="fa-solid fa-road text-gray-500 mr-2"></i><span class="font-semibold">{{ __('messages.kilometer') }}:</span> {{ $car->kilometer }}</li>
             <li><i class="fa-solid fa-check-circle text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.available') }}:</span> {{ $car->available ? __('messages.yes') : __('messages.no') }}</li>
           </ul>
         </div>
@@ -123,15 +106,15 @@
               <div class="text-gray-700 space-y-1">
                 <p>
                   <i class="fa-solid fa-money-bill-wave text-yellow-500 mr-1"></i>
-                  <span class="font-semibold">{{ __('messages.price_2_5_days') }}:</span> €{{ number_format($season->price_2_5_days, 2) }}
+                  2 Days Price: €{{ number_format($season->price_2_days, 2) }}
                 </p>
                 <p>
                   <i class="fa-solid fa-money-check-alt text-yellow-500 mr-1"></i>
-                  <span class="font-semibold">{{ __('messages.price_6_10_days') }}:</span> €{{ number_format($season->price_6_20_days, 2) }}
+                  3-7 Days Price: €{{ number_format($season->price_3_7_days, 2) }}
                 </p>
                 <p>
                   <i class="fa-solid fa-hand-holding-dollar text-yellow-500 mr-1"></i>
-                  <span class="font-semibold">{{ __('messages.price_20_days') }}:</span> €{{ number_format($season->price_20_plus_days, 2) }}
+                  +7 Days Price: €{{ number_format($season->price_7_plus_days, 2) }}
                 </p>
               </div>
             </div>

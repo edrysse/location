@@ -65,7 +65,7 @@
 <body>
 
   <!-- زر واتساب -->
-  <a id="whatsappBtn" title=" call via whatsapp" href="https://wa.me/212616885638" target="_blank">
+  <a id="whatsappBtn" title=" call via whatsapp" href="https://wa.me/0660565730" target="_blank">
     <i class="fab fa-whatsapp"></i>
   </a>
 

@@ -86,7 +86,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     */
     Route::get('/', [Home1Controller::class, 'index'])->name('home');
     Route::get('/available-cars', [CarController::class, 'availableCars'])->name('available.cars');
-
+    Route::get('/cars', [CarController::class, 'index'])->name('cars');
     // صفحة "عن الموقع" الأولى (انتبه إلى التعارض مع تعريف "/about" الثاني)
     Route::get('/about', function () {
         return view('about');
@@ -140,10 +140,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::get('/contact/{contact}/edit', [ContactController::class, 'edit'])->name('contact.edit');
         Route::put('/contact/{contact}', [ContactController::class, 'update'])->name('contact.update');
         Route::delete('/contact/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');
-        Route::post('/cars', [CarController::class, 'store'])->name('cars.index');
+        Route::post('/cars', [CarController::class, 'store'])->name('cars.store');
 
         // إدارة السيارات من لوحة الإدارة
-        Route::get('/carsadmin', [CarController::class, 'adminindex'])->name('cars.index');
+        Route::get('/carsadmin', [CarController::class, 'adminindex'])->name('admin.cars.index');
 
         // إدارة الحجوزات
         Route::resource('reservations', ReservationController::class);

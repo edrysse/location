@@ -72,7 +72,7 @@
       <div class="flex items-center justify-between h-20">
         <!-- اللوجو -->
         <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="flex-shrink-0">
-          <img src="{{ asset('assets/diam-logo.png') }}" alt="{{ __('messages.site_logo_alt') }}" class="h-16">
+          <img src="{{ asset('assets/new-logo.png') }}" alt="{{ __('messages.site_logo_alt') }}" class="h-16">
         </a>
         <!-- قائمة التنقل الرئيسية للشاشات المكتبية -->
         <div class="hidden md:flex space-x-6 items-center">

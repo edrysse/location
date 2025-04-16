@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Reservation;
+use App\Models\CarSeasonPrice;
+use App\Models\SeasonPrice;
 
 class Car extends Model
 {
@@ -11,30 +14,33 @@ class Car extends Model
 
     protected $fillable = [
         'name',
-        'type',
         'fuel',
         'seats',
-        'luggage',
-        'ac',
         'transmission',
-        'price_2_5_days',
-        'price_6_10_days',
-        'price_20_days',
+        'price',
+        'price_2_days',
+        'price_3_7_days',
+        'price_7_plus_days',
+        'franchise_price',
+        'rachat_franchise_price',
         'location',
         'image',
         'available',
-        'price',
-        'franchise_price',
-        'full_tank_price' 
-
+        'kilometer'
     ];
-    public function reservations()
-{
-    return $this->hasMany(Reservation::class);
-}
-public function seasonPrices()
-{
-    return $this->hasMany(CarSeasonPrice::class);
-}
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function seasonPrices()
+    {
+        return $this->hasMany(SeasonPrice::class);
+    }
+
+    public function carSeasonPrices()
+    {
+        return $this->hasMany(CarSeasonPrice::class);
+    }
 }

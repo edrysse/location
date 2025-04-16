@@ -63,9 +63,9 @@
   <!-- Why Choose Us -->
   <section class="container mx-auto my-12 px-4">
     <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.why_choose_us') }}</h2>
-      <p class="text-gray-600 mt-2">{{ __('messages.best_service_description') }}</p>
-    </div>
+        <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.why_choose_us') }}</h2>
+        <p class="text-gray-600 mt-2">{{ __('messages.best_service_description') }}</p>
+      </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="bg-white p-6 rounded-lg shadow-lg text-center">
         <i class="fas fa-truck-moving text-red-600 text-4xl mb-4"></i>
@@ -79,7 +79,7 @@
       </div>
       <div class="bg-white p-6 rounded-lg shadow-lg text-center">
         <i class="fas fa-headset text-red-600 text-4xl mb-4"></i>
-        <h3 class="text-xl font-semibold mb-2">{{ __('messages.support') }}</h3>
+        <h3 class="text-xl font-semibold mb-2">{{ __('messages.have_questions') }}</h3>
         <p class="text-gray-600">{{ __('messages.support_description') }}</p>
       </div>
     </div>
@@ -102,7 +102,9 @@
             </label>
             <select name="pickup_location" id="pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
               <option value="" disabled selected>{{ __('messages.select_pickup_location') }}</option>
-        
+              <option value="Marrakech (Agence)">Marrakech (Agence)</option>
+              <option value="Marrakech medina">Marrakech medina</option>
+              <option value="Marrakech aéroport">Marrakech aéroport</option>
             </select>
           </div>
           <div>
@@ -146,7 +148,7 @@
   <section class="container mx-auto my-12 px-4">
     <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
       <i class="fas fa-car mr-2 text-red-500"></i>
-      {{ __('messages.our_cars') }}
+      {{ __('messages.view_all_cars') }}
     </h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       @foreach ($cars->take(3) as $car)
@@ -163,34 +165,30 @@
           </h5>
           <div class="grid grid-cols-2 gap-4 text-gray-600 text-sm">
             <div class="flex items-center">
-              <i class="fas fa-snowflake mr-1"></i>
-              <span>{{ __('messages.ac') }}: {{ $car->ac ? __('messages.yes') : __('messages.no') }}</span>
+              <i class="fas fa-users mr-1"></i>
+              <span>{{ __('messages.seats') }}: {{ $car->seats }}</span>
             </div>
             <div class="flex items-center">
               <i class="fas fa-gas-pump mr-1"></i>
               <span>{{ __('messages.fuel') }}: {{ $car->fuel }}</span>
             </div>
             <div class="flex items-center">
-              <i class="fas fa-users mr-1"></i>
-              <span>{{ __('messages.seats') }}: {{ $car->seats }}</span>
-            </div>
-            <div class="flex items-center">
-              <i class="fas fa-suitcase-rolling mr-1"></i>
-              <span>{{ __('messages.luggage') }}: {{ $car->luggage }}</span>
-            </div>
-            <div class="flex items-center">
-              <i class="fas fa-cogs mr-1"></i>
+              <i class="fas fa-gear mr-1"></i>
               <span>{{ __('messages.transmission') }}: {{ $car->transmission }}</span>
             </div>
             <div class="flex items-center">
               <i class="fas fa-map-marker-alt mr-1"></i>
               <span>{{ __('messages.location') }}: {{ $car->location }}</span>
             </div>
+            <div class="flex items-center col-span-2">
+              <i class="fas fa-road mr-1"></i>
+              <span>{{ __('messages.kilometer') }}: {{ $car->kilometer }}</span>
+            </div>
           </div>
           <div class="mt-4 bg-green-50 p-3 rounded-md text-center">
             <p class="text-lg font-bold text-green-600">
               <i class="fas fa-dollar-sign mr-1"></i>
-              €{{ $car->price }} / {{ __('messages.day') }}
+              €{{ number_format($car->price, 2) }} / {{ __('messages.today') }}
             </p>
           </div>
           <div class="mt-4 flex flex-wrap gap-4">
@@ -209,7 +207,8 @@
       @endforeach
     </div>
     <div class="text-center mt-8">
-      <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
+      <a href="{{ LaravelLocalization::localizeURL(route('cars')) }}" class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
+        <i class="fas fa-car mr-2"></i>
         {{ __('messages.view_all_cars') }}
       </a>
     </div>
@@ -218,8 +217,8 @@
   <!-- Testimonials Section -->
   <section class="container mx-auto my-12 px-4">
     <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.testimonials') }}</h2>
-      <p class="text-gray-600 mt-2">{{ __('messages.happy_customers') }}</p>
+      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.customer_testimonials') }}</h2>
+      <p class="text-gray-600 mt-2">{{ __('messages.hear_from_customers') }}</p>
     </div>
     <div id="testimonialSwiper" class="swiper-container relative">
       <div class="swiper-wrapper">
@@ -251,7 +250,7 @@
   <!-- FAQ Section -->
   <section class="container mx-auto my-12 px-4">
     <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.faqs') }}</h2>
+      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.have_questions') }}</h2>
       <p class="text-gray-600 mt-2">{{ __('messages.faqs_description') }}</p>
     </div>
     <div class="space-y-4">
@@ -279,7 +278,7 @@
     <div class="bg-white rounded-lg shadow-lg p-8">
       <div class="text-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.contact_us') }}</h2>
-        <p class="text-gray-600 mt-2">{{ __('messages.contact_question') }}</p>
+        <p class="text-gray-600 mt-2">{{ __('messages.questions_contact') }}</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
@@ -299,7 +298,7 @@
         <div class="md:col-span-2">
           <h3 class="text-xl font-semibold text-gray-800 mb-4">
             <i class="fas fa-map-marker-alt mr-2 text-red-600"></i>
-            {{ __('messages.address') }}
+            {{ __('messages.address_title') }}
           </h3>
           <p class="text-gray-600">
             Angle Avenue 11 Janvier & Rue, Bd Prince Moulay Abdellah, Marrakech 40000
