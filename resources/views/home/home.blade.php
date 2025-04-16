@@ -207,7 +207,7 @@
       @endforeach
     </div>
     <div class="text-center mt-8">
-      <a href="{{ LaravelLocalization::localizeURL(route('cars.available_cars')) }}" class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
+      <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
         <i class="fas fa-car mr-2"></i>
         {{ __('messages.view_all_cars') }}
       </a>
