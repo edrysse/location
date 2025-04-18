@@ -281,8 +281,8 @@ class ReservationController extends Controller
             ]
         );
         $encodedMessage = urlencode($message);
-        $waUrl = "https://wa.me/0660565730?text=" . $encodedMessage;
-
+        $waUrl = "https://wa.me/212660565730?text=" . $encodedMessage;
+        
         // إذا كان المستخدم إداري يتم إعادة التوجيه إلى لوحة الحجوزات
         if (Auth::check() && Auth::user()->role == 'admin') {
             return redirect()->route('reservations.index')->with('success', 'Reservation created successfully!');
