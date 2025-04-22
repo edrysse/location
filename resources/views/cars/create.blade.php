@@ -55,6 +55,18 @@
             </select>
           </div>
 
+          <!-- Doors -->
+          <div class="mb-4">
+            <label for="doors" class="block text-gray-700 font-semibold">{{ __('messages.doors') }}</label>
+            <input type="number" min="2" max="7" name="doors" id="doors" value="{{ old('doors', 4) }}" class="form-input mt-1 block w-full" required>
+          </div>
+
+          <!-- Bags -->
+          <div class="mb-4">
+            <label for="bags" class="block text-gray-700 font-semibold">{{ __('messages.bags') }}</label>
+            <input type="number" min="1" max="8" name="bags" id="bags" value="{{ old('bags', 2) }}" class="form-input mt-1 block w-full" required>
+          </div>
+
           <!-- Seats -->
           <div>
             <label class="block text-lg font-medium text-gray-700">Seats</label>

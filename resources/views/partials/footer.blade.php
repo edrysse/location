@@ -1,4 +1,4 @@
-<footer class="custom-footer">
+<footer @if(app()->getLocale()==='ar') dir="ltr" @endif class="custom-footer">
   <div class="container">
     <div class="footer-content">
       <!-- النصف الأيسر: الخريطة -->
@@ -36,7 +36,7 @@
 
         <div class="footer-social">
           <a href="https://www.facebook.com/profile.php?id=100065028038032#"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/diamantinacar/"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.instagram.com/diamantinacar.ma/"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
     </div>
@@ -66,12 +66,13 @@
 </script>
 
 <style>
+
   .custom-footer {
-    background: linear-gradient(135deg, #1a1a1a, #333333);
-    color: #e0e0e0;
-    text-align: center;
-    padding: 40px 20px;
-    font-family: 'Arial', sans-serif;
+    background-color: #ffffff; /* بدل التدرج باللون الأبيض */
+  color: #333333;            /* لون النص داكن ليتباين مع الخلفية */
+  text-align: center;
+  padding: 40px 20px;
+  font-family: 'Arial', sans-serif;
   }
 
   .footer-content {
@@ -99,7 +100,7 @@
     max-width: 100%;
     margin-bottom: 10px;
   }
-  
+
   .footer-map iframe {
     height: 300px; /* زيادة الارتفاع في الشاشات الصغيرة */
   }
@@ -125,7 +126,7 @@
 
   .footer-nav a {
     display: inline-block;
-    color: #e0e0e0;
+    color: #000000;
     text-decoration: none;
     margin: 5px 10px;
     font-size: 1rem;
@@ -153,8 +154,8 @@
 
   .footer-social a {
     display: inline-block;
-    color: #e0e0e0;
-    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    background: #ff0000;
     width: 40px;
     height: 40px;
     line-height: 40px;
@@ -165,7 +166,7 @@
   }
 
   .footer-social a:hover {
-    background:red;
+    background: #cc0000;
     transform: scale(1.1);
   }
 

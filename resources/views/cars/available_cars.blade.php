@@ -31,19 +31,19 @@
     @include('partials.navbar')
 
     <!-- Hero Section -->
-    <section class="relative bg-cover bg-center h-96" style="background-image: url('/assets/hero-section.jpg');">
+    <section class="relative h-screen bg-cover bg-center " style="background-image: url('/assets/hero-section.jpg');">
         <div class="absolute inset-0 bg-black opacity-50"></div>
         <div class="container mx-auto h-full flex flex-col justify-center items-center relative z-10">
             <h1 class="text-5xl font-bold text-white mb-4">{{ __('messages.available_cars') }}</h1>
             <p class="text-xl text-white mb-6">{{ __('messages.find_best_cars') }}</p>
-            <a href="#reservation" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
+            <a href="#explore" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
                 {{ __('messages.book_now') }}
             </a>
         </div>
     </section>
 
     <!-- Car Listing Section -->
-    <section class="container mx-auto my-12 px-4">
+    <section class="container mx-auto my-12 px-4"  id="explore">
         <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
             <i class="fas fa-car mr-2 text-red-500"></i>
             {{ __('messages.available_cars') }}
@@ -52,61 +52,34 @@
             @foreach ($cars as $car)
             <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
               @if ($car->image)
-                <img src="{{ asset( $car->image) }}" loading="lazy" class="w-full h-48 object-cover" alt="{{ $car->name }}">
+                <img src="{{ asset($car->image) }}" loading="lazy" class="w-full h-48 object-cover" alt="{{ $car->name }}">
               @else
-                <img src="default-car.jpg" alt="Default Car" class="w-full h-48 object-cover">
+                <img src="default-car.jpg" alt="{{ __('messages.default_car') }}" class="w-full h-48 object-cover">
               @endif
               <div class="p-6">
                 <h5 class="text-xl font-bold text-gray-800 flex items-center mb-4">
                   <i class="fas fa-car-side text-red-500 mr-2"></i>
                   {{ $car->name }}
                 </h5>
-                <!-- تفاصيل السيارة -->
-                <div class="grid grid-cols-2 gap-4 text-gray-600 text-sm">
-                  <div class="flex items-center">
-                    <i class="fas fa-users mr-1"></i>
-                    <span>{{ __('messages.seats') }}: {{ $car->seats }}</span>
-                  </div>
-                  <div class="flex items-center">
-                    <i class="fas fa-gas-pump mr-1"></i>
-                    <span>{{ __('messages.fuel') }}: {{ $car->fuel }}</span>
-                  </div>
-                  <div class="flex items-center">
-                    <i class="fas fa-gear mr-1"></i>
-                    <span>{{ __('messages.transmission') }}: {{ $car->transmission }}</span>
-                  </div>
-                
-                  <div class="flex items-center">
-                    <i class="fas fa-map-marker-alt mr-1"></i>
-                    <span>{{ __('messages.location') }}: {{ $car->location }}</span>
-                  </div>
-                  <div class="flex items-center col-span-2">
-                    <i class="fas fa-road mr-1"></i>
-                    <span>{{ __('messages.kilometer') }}: {{ $car->kilometer }}</span>
-                  </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-600 text-sm">
+                  <div class="flex items-center gap-2"><i class="fas fa-users text-red-500"></i><span>{{ __('messages.seats') }}: <span class="font-bold">{{ $car->seats }}</span></span></div>
+                  <div class="flex items-center gap-2"><i class="fas fa-gas-pump text-yellow-600"></i><span>{{ __('messages.fuel') }}: <span class="font-bold">{{ $car->fuel }}</span></span></div>
+                  <div class="flex items-center gap-2"><i class="fas fa-gear text-blue-600"></i><span>{{ __('messages.transmission') }}: <span class="font-bold">{{ $car->transmission }}</span></span></div>
+                  <div class="flex items-center gap-2"><i class="fas fa-door-open text-green-600"></i><span>{{ __('messages.doors') }}: <span class="font-bold">{{ $car->doors }}</span></span></div>
+                  <div class="flex items-center gap-2"><i class="fas fa-suitcase text-purple-600"></i><span>{{ __('messages.bags') }}: <span class="font-bold">{{ $car->bags }}</span></span></div>
                 </div>
-                <!-- سعر الإيجار -->
                 <div class="mt-4 bg-green-50 p-3 rounded-md text-center">
-                  <p class="text-lg font-bold text-green-600">
-                    <i class="fas fa-dollar-sign mr-1"></i>
-                    €{{ number_format($car->price, 2) }} / {{ __('messages.today') }}
-                  </p>
-              
+                  <p class="text-lg font-bold text-green-600"><i class="fas fa-dollar-sign mr-1"></i>{{ \App\Helpers\CurrencyHelper::formatPrice($car->price) }} / {{ __('messages.today') }}</p>
                 </div>
-                <!-- الأزرار -->
                 <div class="mt-4 flex flex-wrap gap-4">
-                    <!-- زر الحجز -->
-                    <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex-1"
-                            onclick="openModal({{ $car->id }}, this)" data-location="{{ $car->location }}">
-                        {{ __('messages.book_now') }}
-                    </button>
-
-                    <!-- زر عرض التفاصيل -->
-                    <a href="{{ route('cars.show', $car->id) }}"
-                       class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center">
-                        <i class="fas fa-info-circle mr-2"></i>
-                        {{ __('messages.view_details') }}
-                    </a>
+                  <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex-1"
+                          onclick="openModal({{ $car->id }}, this)" data-location="{{ $car->location }}">
+                    {{ __('messages.book_now') }}
+                  </button>
+                  <a href="{{ route('cars.show', $car->id) }}" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    {{ __('messages.view_details') }}
+                  </a>
                 </div>
               </div>
             </div>

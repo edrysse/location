@@ -206,6 +206,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
     });
 
+    // إعداد اللغة
+    Route::get('/set-language/{lang}', [App\Http\Controllers\CarController::class, 'setLanguage'])->name('set.language');
+
+    // عداد الزوار (يتم استدعاؤه عند زيارة الموقع)
+    Route::get('/count-visitor', function () {
+        \App\Http\Controllers\CarController::incrementVisitor();
+        return response()->json(['status' => 'incremented']);
+    });
 
     /*
     |--------------------------------------------------------------------------

@@ -28,7 +28,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // حفظ user_id في الكوكيز عند تسجيل الدخول
+        $userId = auth()->user()->id;
+        return redirect()->intended(route('dashboard', absolute: false))
+            ->withCookie(cookie('user_id', $userId, 60 * 24 * 30));
     }
 
     /**

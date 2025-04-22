@@ -11,6 +11,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <script>
+    const currentLocale = "{{ app()->getLocale() }}";
+    let currencySymbol = '';
+    if (currentLocale === 'en') {
+        currencySymbol = '$';
+    } else if (currentLocale === 'fr') {
+        currencySymbol = '€';
+    } else if (currentLocale === 'ar') {
+        currencySymbol = 'د.م';
+    }
+    const multiplyDh = currentLocale === 'ar' ? 10 : 1;
     document.addEventListener("DOMContentLoaded", function () {
         // تعريف المتغيرات العامة للأسعار
         @if(isset($data['season_price']))
@@ -39,36 +49,31 @@
             const diffDays = Math.round((returnDate - pickupDate) / msPerDay);
             const days = diffDays > 0 ? diffDays : 1;
 
-            console.log('Days:', days);
-
             // تحديد السعر الإجمالي حسب عدد الأيام
             let total;
             if (days === 1) {
                 total = pricePerDay;
             } else if (days === 2) {
-                total = price2Days * 2;  // ضرب سعر اليومين في 2
+                total = price2Days * 2;
             } else if (days >= 3 && days <= 7) {
                 total = price3to7Days * days;
             } else {
                 total = price7PlusDays * days;
             }
 
-            console.log('Base total:', total);
-
             // إضافة الخيارات الإضافية
             const gps = document.querySelector('input[name="gps"]:checked')?.value === '1' ? 5 : 0;
             const maxicosi = parseInt(document.getElementById('maxicosi')?.value) || 0;
             const childSeat = parseInt(document.getElementById('siege_bebe')?.value) || 0;
             const fullTank = document.querySelector('input[name="full_tank"]:checked')?.value === '1' ? 60 : 0;
-            const franchise = document.querySelector('input[name="franchise"]:checked')?.value === '1' ? franchisePrice : 0;
-            const rachatFranchise = document.querySelector('input[name="rachat_franchise"]:checked')?.value === '1' ? rachatFranchisePrice : 0;
+            const franchise = document.querySelector('input[name="insurance_option"]:checked')?.value === 'franchise' ? franchisePrice : 0;
+            const rachatFranchise = document.querySelector('input[name="insurance_option"]:checked')?.value === 'rachat_franchise' ? rachatFranchisePrice : 0;
 
-            // إضافة التكاليف اليومية
             total += (gps * days);
             total += (maxicosi * 3 * days);
             total += (childSeat * 3 * days);
             total += fullTank;
-            total += franchise; // Franchise is charged only once
+            total += franchise;
             total += (rachatFranchise * days);
 
             // إضافة الضريبة إذا تم اختيارها
@@ -76,8 +81,14 @@
                 total *= 1.03;
             }
 
-            // عرض المجموع
-            document.getElementById('total').innerText = "{{ __('messages.total_label') }} " + total.toFixed(2);
+            // عرض المجموع مع العملة
+            let totalText = "{{ __('messages.total_label') }} ";
+            if (currentLocale === 'fr' || currentLocale === 'en') {
+                totalText += currencySymbol + (total * multiplyDh).toFixed(2);
+            } else {
+                totalText += (total * multiplyDh).toFixed(2) + ' ' + currencySymbol;
+            }
+            document.getElementById('total').innerText = totalText;
         }
 
         // حساب المجموع الأولي عند تحميل الصفحة
@@ -97,9 +108,9 @@
   @include('partials.up')
 
   <!-- Main Content Container -->
-  <div class="container mx-auto flex-1 py-10 px-4 sm:px-6 lg:px-8">
+  <div class="container mx-auto flex-1 py-10 px-4 sm:px-6 lg:px-8 ">
     <!-- Page Title -->
-    <h1 class="text-4xl font-extrabold text-center text-gray-800">
+    <h1 class="text-4xl font-extrabold text-center text-gray-800 pt-12">
       <i class="fas fa-car-side mr-2 text-red-500"></i>
       {{ __('messages.create_reservation_header') }}
     </h1>
@@ -114,7 +125,7 @@
     @endif
 
     <!-- Two Columns Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 @if(app()->getLocale()==='ar') flex-row-reverse @endif">
 
       <!-- Left Column: Reservation Information (Sticky) -->
       <div class="md:sticky md:top-10">
@@ -130,7 +141,7 @@
             <p><strong>{{ __('messages.pickup_date') }}</strong> {{ $data['pickup_date'] }}</p>
             <p><strong>{{ __('messages.return_date') }}</strong> {{ $data['return_date'] }}</p>
           </div>
-          <p class="text-lg font-bold text-green-600 mt-4" id="total">{{ __('messages.total_label') }} 0.00</p>
+          <p class="text-lg font-bold text-green-600 mt-4" id="total"></p>
         </div>
       </div>
 
@@ -183,36 +194,44 @@
                     {{ __('messages.franchise_options') }}
                 </label>
                 <div class="mt-2 space-y-2">
-                    <div class="flex items-center space-x-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 gap-2">
                         <div class="flex items-center">
-                            <input type="radio" name="franchise" id="franchise_yes" value="1" class="h-4 w-4 text-indigo-600 border-gray-300">
-                            <label for="franchise_yes" class="ml-2 text-sm text-gray-600">
+                            <input type="radio" name="insurance_option" id="insurance_franchise" value="franchise" class="h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="insurance_franchise" class="ml-2 text-sm text-gray-600">
                                 <i class="fas fa-shield-halved text-blue-500 mr-1"></i>
-                                {{ __('messages.franchise') }} 
-                                @if(isset($car))
-                                    ({{ $car->franchise_price }} DH)
-                                @endif
+                                {{ __('messages.franchise') }}
+                                <span class="font-bold text-green-700">(
+                                    @if(isset($car) && $car->franchise_price)
+                                        {{ number_format($car->franchise_price, 2) }} DH
+                                    @elseif(isset($data['franchise_price']))
+                                        {{ number_format($data['franchise_price'], 2) }} DH
+                                    @else
+                                        0 DH
+                                    @endif
+                                )</span>
                             </label>
                         </div>
                         <div class="flex items-center">
-                            <input type="radio" name="franchise" id="franchise_no" value="0" class="h-4 w-4 text-indigo-600 border-gray-300" checked>
-                            <label for="franchise_no" class="ml-2 text-sm text-gray-600">{{ __('messages.no') }}</label>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="flex items-center">
-                            <input type="radio" name="rachat_franchise" id="rachat_franchise_yes" value="1" class="h-4 w-4 text-indigo-600 border-gray-300">
-                            <label for="rachat_franchise_yes" class="ml-2 text-sm text-gray-600">
-                                <i class="fas fa-shield-heart text-green-500 mr-1"></i>
-                                {{ __('messages.rachat_franchise') }}
-                                @if(isset($car))
-                                    ({{ $car->rachat_franchise_price }} DH)
-                                @endif
+                            <input type="radio" name="insurance_option" id="insurance_rachat" value="rachat_franchise" class="h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="insurance_rachat" class="ml-2 text-sm text-gray-600 flex flex-col">
+                                <span>
+                                    <i class="fas fa-shield-heart text-green-500 mr-1"></i>
+                                    {{ __('messages.rachat_franchise') }}
+                                </span>
+                                <span class="font-bold text-green-700">(
+                                    @if(isset($car) && $car->rachat_franchise_price)
+                                        {{ number_format($car->rachat_franchise_price, 2) }} DH
+                                    @elseif(isset($data['rachat_franchise_price']))
+                                        {{ number_format($data['rachat_franchise_price'], 2) }} DH
+                                    @else
+                                        0 DH
+                                    @endif
+                                ) <span class="text-xs text-gray-500">/{{ __('messages.today') }}</span></span>
                             </label>
                         </div>
                         <div class="flex items-center">
-                            <input type="radio" name="rachat_franchise" id="rachat_franchise_no" value="0" class="h-4 w-4 text-indigo-600 border-gray-300" checked>
-                            <label for="rachat_franchise_no" class="ml-2 text-sm text-gray-600">{{ __('messages.no') }}</label>
+                            <input type="radio" name="insurance_option" id="insurance_none" value="none" class="h-4 w-4 text-indigo-600 border-gray-300" checked>
+                            <label for="insurance_none" class="ml-2 text-sm text-gray-600">{{ __('messages.no') }}</label>
                         </div>
                     </div>
                 </div>

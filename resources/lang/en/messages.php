@@ -36,7 +36,8 @@ return [
     'affordable_prices_description' => 'Enjoy competitive prices without hidden fees.',
     'support' => '24/7 Support',
     'support_description' => 'Our team is available around the clock to provide support.',
-    'download_terms_pdf' => 'View Terms & Conditions (PDF)',
+    'download_terms_pdf' => 'Download Terms & Conditions',
+    'download_privacy_pdf' => 'Download Privacy Policy',
     'make_reservation' => 'Make a Reservation',
     'pickup_location' => 'Pickup Location',
     'select_pickup_location' => 'Select Pickup Location',
@@ -74,8 +75,8 @@ return [
 
     'specifications' => 'Car Specifications',
     'fuel' => 'Fuel',
-    'seats' => 'Number of Seats',
-    'luggage' => 'Number of Bags',
+    'seats' => ' f Seats',
+    'luggage' => ' Bags',
     'ac' => 'Air Conditioning',
     'ac_available' => 'Yes',
     'ac_not_available' => 'No',
@@ -151,6 +152,8 @@ return [
     'no_image'               => 'No Image',
     'not_applicable'         => 'Not Applicable',
 
+    'doors' => 'Doors',
+    'bags' => 'Bags',
 
     'footer_title'            => 'Diamantina Car',
     'footer_description'      => 'Diamantina Car offers you the best car rental deals in Marrakech.',
@@ -331,7 +334,7 @@ return [
     'dropoff_location'           => 'Drop-off Location:',
     'pickup_date'                => 'Pickup Date:',
     'return_date'                => 'Return Date:',
-    'total_label'                => 'Total: €',
+    'total_label'                => 'Total: ',
     'name'                       => 'Name',
     'name_placeholder'           => 'Your Full Name',
     'email'                      => 'Email',
@@ -381,6 +384,7 @@ return [
 'franchise_options' => 'Insurance Options',
 'franchise' => 'Basic Insurance',
 'rachat_franchise' => 'Full Insurance Coverage',
+'franchise_buyback' => 'Franchise buyback',
 'terms_agreement' => 'I agree to the',
 'terms_link' => 'Terms & Conditions',
 'email_note' => 'We will use this email to contact you for reservation confirmation',
@@ -423,4 +427,11 @@ return [
 
     'confirm_booking_message' => "Hello,\nI would like to confirm my car reservation. Details:\nCar: :car\nPickup Location: :pickup\nDropoff Location: :dropoff\nPickup Date: :pickup_date\nReturn Date: :return_date\nPlease confirm the booking.",
 
+    'welcome_diamantina' => 'Welcome to Diamantina Car',
+    'find_cars' => 'Find Cars',
+    'our_cars' => 'Our Cars',
+    'address_main' => 'Angle Avenue 11 Janvier & Rue, Bd Prince Moulay Abdellah, Marrakech 40000',
+    'cookie_message' => 'This website uses cookies to enhance your experience. You can accept or reject cookies.',
+    'accept_cookies' => 'Accept Cookies',
+    'reject_cookies' => 'Reject Cookies',
 ];

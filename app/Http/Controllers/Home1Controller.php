@@ -20,6 +20,7 @@ class Home1Controller extends Controller
 {
 
     public function index() {
+        \App\Http\Controllers\CarController::incrementVisitor();
         $cars = Car::all();
         $reviews = Review::all();
 

@@ -51,7 +51,7 @@
     @include('partials.up')
 
   <!-- تفاصيل السيارة -->
-  <div class="container mx-auto my-10 px-4">
+  <div class="container mx-auto my-10 px-4 pt-12">
     <div class="bg-white rounded-lg shadow p-6">
       <div class="flex flex-col md:flex-row items-center md:items-start">
         <!-- صورة السيارة -->
@@ -73,15 +73,15 @@
             <li><i class="fa-solid fa-gas-pump text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.fuel_details') }}:</span> {{ $car->fuel }}</li>
             <li><i class="fa-solid fa-users text-blue-500 mr-2"></i><span class="font-semibold">{{ __('messages.seats') }}:</span> {{ $car->seats }}</li>
             <li><i class="fa-solid fa-gear text-purple-500 mr-2"></i><span class="font-semibold">{{ __('messages.transmission') }}:</span> {{ $car->transmission }}</li>
-            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_per_day') }}:</span> €{{ number_format($car->price, 2) }}</li>
-            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_2_days') }}:</span> €{{ number_format($car->price_2_days, 2) }}</li>
-            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_3_7_days') }}:</span> €{{ number_format($car->price_3_7_days, 2) }}</li>
-            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_7_plus_days') }}:</span> €{{ number_format($car->price_7_plus_days, 2) }}</li>
-            <li><i class="fa-solid fa-shield-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.franchise_price') }}:</span> {{ $car->franchise_price ? '€' . number_format($car->franchise_price, 2) : __('messages.not_available') }}</li>
-            <li><i class="fa-solid fa-shield-alt text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.rachat_franchise_price') }}:</span> {{ $car->rachat_franchise_price ? '€' . number_format($car->rachat_franchise_price, 2) : __('messages.not_available') }}</li>
+            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_per_day') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price) }}</li>
+            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_2_days') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price_2_days) }}</li>
+            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_3_7_days') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price_3_7_days) }}</li>
+            <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_7_plus_days') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price_7_plus_days) }}</li>
             <li><i class="fa-solid fa-map-marker-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.location') }}:</span> {{ $car->location }}</li>
             <li><i class="fa-solid fa-road text-gray-500 mr-2"></i><span class="font-semibold">{{ __('messages.kilometer') }}:</span> {{ $car->kilometer }}</li>
             <li><i class="fa-solid fa-check-circle text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.available') }}:</span> {{ $car->available ? __('messages.yes') : __('messages.no') }}</li>
+            <li><i class="fa-solid fa-door-closed text-gray-700 mr-2"></i><span class="font-semibold">{{ __('messages.doors') }}:</span> {{ $car->doors }}</li>
+            <li><i class="fa-solid fa-suitcase-rolling text-yellow-700 mr-2"></i><span class="font-semibold">{{ __('messages.bags') }}:</span> {{ $car->bags }}</li>
           </ul>
         </div>
       </div>
@@ -100,21 +100,21 @@
                   <i class="fa-solid fa-tag text-red-500 mr-1"></i>{{ $season->season_name }}
                 </span>
                 <span class="text-sm text-gray-600">
-                  <i class="fa-solid fa-clock mr-1"></i>{{ date('Y-m-d', strtotime($season->start_date)) }} - {{ date('Y-m-d', strtotime($season->end_date)) }}
+                  {{ $season->start_date->format('d/m/Y') }} - {{ $season->end_date->format('d/m/Y') }}
                 </span>
               </div>
               <div class="text-gray-700 space-y-1">
                 <p>
-                  <i class="fa-solid fa-money-bill-wave text-yellow-500 mr-1"></i>
-                  2 Days Price: €{{ number_format($season->price_2_days, 2) }}
+                  <i class="fa-solid fa-calendar-day text-yellow-500 mr-1"></i>
+                  2 Days Price: {{ \App\Helpers\CurrencyHelper::formatPrice($season->price_2_days) }}
                 </p>
                 <p>
                   <i class="fa-solid fa-money-check-alt text-yellow-500 mr-1"></i>
-                  3-7 Days Price: €{{ number_format($season->price_3_7_days, 2) }}
+                  3-7 Days Price: {{ \App\Helpers\CurrencyHelper::formatPrice($season->price_3_7_days) }}
                 </p>
                 <p>
                   <i class="fa-solid fa-hand-holding-dollar text-yellow-500 mr-1"></i>
-                  +7 Days Price: €{{ number_format($season->price_7_plus_days, 2) }}
+                  +7 Days Price: {{ \App\Helpers\CurrencyHelper::formatPrice($season->price_7_plus_days) }}
                 </p>
               </div>
             </div>
@@ -178,7 +178,7 @@
                               <option value="Marrakech (Agence)">Marrakech (Agence)</option>
                               <option value="Marrakech medina">Marrakech medina</option>
                               <option value="Marrakech aéroport">Marrakech aéroport</option>
-                
+
                           </select>
                       </div>
                       <!-- Pickup Date -->

@@ -121,6 +121,8 @@
               <th class="px-4 py-3">Fuel</th>
               <th class="px-4 py-3">Transmission</th>
               <th class="px-4 py-3">Seats</th>
+              <th class="px-4 py-3">{{ __('messages.doors') }}</th>
+              <th class="px-4 py-3">{{ __('messages.bags') }}</th>
               <th class="px-4 py-3">{{ __('messages.kilometer') }}</th>
               <th class="px-4 py-3">{{ __('messages.price_per_day') }}</th>
               <th class="px-4 py-3">{{ __('messages.price_2_days') }}</th>
@@ -130,6 +132,7 @@
               <th class="px-4 py-3">{{ __('messages.franchise_buyback') }}</th>
               <th class="px-4 py-3">Available</th>
               <th class="px-4 py-3">Season Prices</th>
+             
               <th class="px-4 py-2">Actions</th>
             </tr>
           </thead>
@@ -165,20 +168,24 @@
               <td class="px-4 py-4">{{ $car->transmission }}</td>
               <!-- Seats -->
               <td class="px-4 py-4">{{ $car->seats }}</td>
+                 <!-- Doors -->
+                 <td class="px-4 py-4">{{ $car->doors }}</td>
+                 <!-- Bags -->
+                 <td class="px-4 py-4">{{ $car->bags }}</td>
               <!-- Kilometer -->
               <td class="px-4 py-4">{{ $car->kilometer }}</td>
               <!-- Price/Day -->
-              <td class="px-4 py-4">€{{ number_format($car->price, 2) }}</td>
+              <td class="px-4 py-4">{{ \App\Helpers\CurrencyHelper::formatPrice($car->price) }}</td>
               <!-- Price 2 Days -->
-              <td class="px-4 py-4">€{{ number_format($car->price_2_days, 2) }}</td>
+              <td class="px-4 py-4">{{ \App\Helpers\CurrencyHelper::formatPrice($car->price_2_days) }}</td>
               <!-- Price 3-7 Days -->
-              <td class="px-4 py-4">€{{ number_format($car->price_3_7_days, 2) }}</td>
+              <td class="px-4 py-4">{{ \App\Helpers\CurrencyHelper::formatPrice($car->price_3_7_days) }}</td>
               <!-- Price +7 Days -->
-              <td class="px-4 py-4">€{{ number_format($car->price_7_plus_days, 2) }}</td>
+              <td class="px-4 py-4">{{ \App\Helpers\CurrencyHelper::formatPrice($car->price_7_plus_days) }}</td>
               <!-- Franchise -->
-              <td class="px-4 py-4">€{{ number_format($car->franchise_price, 2) }}</td>
+              <td class="px-4 py-4">{{ \App\Helpers\CurrencyHelper::formatPrice($car->franchise_price) }}</td>
               <!-- Franchise Buyback -->
-              <td class="px-4 py-4">€{{ number_format($car->rachat_franchise_price, 2) }}</td>
+              <td class="px-4 py-4">{{ \App\Helpers\CurrencyHelper::formatPrice($car->rachat_franchise_price) }}</td>
               <!-- Available -->
               <td class="px-4 py-4">{{ $car->available ? 'Yes' : 'No' }}</td>
               <!-- Season Prices -->
@@ -204,6 +211,8 @@
                   <span class="text-gray-500">-</span>
                 @endif
               </td>
+
+           
 
               <!-- Actions (Edit & Delete) -->
               <td class="px-4 py-4 flex gap-2">

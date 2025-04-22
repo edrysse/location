@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-6">
+    <div class="mb-4 p-2 bg-gray-100 rounded text-right">
+        <span class="font-bold">عدد الزوار:</span> {{ \App\Http\Controllers\CarController::countVisitors() }}
+    </div>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">{{ __('messages.manage_cars') }}</h1>
         <a href="{{ route('cars.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">

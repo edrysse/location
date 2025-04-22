@@ -5,7 +5,7 @@
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <!-- بطاقات الإحصائيات -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           <!-- بطاقة إجمالي السيارات -->
           <div class="bg-white shadow rounded-lg p-6">
             <div class="flex items-center">
@@ -15,6 +15,19 @@
               <div class="ml-4">
                 <p class="text-gray-500">Total Cars</p>
                 <p class="text-2xl font-bold text-gray-800">{{ $carsCount ?? 0 }}</p>
+              </div>
+            </div>
+          </div>
+          <!-- بطاقة عدد الزوار -->
+          <div class="bg-white shadow rounded-lg p-6">
+            <div class="flex items-center">
+              <div class="p-3 bg-purple-500 rounded-full">
+                <i class="fas fa-user text-white text-xl"></i>
+
+              </div>
+              <div class="ml-4">
+                <p class="text-gray-500">Visitors</p>
+                <p class="text-2xl font-bold text-gray-800">{{ \App\Http\Controllers\CarController::countVisitors() }}</p>
               </div>
             </div>
           </div>

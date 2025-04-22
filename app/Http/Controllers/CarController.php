@@ -13,6 +13,8 @@ class CarController extends Controller
     // Display the list of cars to users
     public function index(Request $request)
     {
+        // تم حذف احتساب الزوار من هنا بناءً على طلب المستخدم
+        // self::incrementVisitor();
         // التحقق من جميع المواقع المتوفرة في قاعدة البيانات
         $allLocations = Car::distinct()->pluck('location')->toArray();
 
@@ -138,6 +140,8 @@ class CarController extends Controller
             // Set default values
             $validatedData['available'] = true;
             $validatedData['kilometer'] = $request->input('kilometer', 0);
+            $validatedData['doors'] = $request->input('doors', 4);
+            $validatedData['bags'] = $request->input('bags', 2);
 
             // Create the car
             $car = Car::create($validatedData);
@@ -283,5 +287,27 @@ class CarController extends Controller
     {
         $cars = Car::all();
         return response()->json($cars);
+    }
+
+    public static function countVisitors()
+    {
+        $file = storage_path('app/visitors_count.txt');
+        if (!file_exists($file)) {
+            file_put_contents($file, "0\n");
+        }
+        $count = (int)file_get_contents($file);
+        return $count;
+    }
+
+    public static function incrementVisitor()
+    {
+        $file = storage_path('app/visitors_count.txt');
+        if (!file_exists($file)) {
+            file_put_contents($file, "0\n");
+        }
+        $count = (int)file_get_contents($file);
+        $count++;
+        file_put_contents($file, $count);
+        return $count;
     }
 }

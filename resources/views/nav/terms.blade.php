@@ -44,20 +44,21 @@
       <p class="mt-6 text-lg md:text-xl text-gray-200 max-w-2xl animate-fadeInUp">
         {{ __('messages.terms_conditions_intro') }}
       </p>
-      
+
       <!-- PDF Download Button -->
-      <div class="mt-8 animate-fadeInUp">
+      <div class="mt-8 animate-fadeInUp flex flex-col md:flex-row gap-4 justify-center">
         @php
           $locale = app()->getLocale();
-          $pdfPath = match($locale) {
-            'fr' => 'pdfs/Politique_Location_Voiture.pdf',
-            'ar' => 'pdfs/Car_Rental_Policy-ar.pdf',
-            default => 'pdfs/Car_Rental_Policy.pdf'
-          };
+          $termsPdfPath = 'pdfs/terms of conditions diamantinacar.pdf';
+          $privacyPdfPath = 'pdfs/privacy policy diamantinacar.pdf';
         @endphp
-        <a href="{{ asset($pdfPath) }}" target="_blank" class="inline-flex items-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition duration-300 transform hover:scale-105">
-          <i class="fas fa-file-pdf mr-2"></i>
+        <a href="{{ asset($termsPdfPath) }}" target="_blank" class="inline-flex items-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition duration-300 transform hover:scale-105">
+          <i class="fas fa-download mr-2"></i>
           {{ __('messages.download_terms_pdf') }}
+        </a>
+        <a href="{{ asset($privacyPdfPath) }}" target="_blank" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition duration-300 transform hover:scale-105">
+          <i class="fas fa-download mr-2"></i>
+          {{ __('messages.download_privacy_pdf') }}
         </a>
       </div>
     </div>

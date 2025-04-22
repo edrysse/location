@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>up</title>
 
-  <!-- تضمين Font Awesome للأيقونات -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Font Awesome للأيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    /* زر الذهاب للأعلى */
+    /* زر الرجوع للأعلى */
     #scrollToTop {
       position: fixed;
       bottom: 30px;
       right: 30px;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      border: none;
-      outline: none;
-      background: conic-gradient(#b40202 0deg, red 0deg, #ecf0f1 0deg, #ecf0f1 360deg);
-      color: #fff;
-      font-size: 24px;
+      /* نزيل الخلفية البيضاء لأننا سنرسمها داخل الدائرة */
+      background: none;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -31,58 +28,98 @@
       pointer-events: none;
       transition: opacity 0.3s;
       z-index: 9999;
+      overflow: visible; /* لعرض إطار التقدم بالكامل */
+    }
+
+    #scrollToTop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* السهم داخل الزر */
+    #scrollToTop .arrow {
+      position: relative;
+      z-index: 3; /* فوق كل شيء */
+      color: red;
+      font-size: 24px;
+    }
+
+    /* الإطار الدائري المتحرك */
+    #progressCircle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      /* تدرّج دائري بناءً على نسبة التمرير */
+      background: conic-gradient(red 0deg, #ecf0f1 0deg);
+      transform: rotate(-90deg); /* يبدأ التدرج من أعلى */
+      z-index: 1;
+    }
+
+    /* لإخفاء وسط الدائرة وترك الإطار فقط */
+    #progressCircle::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #fff; /* نفس لون خلفية الصفحة */
+      z-index: 2;
     }
 
     /* زر واتساب */
     #whatsappBtn {
       position: fixed;
-      bottom: 90px; /* فوق زر up */
+      bottom: 100px;
       right: 30px;
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      border: none;
-      outline: none;
       background: #25D366;
       color: white;
       font-size: 24px;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       z-index: 9999;
       text-decoration: none;
-    }
-
-    /* إظهار زر up عند التمرير */
-    #scrollToTop.show {
-      opacity: 1;
-      pointer-events: auto;
     }
   </style>
 </head>
 <body>
 
   <!-- زر واتساب -->
-  <a id="whatsappBtn" title=" call via whatsapp" href="https://wa.me/212660565730" target="_blank">
+  <a id="whatsappBtn" title="WhatsApp" href="https://wa.me/212660565730" target="_blank">
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- زر الذهاب للأعلى -->
-  <button id="scrollToTop" title="up ">↑</button>
+  <!-- زر الرجوع للأعلى -->
+  <button id="scrollToTop" title="Up">
+    <!-- نغلف السهم في عنصر لتعيين z-index -->
+    <span class="arrow">↑</span>
+    <div id="progressCircle"></div>
+  </button>
 
   <script>
     const scrollToTopBtn = document.getElementById("scrollToTop");
+    const progressCircle = document.getElementById("progressCircle");
 
     window.addEventListener("scroll", () => {
-      let scrollTop = window.scrollY;
-      let docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      let scrollFraction = scrollTop / docHeight;
-      let scrollDegrees = scrollFraction * 360;
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = scrollTop / docHeight;
+      const scrollDegrees = scrollPercent * 360;
 
-      scrollToTopBtn.style.background = `conic-gradient(red 0deg, red ${scrollDegrees}deg, #ecf0f1 ${scrollDegrees}deg, #ecf0f1 360deg)`;
+      // تحديث التدرّج الدائري حسب نسبة التمرير
+      progressCircle.style.background =
+        `conic-gradient(red 0deg, red ${scrollDegrees}deg, #ecf0f1 ${scrollDegrees}deg)`;
 
+      // إظهار أو إخفاء الزر
       if (scrollTop > 100) {
         scrollToTopBtn.classList.add("show");
       } else {

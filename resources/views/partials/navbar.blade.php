@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <!-- Flag Icon CSS from CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
   body[dir="rtl"] {
     direction: rtl;
@@ -57,6 +59,27 @@
     padding-right: 0 !important;
     padding-left: 1rem !important;
   }
+
+  /* --- إصلاح شفافية النافبار وإزالة أي مساحة بيضاء فوقه --- */
+  nav.bg-black.bg-opacity-50.absolute.top-0.left-0.w-full {
+    background: rgba(24,24,27,0.7) !important;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 30;
+  }
+  html, body {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  /* لو فيه header أبيض بعد النافبار */
+  header.bg-white.shadow {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
 </style>
 
   <style>
@@ -67,20 +90,20 @@
 </head>
 <body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
   <!-- Navbar -->
-  <nav class="bg-white shadow-lg sticky top-0 z-50">
+  <nav @if(app()->getLocale()==='ar') dir="ltr" @endif class="bg-black bg-opacity-50 shadow-lg absolute top-0 left-0 w-full">
     <div class="max-w-screen-xl mx-auto px-4">
       <div class="flex items-center justify-between h-20">
         <!-- اللوجو -->
         <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="flex-shrink-0">
-            <img src="{{ asset('assets/new-logo.png') }}" alt="{{ __('messages.site_logo_alt') }}" class="h-28">
+            <img src="{{ asset('assets/new-logo.png') }}" alt="{{ __('messages.site_logo_alt') }}" class="h-36 ml-6">
         </a>
         <!-- قائمة التنقل الرئيسية للشاشات المكتبية -->
-        <div class="hidden md:flex space-x-6 items-center">
-          <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
+        <div class="hidden md:flex space-x-6 items-center mx-auto font-bold uppercase font-Barlow" style="font-weight: bold;">
+          <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
 
           <!-- زر تبديل اللغة (القائمة المنسدلة) -->
           <div class="relative inline-block text-left">
@@ -92,7 +115,7 @@
                 <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" />
               </svg>
             </button>
-            <div id="language-dropdown" class="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+            <div id="language-dropdown" class="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white text-gray-700 ring-1 ring-black ring-opacity-5 hidden">
               <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="language-menu-button">
                 @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                   @if($localeCode != app()->getLocale())
@@ -106,7 +129,7 @@
             </div>
           </div>
           @auth
-            <a href="{{ LaravelLocalization::localizeURL(route('dashboard')) }}" class="text-gray-800 hover:text-green-600 font-medium transition duration-300">{{ __('messages.dashboard') }}</a>
+            <a href="{{ LaravelLocalization::localizeURL(route('dashboard')) }}" class="text-white hover:text-green-600 font-medium transition duration-300">{{ __('messages.dashboard') }}</a>
           @endauth
         </div>
         <!-- زر القائمة للجوال -->
@@ -130,7 +153,7 @@
             </div>
           </div>
           <!-- زر القائمة الرئيسية للجوال -->
-          <button id="mobile-menu-button" class="text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-600">
+          <button id="mobile-menu-button" class="text-white focus:outline-none focus:ring-2 focus:ring-red-600">
             <i class="fas fa-bars fa-2x"></i>
           </button>
         </div>

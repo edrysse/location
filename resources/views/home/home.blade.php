@@ -9,6 +9,9 @@
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css">
   <!-- Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     body {
@@ -43,29 +46,133 @@
   </style>
 </head>
 <body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
-  {{-- أجزاء الموقع الرئيسية --}}
+  {{-- Loader & Navbar --}}
   @include('partials.loader')
   @include('partials.navbar')
   @include('partials.up')
 
-  <!-- Hero Section -->
-  <section class="relative bg-cover bg-center h-96" style="background-image: url('/assets/hero2.png');">
+  {{-- 1. Reservation Form Section with Background Image and Welcome Text --}}
+  <section id="reservation" class="relative bg-cover bg-center py-20" style="background-image: url('/assets/bg-diam.png');">
     <div class="absolute inset-0 bg-black opacity-50"></div>
-    <div class="container mx-auto h-full flex flex-col justify-center items-center relative z-10">
-      <h1 class="text-5xl font-bold text-white mb-4">{{ __('messages.welcome') }}</h1>
-      <p class="text-xl text-white mb-6">{{ __('messages.best_service') }}</p>
-      <a href="#reservation" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
-        {{ __('messages.book_now') }}
+    <div class="container mx-auto relative z-10 px-4 pt-12">
+      <h2 class="text-4xl  text-white text-center mb-8 uppercase" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);font-family: 'Playfair Display', serif;">
+        {{ __('messages.welcome_diamantina') }}
+      </h2>
+      <div class="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
+        <h3 class="text-3xl font-bold text-center mb-6 text-gray-800">
+          <i class="fas fa-calendar-check mr-2 text-red-500"></i>
+          {{ __('messages.make_reservation') }}
+        </h3>
+        <form action="{{ LaravelLocalization::localizeURL(route('cars')) }}" method="GET">
+          @csrf
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label for="pickup_location" class="block text-gray-700 font-medium mb-2">
+                <i class="fas fa-map-marker-alt mr-1"></i>
+                {{ __('messages.pickup_location') }}
+              </label>
+              <select name="pickup_location" id="pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
+                <option value="" disabled selected>{{ __('messages.select_pickup_location') }}</option>
+                <option value="Marrakech (Agence)">Marrakech (Agence)</option>
+                <option value="Marrakech medina">Marrakech medina</option>
+                <option value="Marrakech aéroport">Marrakech aéroport</option>
+              </select>
+            </div>
+            <div>
+              <label for="dropoff_location" class="block text-gray-700 font-medium mb-2">
+                <i class="fas fa-map-marker-alt mr-1"></i>
+                {{ __('messages.dropoff_location') }}
+              </label>
+              <select name="dropoff_location" id="dropoff_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
+                <option value="" disabled selected>{{ __('messages.select_dropoff_location') }}</option>
+                <option value="Marrakech (Agence)">Marrakech (Agence)</option>
+                <option value="Marrakech medina">Marrakech medina</option>
+                <option value="Marrakech aéroport">Marrakech aéroport</option>
+              </select>
+            </div>
+            <div>
+              <label for="pickup_date" class="block text-gray-700 font-medium mb-2">
+                <i class="fas fa-calendar-alt mr-1"></i>
+                {{ __('messages.pickup_date') }}
+              </label>
+              <input type="datetime-local" id="pickup_date" name="pickup_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
+            </div>
+            <div>
+              <label for="return_date" class="block text-gray-700 font-medium mb-2">
+                <i class="fas fa-calendar-alt mr-1"></i>
+                {{ __('messages.return_date') }}
+              </label>
+              <input type="datetime-local" id="return_date" name="return_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
+            </div>
+          </div>
+          <div class="text-center mt-6">
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-200">
+              <i class="fas fa-search mr-2"></i>
+              {{ __('messages.find_cars') }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  {{-- 2. Car Listing Section --}}
+  <section class="container mx-auto my-12 px-4">
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
+      <i class="fas fa-car mr-2 text-red-500"></i>
+      {{ __('messages.our_cars') }}
+    </h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      @foreach ($cars->take(3) as $car)
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
+          @if ($car->image)
+            <img src="{{ asset($car->image) }}" loading="lazy" class="w-full h-48 object-cover" alt="{{ $car->name }}">
+          @else
+            <img src="default-car.jpg" alt="{{ __('messages.default_car') }}" class="w-full h-48 object-cover">
+          @endif
+          <div class="p-6">
+            <h5 class="text-xl font-bold text-gray-800 flex items-center mb-4">
+              <i class="fas fa-car-side text-red-500 mr-2"></i>
+              {{ $car->name }}
+            </h5>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-600 text-sm">
+              <div class="flex items-center gap-2"><i class="fas fa-users text-red-500"></i><span>{{ __('messages.seats') }}: <span class="font-bold">{{ $car->seats }}</span></span></div>
+              <div class="flex items-center gap-2"><i class="fas fa-gas-pump text-yellow-600"></i><span>{{ __('messages.fuel') }}: <span class="font-bold">{{ $car->fuel }}</span></span></div>
+              <div class="flex items-center gap-2"><i class="fas fa-gear text-blue-600"></i><span>{{ __('messages.transmission') }}: <span class="font-bold">{{ $car->transmission }}</span></span></div>
+              <div class="flex items-center gap-2"><i class="fas fa-door-open text-green-600"></i><span>{{ __('messages.doors') }}: <span class="font-bold">{{ $car->doors }}</span></span></div>
+              <div class="flex items-center gap-2"><i class="fas fa-suitcase text-purple-600"></i><span>{{ __('messages.bags') }}: <span class="font-bold">{{ $car->bags }}</span></span></div>
+            </div>
+            <div class="mt-4 bg-green-50 p-3 rounded-md text-center">
+              <p class="text-lg font-bold text-green-600"><i class="fas fa-dollar-sign mr-1"></i>{{ \App\Helpers\CurrencyHelper::formatPrice($car->price) }} / {{ __('messages.today') }}</p>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-4">
+              <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex-1"
+                      onclick="myUniqueOpenModal({{ $car->id }}, this)" data-location="{{ $car->location }}">
+                {{ __('messages.book_now') }}
+              </button>
+              <a href="{{ route('cars.show', $car->id) }}" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center">
+                <i class="fas fa-info-circle mr-2"></i>
+                {{ __('messages.view_details') }}
+              </a>
+            </div>
+          </div>
+        </div>
+      @endforeach
+    </div>
+    <div class="text-center mt-8">
+      <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
+        <i class="fas fa-car mr-2"></i>
+        {{ __('messages.view_all_cars') }}
       </a>
     </div>
   </section>
 
-  <!-- Why Choose Us -->
+  {{-- 3. Why Choose Us Section --}}
   <section class="container mx-auto my-12 px-4">
     <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.why_choose_us') }}</h2>
-        <p class="text-gray-600 mt-2">{{ __('messages.best_service_description') }}</p>
-      </div>
+      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.why_choose_us') }}</h2>
+      <p class="text-gray-600 mt-2">{{ __('messages.best_service_description') }}</p>
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="bg-white p-6 rounded-lg shadow-lg text-center">
         <i class="fas fa-truck-moving text-red-600 text-4xl mb-4"></i>
@@ -85,136 +192,28 @@
     </div>
   </section>
 
-  <!-- Reservation Form -->
-  <section id="reservation" class="container mx-auto my-12 px-4">
-    <div class="bg-white rounded-lg shadow-lg p-8">
-      <h2 class="text-3xl font-bold text-center mb-6">
-        <i class="fas fa-calendar-check mr-2 text-red-500"></i>
-        {{ __('messages.make_reservation') }}
-      </h2>
-      <form action="{{ LaravelLocalization::localizeURL(route('cars')) }}" method="GET">
-        @csrf
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <label for="pickup_location" class="block text-gray-700 font-medium mb-2">
-              <i class="fas fa-map-marker-alt mr-1"></i>
-              {{ __('messages.pickup_location') }}
-            </label>
-            <select name="pickup_location" id="pickup_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
-              <option value="" disabled selected>{{ __('messages.select_pickup_location') }}</option>
-              <option value="Marrakech (Agence)">Marrakech (Agence)</option>
-              <option value="Marrakech medina">Marrakech medina</option>
-              <option value="Marrakech aéroport">Marrakech aéroport</option>
-            </select>
-          </div>
-          <div>
-            <label for="dropoff_location" class="block text-gray-700 font-medium mb-2">
-              <i class="fas fa-map-marker-alt mr-1"></i>
-              {{ __('messages.dropoff_location') }}
-            </label>
-            <select name="dropoff_location" id="dropoff_location" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
-              <option value="" disabled selected>{{ __('messages.select_dropoff_location') }}</option>
-              <option value="Marrakech (Agence)">Marrakech (Agence)</option>
-              <option value="Marrakech medina">Marrakech medina</option>
-              <option value="Marrakech aéroport">Marrakech aéroport</option>
-            </select>
-          </div>
-          <div>
-            <label for="pickup_date" class="block text-gray-700 font-medium mb-2">
-              <i class="fas fa-calendar-alt mr-1"></i>
-              {{ __('messages.pickup_date') }}
-            </label>
-            <input type="datetime-local" id="pickup_date" name="pickup_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
-          </div>
-          <div>
-            <label for="return_date" class="block text-gray-700 font-medium mb-2">
-              <i class="fas fa-calendar-alt mr-1"></i>
-              {{ __('messages.return_date') }}
-            </label>
-            <input type="datetime-local" id="return_date" name="return_date" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-red-500" required>
-          </div>
-        </div>
-        <div class="text-center mt-6">
-          <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-200">
-            <i class="fas fa-search mr-2"></i>
-            {{ __('messages.find_cars') }}
-          </button>
-        </div>
-      </form>
-    </div>
-  </section>
-
-  <!-- Car Listing -->
+  {{-- 4. FAQ / Have Questions Section --}}
   <section class="container mx-auto my-12 px-4">
-    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
-      <i class="fas fa-car mr-2 text-red-500"></i>
-      {{ __('messages.view_all_cars') }}
-    </h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      @foreach ($cars->take(3) as $car)
-      <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
-        @if ($car->image)
-          <img src="{{ asset($car->image) }}" loading="lazy" class="w-full h-48 object-cover" alt="{{ $car->name }}">
-        @else
-          <img src="default-car.jpg" alt="{{ __('messages.default_car') }}" class="w-full h-48 object-cover">
-        @endif
-        <div class="p-6">
-          <h5 class="text-xl font-bold text-gray-800 flex items-center mb-4">
-            <i class="fas fa-car-side text-red-500 mr-2"></i>
-            {{ $car->name }}
-          </h5>
-          <div class="grid grid-cols-2 gap-4 text-gray-600 text-sm">
-            <div class="flex items-center">
-              <i class="fas fa-users mr-1"></i>
-              <span>{{ __('messages.seats') }}: {{ $car->seats }}</span>
-            </div>
-            <div class="flex items-center">
-              <i class="fas fa-gas-pump mr-1"></i>
-              <span>{{ __('messages.fuel') }}: {{ $car->fuel }}</span>
-            </div>
-            <div class="flex items-center">
-              <i class="fas fa-gear mr-1"></i>
-              <span>{{ __('messages.transmission') }}: {{ $car->transmission }}</span>
-            </div>
-            <div class="flex items-center">
-              <i class="fas fa-map-marker-alt mr-1"></i>
-              <span>{{ __('messages.location') }}: {{ $car->location }}</span>
-            </div>
-            <div class="flex items-center col-span-2">
-              <i class="fas fa-road mr-1"></i>
-              <span>{{ __('messages.kilometer') }}: {{ $car->kilometer }}</span>
-            </div>
-          </div>
-          <div class="mt-4 bg-green-50 p-3 rounded-md text-center">
-            <p class="text-lg font-bold text-green-600">
-              <i class="fas fa-dollar-sign mr-1"></i>
-              €{{ number_format($car->price, 2) }} / {{ __('messages.today') }}
-            </p>
-          </div>
-          <div class="mt-4 flex flex-wrap gap-4">
-            <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex-1"
-                    onclick="myUniqueOpenModal({{ $car->id }}, this)" data-location="{{ $car->location }}">
-              {{ __('messages.book_now') }}
-            </button>
-            <a href="{{ route('cars.show', $car->id) }}"
-               class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center">
-              <i class="fas fa-info-circle mr-2"></i>
-              {{ __('messages.view_details') }}
-            </a>
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.have_questions') }}</h2>
+      <p class="text-gray-600 mt-2">{{ __('messages.faqs_description') }}</p>
+    </div>
+    <div class="space-y-4">
+      @for($i = 1; $i <= 6; $i++)
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <button class="w-full text-left flex justify-between items-center focus:outline-none" onclick="toggleFAQ(this)">
+            <h3 class="text-lg font-semibold text-gray-800">{{ __('messages.faq_question_'.$i) }}</h3>
+            <i class="fas fa-chevron-down text-red-500 transition-transform duration-200"></i>
+          </button>
+          <div class="faq-content mt-4 overflow-hidden transition-all duration-300 max-h-0">
+            <p class="text-gray-600">{!! __('messages.faq_answer_'.$i) !!}</p>
           </div>
         </div>
-      </div>
-      @endforeach
-    </div>
-    <div class="text-center mt-8">
-      <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full transition duration-200">
-        <i class="fas fa-car mr-2"></i>
-        {{ __('messages.view_all_cars') }}
-      </a>
+      @endfor
     </div>
   </section>
 
-  <!-- Testimonials Section -->
+  {{-- 5. Testimonials Section --}}
   <section class="container mx-auto my-12 px-4">
     <div class="text-center mb-8">
       <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.customer_testimonials') }}</h2>
@@ -246,35 +245,8 @@
       <div class="swiper-pagination text-red-500"></div>
     </div>
   </section>
-
-  <!-- FAQ Section -->
-  <section class="container mx-auto my-12 px-4">
-    <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.have_questions') }}</h2>
-      <p class="text-gray-600 mt-2">{{ __('messages.faqs_description') }}</p>
-    </div>
-    <div class="space-y-4">
-      @for($i = 1; $i <= 6; $i++)
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <button class="w-full text-left flex justify-between items-center focus:outline-none"
-                onclick="toggleFAQ(this)">
-          <h3 class="text-lg font-semibold text-gray-800">
-            {{ __('messages.faq_question_'.$i) }}
-          </h3>
-          <i class="fas fa-chevron-down text-red-500 transition-transform duration-200"></i>
-        </button>
-        <div class="faq-content mt-4 overflow-hidden transition-all duration-300 max-h-0">
-          <p class="text-gray-600">
-            {!! __('messages.faq_answer_'.$i) !!}
-          </p>
-        </div>
-      </div>
-      @endfor
-    </div>
-  </section>
-
-  <!-- Contact Us -->
-  <section class="container mx-auto my-12 px-4">
+<!-- Contact Us -->
+<section class="container mx-auto my-12 px-4">
     <div class="bg-white rounded-lg shadow-lg p-8">
       <div class="text-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.contact_us') }}</h2>
@@ -301,14 +273,62 @@
             {{ __('messages.address_title') }}
           </h3>
           <p class="text-gray-600">
-            Angle Avenue 11 Janvier & Rue, Bd Prince Moulay Abdellah, Marrakech 40000
+            {{ __('messages.address_main') }}
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Reservation Modal -->
+  {{-- Cookie Consent Banner --}}
+  <div id="cookieConsentBanner" class="fixed bottom-0 left-0 w-full bg-black bg-opacity-80 text-white py-4 px-6 flex flex-col sm:flex-row items-center justify-between z-50 transition-all duration-300" style="display:none;">
+    <div class="mb-2 sm:mb-0">
+      <span>{{ __('messages.cookie_message') }}</span>
+    </div>
+    <div class="flex gap-2">
+      <button onclick="acceptCookies()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">{{ __('messages.accept_cookies') }}</button>
+      <button onclick="rejectCookies()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">{{ __('messages.reject_cookies') }}</button>
+    </div>
+  </div>
+  <script>
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+    function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for(let i=0;i < ca.length;i++) {
+        let c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
+    }
+    function acceptCookies() {
+      setCookie('cookie_consent', 'accepted', 365);
+      document.getElementById('cookieConsentBanner').style.display = 'none';
+    }
+    function rejectCookies() {
+      setCookie('cookie_consent', 'rejected', 365);
+      document.getElementById('cookieConsentBanner').style.display = 'none';
+    }
+    // Set language cookie on language change
+    document.addEventListener('DOMContentLoaded', function() {
+      var locale = '{{ app()->getLocale() }}';
+      setCookie('site_language', locale, 365);
+      if (!getCookie('cookie_consent')) {
+        document.getElementById('cookieConsentBanner').style.display = 'flex';
+      }
+    });
+  </script>
+
+  {{-- Reservation Modal --}}
   <div id="myUniqueReservationModal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
     <div class="myModal-overlay absolute inset-0"></div>
     <div class="bg-white rounded-lg shadow-lg z-10 w-11/12 max-w-md p-6 relative">
@@ -372,7 +392,7 @@
 
   @include('partials.footer')
 
-  <!-- Swiper JS -->
+  {{-- Swiper JS --}}
   <script src="https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"></script>
   <script>
     function myUniqueFormatDateTime(date) {
@@ -428,7 +448,7 @@
       const content = element.nextElementSibling;
       const icon = element.querySelector('i');
       document.querySelectorAll('.faq-content').forEach(c => {
-        if(c !== content && !c.classList.contains('max-h-0')) {
+        if (c !== content && !c.classList.contains('max-h-0')) {
           c.style.maxHeight = '0';
           c.previousElementSibling.querySelector('i').classList.remove('rotate-180');
         }
@@ -436,6 +456,42 @@
       content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + 'px';
       icon.classList.toggle('rotate-180');
     }
+  </script>
+  <script>
+    // --- إعادة التوجيه حسب كوكي اللغة فقط عند أول زيارة (لا يعيد التوجيه بعد تغيير اللغة حتى تغلق المتصفح) ---
+    (function() {
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for(let i=0;i < ca.length;i++) {
+          let c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+      }
+      // استخدم sessionStorage لمنع التوجيه إلا عند أول زيارة فقط
+      if(!sessionStorage.getItem('lang_redirected')) {
+        var supportedLocales = ['ar','en','fr'];
+        var cookieLang = getCookie('site_language');
+        var currentPath = window.location.pathname;
+        var currentLocale = currentPath.split('/')[1];
+        if(cookieLang && supportedLocales.includes(cookieLang) && currentLocale !== cookieLang) {
+          var newUrl = window.location.origin + '/' + cookieLang + window.location.pathname.substr(currentLocale.length+1) + window.location.search + window.location.hash;
+          sessionStorage.setItem('lang_redirected', '1');
+          window.location.replace(newUrl);
+        }
+      }
+    })();
+    // عند تغيير اللغة، حدّث الكوكيز فقط ولا تعيد التوجيه
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.change-language-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var lang = this.getAttribute('data-lang');
+          document.cookie = 'site_language=' + lang + '; path=/; max-age=' + (365*24*60*60);
+        });
+      });
+    });
   </script>
 </body>
 </html>

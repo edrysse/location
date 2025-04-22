@@ -26,7 +26,9 @@ class Car extends Model
         'location',
         'image',
         'available',
-        'kilometer'
+        'kilometer',
+        'doors',
+        'bags'
     ];
 
     public function reservations()
