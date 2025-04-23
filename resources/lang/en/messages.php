@@ -121,7 +121,7 @@ return [
     'luggage'                => 'Luggage',
     'transmission'           => 'Transmission',
     'location'               => 'Location',
-    'day'                    => 'Today',
+    'day'                    => 'day',
     'reservation_details'    => 'Reservation Details',
     'close'                  => 'Close',
     'pickup_location'        => 'Pickup Location',
