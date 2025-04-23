@@ -417,7 +417,7 @@ return [
 'terms_agreement' => 'I agree to the',
 'terms_link' => 'Terms & Conditions',
 'email_note' => 'We will use this email to contact you for reservation confirmation',
-    'today' => 'Today',
+    'today' => 'day',
 
  'confirmation_title' => 'Reservation Confirmed',
     'success_message'    => 'Your reservation has been confirmed!',
