@@ -18,11 +18,6 @@ class AppServiceProvider extends ServiceProvider
 public function boot(): void
 {
 
-    if (env('APP_ENV') === 'production') {
-        URL::forceScheme('https'); // ✅ فرض HTTPS في بيئة الإنتاج
-    }
-
-
     Schema::defaultStringLength(191); // ✅ تجنب مشاكل قواعد البيانات
 
     // ✅ ضبط اللغة في الجلسة إذا لم يتم تعيينها مسبقًا
