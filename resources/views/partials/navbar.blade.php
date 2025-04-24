@@ -92,10 +92,10 @@
   <!-- Navbar -->
   <nav @if(app()->getLocale()==='ar') dir="ltr" @endif class="bg-black bg-opacity-50 shadow-lg absolute top-0 left-0 w-full">
     <div class="max-w-screen-xl mx-auto px-4">
-      <div class="flex items-center justify-between h-14">
+      <div class="flex items-center justify-between h-20">
         <!-- اللوجو -->
-        <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="flex-shrink-0 order-1 md:order-none">
-            <img src="{{ asset('assets/new-logo.png') }}" alt="{{ __('messages.site_logo_alt') }}" class="h-10 md:h-16 ml-2 md:ml-6">
+        <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="flex-shrink-0">
+            <img src="{{ asset('assets/new-logo.png') }}" alt="{{ __('messages.site_logo_alt') }}" class="h-36 ml-6">
         </a>
         <!-- قائمة التنقل الرئيسية للشاشات المكتبية -->
         <div class="hidden md:flex space-x-6 items-center mx-auto font-bold uppercase font-Barlow" style="font-weight: bold;">
@@ -107,11 +107,11 @@
 
           <!-- زر تبديل اللغة (القائمة المنسدلة) -->
           <div class="relative inline-block text-left">
-            <button type="button" id="language-menu-button" class="inline-flex justify-center items-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition-all duration-200" aria-expanded="false" aria-haspopup="true">
+            <button type="button" id="language-menu-button" class="inline-flex justify-center items-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-expanded="false" aria-haspopup="true">
               <!-- استخدام flag-icon-css -->
               <span class="flag-icon flag-icon-{{ app()->getLocale() == 'ar' ? 'ma' : (app()->getLocale() == 'en' ? 'us' : app()->getLocale()) }} mr-2"></span>
               {{ LaravelLocalization::getCurrentLocaleNative() }}
-              <svg class="ml-2 h-5 w-5 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" />
               </svg>
             </button>
@@ -119,7 +119,7 @@
               <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="language-menu-button">
                 @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                   @if($localeCode != app()->getLocale())
-                  <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-all duration-150" role="menuitem">
+                  <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                     <span class="flag-icon flag-icon-{{ $localeCode == 'ar' ? 'ma' : ($localeCode == 'en' ? 'us' : $localeCode) }} mr-2"></span>
                     {{ $properties['native'] }}
                   </a>
@@ -135,15 +135,15 @@
         <!-- زر القائمة للجوال -->
         <div class="md:hidden flex items-center">
           <!-- زر تبديل اللغة للجوال -->
-          <div class="mr-2 relative">
-            <button type="button" id="mobile-language-button" class="inline-flex justify-center items-center w-9 h-9 rounded-full border border-gray-300 shadow-sm bg-white text-sm text-gray-700 hover:bg-gray-50 focus:outline-none transition-all duration-200" aria-expanded="false" aria-haspopup="true">
+          <div class="mr-4 relative">
+            <button type="button" id="mobile-language-button" class="inline-flex justify-center items-center w-10 h-10 rounded-full border border-gray-300 shadow-sm bg-white text-sm text-gray-700 hover:bg-gray-50 focus:outline-none" aria-expanded="false" aria-haspopup="true">
               <span class="flag-icon flag-icon-{{ app()->getLocale() == 'ar' ? 'ma' : (app()->getLocale() == 'en' ? 'us' : app()->getLocale()) }}"></span>
             </button>
-            <div id="mobile-language-dropdown" class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-black bg-opacity-90 ring-1 ring-black ring-opacity-5 hidden">
+            <div id="mobile-language-dropdown" class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
               <div class="py-1" role="menu" aria-orientation="vertical">
                 @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                   @if($localeCode != app()->getLocale())
-                  <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" class="flex items-center px-4 py-2 text-sm text-white hover:text-red-600 transition-all duration-150" role="menuitem">
+                  <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                     <span class="flag-icon flag-icon-{{ $localeCode == 'ar' ? 'ma' : ($localeCode == 'en' ? 'us' : $localeCode) }} mr-2"></span>
                     {{ $properties['native'] }}
                   </a>
@@ -153,22 +153,22 @@
             </div>
           </div>
           <!-- زر القائمة الرئيسية للجوال -->
-          <button id="mobile-menu-button" class="text-white focus:outline-none focus:ring-2 focus:ring-red-600 ml-2">
-            <i class="fas fa-bars fa-lg"></i>
+          <button id="mobile-menu-button" class="text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+            <i class="fas fa-bars fa-2x"></i>
           </button>
         </div>
       </div>
     </div>
     <!-- قائمة الجوال -->
     <div id="mobile-menu" class="md:hidden hidden">
-      <div class="px-4 pt-2 pb-4 space-y-2 bg-black bg-opacity-90 shadow-lg">
-        <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
+      <div class="px-4 pt-2 pb-4 space-y-2 bg-white shadow-lg">
+        <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
         @auth
-          <a href="{{ LaravelLocalization::localizeURL(route('dashboard')) }}" class="block text-white hover:text-green-600 font-medium transition duration-300">{{ __('messages.dashboard') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('dashboard')) }}" class="block text-gray-800 hover:text-green-600 font-medium transition duration-300">{{ __('messages.dashboard') }}</a>
         @endauth
         <!-- قائمة تبديل اللغة للجوال -->
         <div class="pt-4 border-t border-gray-200">
