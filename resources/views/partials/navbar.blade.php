@@ -139,11 +139,11 @@
             <button type="button" id="mobile-language-button" class="inline-flex justify-center items-center w-9 h-9 rounded-full border border-gray-300 shadow-sm bg-white text-sm text-gray-700 hover:bg-gray-50 focus:outline-none transition-all duration-200" aria-expanded="false" aria-haspopup="true">
               <span class="flag-icon flag-icon-{{ app()->getLocale() == 'ar' ? 'ma' : (app()->getLocale() == 'en' ? 'us' : app()->getLocale()) }}"></span>
             </button>
-            <div id="mobile-language-dropdown" class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+            <div id="mobile-language-dropdown" class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-black bg-opacity-90 ring-1 ring-black ring-opacity-5 hidden">
               <div class="py-1" role="menu" aria-orientation="vertical">
                 @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                   @if($localeCode != app()->getLocale())
-                  <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-all duration-150" role="menuitem">
+                  <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" class="flex items-center px-4 py-2 text-sm text-white hover:text-red-600 transition-all duration-150" role="menuitem">
                     <span class="flag-icon flag-icon-{{ $localeCode == 'ar' ? 'ma' : ($localeCode == 'en' ? 'us' : $localeCode) }} mr-2"></span>
                     {{ $properties['native'] }}
                   </a>
@@ -161,14 +161,14 @@
     </div>
     <!-- قائمة الجوال -->
     <div id="mobile-menu" class="md:hidden hidden">
-      <div class="px-4 pt-2 pb-4 space-y-2 bg-white shadow-lg">
-        <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
-        <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="block text-gray-800 hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
+      <div class="px-4 pt-2 pb-4 space-y-2 bg-black bg-opacity-90 shadow-lg">
+        <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
+        <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="block text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
         @auth
-          <a href="{{ LaravelLocalization::localizeURL(route('dashboard')) }}" class="block text-gray-800 hover:text-green-600 font-medium transition duration-300">{{ __('messages.dashboard') }}</a>
+          <a href="{{ LaravelLocalization::localizeURL(route('dashboard')) }}" class="block text-white hover:text-green-600 font-medium transition duration-300">{{ __('messages.dashboard') }}</a>
         @endauth
         <!-- قائمة تبديل اللغة للجوال -->
         <div class="pt-4 border-t border-gray-200">
