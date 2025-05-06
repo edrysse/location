@@ -1,197 +1,97 @@
-<footer @if(app()->getLocale()==='ar') dir="ltr" @endif class="custom-footer">
-  <div class="container">
-    <div class="footer-content">
-      <!-- النصف الأيسر: الخريطة -->
-      <div class="footer-map">
-        <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3396.8903034677296!2d-7.997843874640759!3d31.636853741379525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafee8d0646b1c5%3A0x6b91008ef7884c88!2sDiamantina%20car%20rental!5e0!3m2!1sar!2s!4v1742535516858!5m2!1sar!2s"
-        width="100%" height="400" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+<footer @if(app()->getLocale()==='ar') dir="ltr" @endif class="custom-footer bg-[#4b5a66] text-white pt-6 pb-0 flex flex-col justify-between">
+  <div class="container max-w-5xl mx-auto px-2 py-6 flex-1 flex flex-col justify-center">
+    <div class="flex flex-col sm:flex-col md:flex-row justify-between items-center md:items-start gap-4 md:gap-20 pb-4">
+      <!-- À PROPOS DE NOUS -->
+      <div class="w-full md:w-1/3 mb-6 md:mb-0 text-left">
+        <h4 class="font-extrabold uppercase mb-2 text-lg md:text-xl tracking-widest">{{ __('messages.footer_about_title') }}</h4>
+        <p class="text-sm md:text-base leading-relaxed">{{ __('messages.footer_professional_about') }}</p>
       </div>
-
-      <!-- النصف الأيمن: النص والمعلومات -->
-      <div class="footer-text">
-        <h5 class="footer-title">{{ __('messages.footer_title') }}</h5>
-        <p class="footer-description">
-          {{ __('messages.footer_description') }}
-        </p>
-
-        <nav class="footer-nav">
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}">{{ __('messages.footer_nav_about') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}"> {{ __('messages.footer_nav_terms') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}">{{ __('messages.footer_nav_contact') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}">{{ __('messages.footer_nav_privacy') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}"> {{ __('messages.footer_nav_general') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}"> {{ __('messages.footer_nav_payment') }}</a>
-        </nav>
-
-        <div class="footer-contact">
-          <p><i class="fas fa-map-marker-alt"></i> {{ __('messages.footer_contact_address') }}</p>
-          <p><i class="fas fa-phone"></i> {{ __('messages.footer_contact_phone') }}</p>
-          <p>
-            <i class="fas fa-envelope"></i>
-            <a href="mailto:{{ __('messages.footer_contact_email') }}">{{ __('messages.footer_contact_email') }}</a>
-          </p>
-        </div>
-
-        <div class="footer-social">
-          <a href="https://www.facebook.com/profile.php?id=100065028038032#"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/diamantinacar.ma/"><i class="fab fa-instagram"></i></a>
+      <!-- CONTACTEZ-NOUS -->
+      <div class="w-full md:w-1/3 mb-6 md:mb-0 text-left">
+        <h4 class="font-extrabold uppercase mb-2 text-lg md:text-xl tracking-widest">{{ __('messages.footer_contact_title') }}</h4>
+        <ul class="space-y-2 text-sm md:text-base">
+          <li><i class="fas fa-map-marker-alt mr-1 text-base md:text-xl"></i> {{ __('messages.footer_contact_address') }}</li>
+          <li><i class="fas fa-phone mr-1 text-base md:text-xl"></i> {{ __('messages.footer_contact_phone') }}</li>
+          <li><i class="fas fa-envelope mr-1 text-base md:text-xl"></i> <a href="mailto:{{ __('messages.footer_contact_email') }}" class="hover:text-red-600 transition">{{ __('messages.footer_contact_email') }}</a></li>
+        </ul>
+      </div>
+      <!-- RÉSEAU SOCIAL -->
+      <div class="w-full md:w-1/3 flex flex-col items-start md:items-center mb-2 md:mb-0 text-left md:text-center">
+        <h4 class="font-extrabold uppercase mb-2 text-lg md:text-xl tracking-widest">{{ __('messages.footer_social_title') }}</h4>
+        <div class="flex flex-row gap-3 justify-center" style="flex-direction: row !important;">
+          <a href="https://www.facebook.com/profile.php?id=100065028038032#" class="bg-gray-500 hover:bg-red-600 rounded-full w-9 h-9 flex items-center justify-center transition text-xl md:w-12 md:h-12 md:text-2xl"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/diamantinacar.ma/" class="bg-gray-500 hover:bg-red-600 rounded-full w-9 h-9 flex items-center justify-center transition text-xl md:w-12 md:h-12 md:text-2xl"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
     </div>
-
-    <p class="footer-copy" id="footer-year"></p>
+  </div>
+  <div class="text-center text-xs text-gray-200 py-5 bg-[#2d3840] w-full tracking-wider">
+    Copyright {{ date('Y') }} {{ __('messages.footer_rights') }}
   </div>
 </footer>
 
-
-<script>
-  const currentYear = new Date().getFullYear();
-  const footerCopyTemplate = {!! json_encode(__('messages.footer_copy')) !!};
-  document.getElementById('footer-year').innerHTML = footerCopyTemplate.replace(':year', currentYear);
-
-
-
-
-  document.querySelectorAll('link[href^="http://"], script[src^="http://"], img[src^="http://"]').forEach(function(element) {
-    var url = element.href || element.src;
-    if (url.startsWith('http://')) {
-        url = url.replace('http://', 'https://');
-        if (element.href) element.href = url;
-        if (element.src) element.src = url;
-    }
-});
-
-</script>
-
 <style>
-
   .custom-footer {
-    background-color: #ffffff; /* بدل التدرج باللون الأبيض */
-  color: #333333;            /* لون النص داكن ليتباين مع الخلفية */
-  text-align: center;
-  padding: 40px 20px;
-  font-family: 'Arial', sans-serif;
-  }
-
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .footer-map {
-  flex: 1;
-  max-width: 45%;
-  margin-bottom: 20px; /* إضافة هامش أسفل الخريطة */
-}
-
-.footer-map iframe {
-  width: 100%;
-  height: 100%; /* جعل الارتفاع مرنًا */
-  min-height: 300px; /* الحد الأدنى للارتفاع */
-  border-radius: 8px;
-}
-
-@media (max-width: 768px) {
-  .footer-map {
-    max-width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .footer-map iframe {
-    height: 300px; /* زيادة الارتفاع في الشاشات الصغيرة */
-  }
-}
-
-  .footer-text {
-    flex: 1;
-    max-width: 50%;
-    text-align: left;
-  }
-
-  .footer-title {
-    font-size: 2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-  }
-
-  .footer-description {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-  }
-
-  .footer-nav a {
-    display: inline-block;
-    color: #000000;
-    text-decoration: none;
-    margin: 5px 10px;
-    font-size: 1rem;
-    transition: color 0.3s;
-  }
-
-  .footer-nav a:hover {
-    color:red;
-  }
-
-  .footer-contact p {
-    margin: 5px 0;
-    font-size: 1rem;
-  }
-
-  .footer-contact i {
-    margin-right: 8px;
-    color:    red;
-    ;
-  }
-
-  .footer-social {
-    margin-top: 15px;
-  }
-
-  .footer-social a {
-    display: inline-block;
+    background-color: #4b5a66;
     color: #ffffff;
-    background: #ff0000;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    margin: 5px;
-    border-radius: 50%;
-    transition: background 0.3s, transform 0.3s;
+    font-family: var(--bs-body-font-family), Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
-
+  .custom-footer h4, .custom-footer p, .custom-footer li, .custom-footer a, .custom-footer ul {
+    font-family: var(--bs-body-font-family), Arial, sans-serif;
+  }
+  .custom-footer ul li i {
+    color: #e53e3e;
+    min-width: 18px;
+    text-align: center;
+    font-size: 1.4rem;
+    vertical-align: middle;
+  }
+  .custom-footer a {
+    color: inherit;
+    transition: color 0.2s, background 0.2s;
+  }
+  .custom-footer a:hover, .custom-footer .footer-social a:hover {
+    color: #e53e3e !important;
+    background: none !important;
+  }
+  .footer-social a {
+    background: #6b7280;
+    color: #fff;
+    font-size: 1.7rem;
+    margin-right: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .footer-social a:hover {
-    background: #cc0000;
-    transform: scale(1.1);
+    background: #e53e3e !important;
+    color: #fff !important;
   }
-
-  .footer-copy {
-    margin-top: 20px;
-    font-size: 0.9rem;
-    opacity: 0.8;
-    text-align: center;
+  .custom-footer .text-xs {
+    font-size: 1rem;
+    letter-spacing: 1px;
   }
-
   @media (max-width: 768px) {
-    .footer-map { width: 100% !important; }
-    .footer-content {
-      flex-direction: column;
+    .custom-footer .flex {
+      flex-direction: column !important;
       text-align: center;
     }
-    .footer-map, .footer-text {
-      max-width: 100%;
-      text-align: center;
+    .custom-footer .md\:w-1\/3 {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-bottom: 1.2rem !important;
     }
-    .footer-map iframe {
-      height: 250px;
+    .custom-footer .footer-social {
+      justify-content: center;
     }
-    .footer-social {
-      text-align: center;
+    .custom-footer .container {
+      padding: 1.25rem 0.5rem !important;
     }
   }
 </style>

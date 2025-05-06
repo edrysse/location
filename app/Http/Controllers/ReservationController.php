@@ -36,6 +36,9 @@ class ReservationController extends Controller
 
         // ترشيح الحجوزات بناءً على معايير إضافية
         $query = Reservation::query();
+        if ($request->filled('id')) {
+            $query->where('id', $request->id);
+        }
         if ($request->filled('reservation_date')) {
             $query->whereDate('created_at', $request->reservation_date);
         }
@@ -47,11 +50,23 @@ class ReservationController extends Controller
         }
         $reservations = $query->orderBy('created_at', 'desc')->paginate(10);
 
+        // جلب السيارات الفريدة المستأجرة حسب الفلاتر أو الشهر
+        $uniqueCarIds = (clone $query)
+            ->select('car_id')
+            ->distinct()
+            ->pluck('car_id');
+        $uniqueRentedCars = Car::whereIn('id', $uniqueCarIds)->get();
+
+        // جلب الحجوزات لهذا الشهر فقط (لعرضها في المودال)
+        $monthlyReservations = Reservation::whereBetween('created_at', [$startDate, $endDate])->latest()->get();
+
         return view('reservations.index', compact(
             'reservations',
             'totalReservations',
             'totalIncome',
-            'uniqueCars'
+            'uniqueCars',
+            'uniqueRentedCars',
+            'monthlyReservations'
         ))->with($request->only(['reservation_date', 'name', 'start_date', 'end_date', 'month']));
     }
 
@@ -289,7 +304,7 @@ class ReservationController extends Controller
         }
 
         // إعادة التوجيه إلى صفحة "thankyou" التي تعرض رسالة نجاح وتفتح تبويب جديد لواتساب
-        return view('thankyou', ['waUrl' => $waUrl, 'successMsg' => 'تم إنشاء الحجز بنجاح! سيتم الاتصال بك قريباً.']);
+        return $this->sendWhatsappMessage($reservation);
     }
 
     /**
@@ -406,5 +421,30 @@ class ReservationController extends Controller
             ->exists();
 
         return !$existingReservations;
+    }
+
+    /**
+     * Get reservation count for a given month (1-12)
+     */
+    public static function countReservationsByMonth($month)
+    {
+        return Reservation::whereMonth('created_at', $month)->count();
+    }
+
+    /**
+     * Send a WhatsApp message with the reservation details.
+     */
+    public function sendWhatsappMessage($reservation)
+    {
+        $id = $reservation->id;
+        $name = $reservation->name;
+        $car = $reservation->car_name;
+        $pickup = $reservation->pickup_location;
+        $date = $reservation->pickup_date;
+        $msg = "حجزك رقم #$id\nالاسم: $name\nالسيارة: $car\nمكان التسليم: $pickup\nتاريخ التسليم: $date";
+        $msg = urlencode($msg);
+        $phone = '212660565730';
+        $url = "https://wa.me/$phone?text=$msg";
+        return redirect($url);
     }
 }

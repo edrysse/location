@@ -10,9 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-<x-app-layout>
-    @include('partials.up')
-
+@extends('layouts.admin')
+@section('content')
   <!-- Main Container -->
   <div class="max-w-2xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-lg border border-gray-200">
     <!-- Header Section -->
@@ -92,9 +91,6 @@
       </div>
     </form>
   </div>
-
-  @include('partials.footer')
-</x-app-layout>
-
+@endsection
 </body>
 </html>

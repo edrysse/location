@@ -71,6 +71,7 @@
           </h2>
           <ul class="space-y-2 text-gray-600">
             <li><i class="fa-solid fa-gas-pump text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.fuel_details') }}:</span> {{ $car->fuel }}</li>
+<li><i class="fa-solid fa-tachometer-alt text-blue-500 mr-2"></i><span class="font-semibold">{{ __('messages.kilometer') }}:</span> {{ $car->kilometer }}</li>
             <li><i class="fa-solid fa-users text-blue-500 mr-2"></i><span class="font-semibold">{{ __('messages.seats') }}:</span> {{ $car->seats }}</li>
             <li><i class="fa-solid fa-gear text-purple-500 mr-2"></i><span class="font-semibold">{{ __('messages.transmission') }}:</span> {{ $car->transmission }}</li>
             <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_per_day') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price) }}</li>
@@ -78,7 +79,6 @@
             <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_3_7_days') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price_3_7_days) }}</li>
             <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_7_plus_days') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price_7_plus_days) }}</li>
             <li><i class="fa-solid fa-map-marker-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.location') }}:</span> {{ $car->location }}</li>
-            <li><i class="fa-solid fa-road text-gray-500 mr-2"></i><span class="font-semibold">{{ __('messages.kilometer') }}:</span> {{ $car->kilometer }}</li>
             <li><i class="fa-solid fa-check-circle text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.available') }}:</span> {{ $car->available ? __('messages.yes') : __('messages.no') }}</li>
             <li><i class="fa-solid fa-door-closed text-gray-700 mr-2"></i><span class="font-semibold">{{ __('messages.doors') }}:</span> {{ $car->doors }}</li>
             <li><i class="fa-solid fa-suitcase-rolling text-yellow-700 mr-2"></i><span class="font-semibold">{{ __('messages.bags') }}:</span> {{ $car->bags }}</li>
@@ -124,15 +124,14 @@
       @endif
 
       <!-- أزرار الإجراءات -->
-      <div class="mt-8 flex justify-between">
+      <div class="mt-8 flex flex-col gap-3 md:flex-row md:justify-between">
         <!-- زر الحجز -->
-        <button id="openBookingModal" data-location="{{ $car->location }}" class="block bg-red-600 hover:bg-red-700 transition-colors text-white py-2 px-4 rounded-lg">
-            {{ __('messages.book_now') }}
+        <button id="openBookingModal" data-location="{{ $car->location }}" class="w-full md:w-auto bg-red-600 hover:bg-red-700 transition-colors text-white py-3 px-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 shadow-md">
+            <i class="fas fa-calendar-check"></i> {{ __('messages.book_now') }}
         </button>
-
         <!-- زر العودة -->
-        <a href="{{ route('available.cars') }}" class="inline-block bg-gray-600 hover:bg-gray-700 transition-colors text-white py-2 px-4 rounded-lg">
-          <i class="fa-solid fa-arrow-left mr-2"></i> {{ __('messages.back_to_car_list') }}
+        <a href="{{ route('available.cars') }}" class="w-full md:w-auto bg-gray-200 hover:bg-gray-300 transition-colors text-gray-800 py-3 px-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 shadow-md border border-gray-300">
+            <i class="fas fa-arrow-left"></i> {{ __('messages.back_to_car_list') }}
         </a>
       </div>
     </div>

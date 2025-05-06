@@ -222,7 +222,6 @@
     </form>
   </div>
 
-  @include('partials.footer')
 
   <!-- JavaScript to handle dynamic Season Price fields and removal of empty blocks -->
   <script>

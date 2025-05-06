@@ -132,7 +132,7 @@
               <th class="px-4 py-3">{{ __('messages.franchise_buyback') }}</th>
               <th class="px-4 py-3">Available</th>
               <th class="px-4 py-3">Season Prices</th>
-             
+
               <th class="px-4 py-2">Actions</th>
             </tr>
           </thead>
@@ -212,7 +212,7 @@
                 @endif
               </td>
 
-           
+
 
               <!-- Actions (Edit & Delete) -->
               <td class="px-4 py-4 flex gap-2">
@@ -305,7 +305,6 @@
     </div>
 
   {{-- Footer --}}
-  @include('partials.footer')
 
   <!-- Scripts -->
   <script>

@@ -43,6 +43,8 @@
     .faq-content {
       transition: all 0.3s ease-in-out;
     }
+    [data-aos] { opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(.77,0,.18,1); }
+    .aos-animate { opacity: 1 !important; transform: none !important; }
   </style>
 </head>
 <body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
@@ -52,12 +54,10 @@
   @include('partials.up')
 
   {{-- 1. Reservation Form Section with Background Image and Welcome Text --}}
-  <section id="reservation" class="relative bg-cover bg-center py-20" style="background-image: url('/assets/bg-diam.png');">
+  <section id="reservation" class="relative bg-cover bg-center py-20" style="background-image: url('/assets/bg-diam.png');" data-aos>
     <div class="absolute inset-0 bg-black opacity-50"></div>
-    <div class="container mx-auto relative z-10 px-4 pt-12">
-      <h2 class="text-4xl  text-white text-center mb-8 uppercase" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);font-family: 'Playfair Display', serif;">
-        {{ __('messages.welcome_diamantina') }}
-      </h2>
+    <div class="container mx-auto relative z-10 px-4 pt-12" data-aos>
+      <h2 class="text-4xl  text-white text-center mb-8 uppercase" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);font-family: 'Playfair Display', serif;" data-aos>{{ __('messages.welcome_diamantina') }}</h2>
       <div class="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
         <h3 class="text-3xl font-bold text-center mb-6 text-gray-800">
           <i class="fas fa-calendar-check mr-2 text-red-500"></i>
@@ -117,8 +117,8 @@
   </section>
 
   {{-- 2. Car Listing Section --}}
-  <section class="container mx-auto my-12 px-4">
-    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
+  <section class="container mx-auto my-12 px-4" data-aos>
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8" data-aos>
       <i class="fas fa-car mr-2 text-red-500"></i>
       {{ __('messages.our_cars') }}
     </h1>
@@ -138,6 +138,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-600 text-sm">
               <div class="flex items-center gap-2"><i class="fas fa-users text-red-500"></i><span>{{ __('messages.seats') }}: <span class="font-bold">{{ $car->seats }}</span></span></div>
               <div class="flex items-center gap-2"><i class="fas fa-gas-pump text-yellow-600"></i><span>{{ __('messages.fuel') }}: <span class="font-bold">{{ $car->fuel }}</span></span></div>
+<div class="flex items-center gap-2"><i class="fas fa-tachometer-alt text-blue-500"></i><span>{{ __('messages.kilometer') }}: <span class="font-bold">{{ $car->kilometer }}</span></span></div>
               <div class="flex items-center gap-2"><i class="fas fa-gear text-blue-600"></i><span>{{ __('messages.transmission') }}: <span class="font-bold">{{ $car->transmission }}</span></span></div>
               <div class="flex items-center gap-2"><i class="fas fa-door-open text-green-600"></i><span>{{ __('messages.doors') }}: <span class="font-bold">{{ $car->doors }}</span></span></div>
               <div class="flex items-center gap-2"><i class="fas fa-suitcase text-purple-600"></i><span>{{ __('messages.bags') }}: <span class="font-bold">{{ $car->bags }}</span></span></div>
@@ -145,14 +146,12 @@
             <div class="mt-4 bg-green-50 p-3 rounded-md text-center">
               <p class="text-lg font-bold text-green-600"><i class="fas fa-dollar-sign mr-1"></i>{{ \App\Helpers\CurrencyHelper::formatPrice($car->price) }} / {{ __('messages.today') }}</p>
             </div>
-            <div class="mt-4 flex flex-wrap gap-4">
-              <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex-1"
-                      onclick="myUniqueOpenModal({{ $car->id }}, this)" data-location="{{ $car->location }}">
-                {{ __('messages.book_now') }}
+            <div class="mt-4 flex flex-col gap-3 md:flex-row md:justify-between">
+              <button class="w-full md:w-auto bg-red-600 hover:bg-red-700 transition-colors text-white py-3 px-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 shadow-md" onclick="myUniqueOpenModal({{ $car->id }}, this)" data-location="{{ $car->location }}">
+                <i class="fas fa-calendar-check"></i> {{ __('messages.book_now') }}
               </button>
-              <a href="{{ route('cars.show', $car->id) }}" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center">
-                <i class="fas fa-info-circle mr-2"></i>
-                {{ __('messages.view_details') }}
+              <a href="{{ route('cars.show', $car->id) }}" class="w-full md:w-auto bg-gray-200 hover:bg-gray-300 transition-colors text-gray-800 py-3 px-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 shadow-md border border-gray-300">
+                <i class="fas fa-info-circle"></i> {{ __('messages.view_details') }}
               </a>
             </div>
           </div>
@@ -168,8 +167,8 @@
   </section>
 
   {{-- 3. Why Choose Us Section --}}
-  <section class="container mx-auto my-12 px-4">
-    <div class="text-center mb-8">
+  <section class="container mx-auto my-12 px-4" data-aos>
+    <div class="text-center mb-8" data-aos>
       <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.why_choose_us') }}</h2>
       <p class="text-gray-600 mt-2">{{ __('messages.best_service_description') }}</p>
     </div>
@@ -193,19 +192,19 @@
   </section>
 
   {{-- 4. FAQ / Have Questions Section --}}
-  <section class="container mx-auto my-12 px-4">
-    <div class="text-center mb-8">
+  <section class="container mx-auto my-12 px-4" data-aos>
+    <div class="text-center mb-8" data-aos>
       <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.have_questions') }}</h2>
       <p class="text-gray-600 mt-2">{{ __('messages.faqs_description') }}</p>
     </div>
-    <div class="space-y-4">
+    <div class="space-y-4 w-[90%] mx-auto">
       @for($i = 1; $i <= 6; $i++)
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <button class="w-full text-left flex justify-between items-center focus:outline-none" onclick="toggleFAQ(this)">
-            <h3 class="text-lg font-semibold text-gray-800">{{ __('messages.faq_question_'.$i) }}</h3>
+        <div class="bg-white p-2 md:p-3 rounded-lg shadow-lg">
+          <button class="w-full text-left flex justify-between items-center focus:outline-none min-h-[1.8rem] md:min-h-[2.2rem]" onclick="toggleFAQ(this)">
+            <h3 class="text-lg font-semibold text-gray-800 whitespace-normal break-words leading-tight">{{ __('messages.faq_question_'.$i) }}</h3>
             <i class="fas fa-chevron-down text-red-500 transition-transform duration-200"></i>
           </button>
-          <div class="faq-content mt-4 overflow-hidden transition-all duration-300 max-h-0">
+          <div class="faq-content mt-2 overflow-hidden transition-all duration-300 max-h-0">
             <p class="text-gray-600">{!! __('messages.faq_answer_'.$i) !!}</p>
           </div>
         </div>
@@ -214,26 +213,28 @@
   </section>
 
   {{-- 5. Testimonials Section --}}
-  <section class="container mx-auto my-12 px-4">
-    <div class="text-center mb-8">
+  <section class="container mx-auto my-12 px-4" data-aos>
+    <div class="text-center mb-8" data-aos>
       <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.customer_testimonials') }}</h2>
       <p class="text-gray-600 mt-2">{{ __('messages.hear_from_customers') }}</p>
     </div>
     <div id="testimonialSwiper" class="swiper-container relative">
-      <div class="swiper-wrapper">
+      <div class="swiper-wrapper" id="testimonial-wrapper">
         @foreach($reviews as $review)
         <div class="swiper-slide testimonial-card">
           <div class="bg-white p-6 rounded-lg shadow-lg">
-            <p class="text-gray-600 italic mb-4">"{{ $review->comment }}"</p>
-            <div class="flex items-center space-x-4">
-              @if($review->avatar)
-              <img src="{{ asset($review->avatar) }}" loading="lazy" class="w-16 h-16 rounded-full object-cover" alt="{{ __('messages.customer') }}">
-              @else
-              <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded-full object-cover" alt="{{ __('messages.customer') }}">
-              @endif
-              <div>
-                <p class="font-bold text-gray-800">{{ $review->name }}</p>
-                <p class="text-gray-600 text-sm">{{ $review->position }}</p>
+            <div class="testimonial-content">
+              <p class="text-gray-600 italic mb-4">"{{ $review->comment }}"</p>
+              <div class="flex items-center space-x-4">
+                @if($review->avatar)
+                <img src="{{ asset($review->avatar) }}" loading="lazy" class="w-16 h-16 rounded-full object-cover" alt="{{ __('messages.customer') }}">
+                @else
+                <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded-full object-cover" alt="{{ __('messages.customer') }}">
+                @endif
+                <div>
+                  <p class="font-bold text-gray-800">{{ $review->name }}</p>
+                  <p class="text-gray-600 text-sm">{{ $review->position }}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -244,41 +245,39 @@
       <div class="swiper-button-prev text-red-500"></div>
       <div class="swiper-pagination text-red-500"></div>
     </div>
+    <script>
+      // توحيد ارتفاع جميع البطاقات بناءً على أكبر ريفيو
+      document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function() {
+          var testimonialCards = document.querySelectorAll('.testimonial-content');
+          var maxHeight = 0;
+          testimonialCards.forEach(function(card) {
+            card.style.height = 'auto'; // reset first
+            if(card.offsetHeight > maxHeight) maxHeight = card.offsetHeight;
+          });
+          testimonialCards.forEach(function(card) {
+            card.style.height = maxHeight + 'px';
+          });
+        }, 500); // بعد التحميل بوقت بسيط لضمان ظهور كل العناصر
+      });
+    </script>
   </section>
-<!-- Contact Us -->
-<section class="container mx-auto my-12 px-4">
-    <div class="bg-white rounded-lg shadow-lg p-8">
-      <div class="text-center mb-6">
-        <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.contact_us') }}</h2>
-        <p class="text-gray-600 mt-2">{{ __('messages.questions_contact') }}</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">
-            <i class="fas fa-phone mr-2 text-red-600"></i>
-            {{ __('messages.phone') }}
-          </h3>
-          <p class="text-gray-600">06.61.06.03.62 | 06.60.56.57.30</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">
-            <i class="fas fa-envelope mr-2 text-red-600"></i>
-            {{ __('messages.email') }}
-          </h3>
-          <p class="text-gray-600">contact@diamantinacar.com</p>
-        </div>
-        <div class="md:col-span-2">
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">
-            <i class="fas fa-map-marker-alt mr-2 text-red-600"></i>
-            {{ __('messages.address_title') }}
-          </h3>
-          <p class="text-gray-600">
-            {{ __('messages.address_main') }}
-          </p>
-        </div>
-      </div>
+<!-- Visit Us -->
+<section class="container mx-auto my-12 px-4" data-aos>
+  <div class="bg-white rounded-lg shadow-lg p-8">
+    <div class="text-center mb-6" data-aos>
+      <h2 class="text-3xl font-bold text-gray-800">{{ __('messages.visit_us') }}</h2>
+      <p class="text-gray-600 mt-2">{{ __('messages.our_agency_location') }}</p>
     </div>
-  </section>
+    <div class="w-full aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md" data-aos>
+      <!-- Google Map -->
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.495678933812!2d-8.018646684800267!3d31.63467438133661!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafeefb5e3c3b1b%3A0x6a1c7a6e2e1b1e3c!2sDiamantina%20Car%20Location!5e0!3m2!1sfr!2sma!4v1683383838383!5m2!1sfr!2sma"
+        width="100%" height="100%" style="border:0; min-height:350px;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
 
   {{-- Cookie Consent Banner --}}
   <div id="cookieConsentBanner" class="fixed bottom-0 left-0 w-full bg-black bg-opacity-80 text-white py-4 px-6 flex flex-col sm:flex-row items-center justify-between z-50 transition-all duration-300" style="display:none;">
@@ -394,6 +393,7 @@
 
   {{-- Swiper JS --}}
   <script src="https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"></script>
+  <script src="/assets/aos.js"></script>
   <script>
     function myUniqueFormatDateTime(date) {
       const pad = num => num.toString().padStart(2, '0');
@@ -492,6 +492,9 @@
         });
       });
     });
+  </script>
+  <script>
+    AOS.init();
   </script>
 </body>
 </html>

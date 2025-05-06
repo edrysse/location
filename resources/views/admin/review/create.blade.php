@@ -1,3 +1,5 @@
+@extends('layouts.admin')
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,8 +91,8 @@
     </form>
   </div>
 
-  @include('partials.footer')
 </x-app-layout>
 
 </body>
 </html>
+@endsection

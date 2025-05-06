@@ -434,4 +434,12 @@ return [
     'cookie_message' => 'This website uses cookies to enhance your experience. You can accept or reject cookies.',
     'accept_cookies' => 'Accept Cookies',
     'reject_cookies' => 'Reject Cookies',
+    'visit_us' => 'Visit Us',
+    'our_agency_location' => 'Our agency location on the map',
+    'footer_about_title' => 'ABOUT US',
+    'footer_contact_title' => 'CONTACT US',
+    'footer_social_title' => 'SOCIAL NETWORK',
+    'footer_rights' => 'All rights reserved',
+    'footer_professional_about' => 'Diamantina Car is a leading car rental agency in Marrakech, offering a wide range of modern and safe vehicles at competitive prices, with professional customer service and a seamless experience for all your tourism or business needs.',
+
 ];

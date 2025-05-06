@@ -310,4 +310,10 @@ class CarController extends Controller
         file_put_contents($file, $count);
         return $count;
     }
+
+    // عدد الزوار لكل شهر (يفترض وجود جدول أو منطق لاحتساب الزوار)
+    public static function countVisitorsByMonth($month)
+    {
+        return \DB::table('visitor_logs')->whereMonth('created_at', $month)->count();
+    }
 }

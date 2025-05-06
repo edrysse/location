@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
+@extends('layouts.admin')
+@section('content')
 <x-app-layout>
     @include('partials.up')
 
@@ -57,7 +59,7 @@
               <td class="px-4 py-4">{{ $review->position }}</td>
               <td class="px-4 py-4">{{ $review->comment }}</td>
               <td class="px-4 py-4 flex gap-2">
-                <a href="{{ route('admin.reviews.edit', $review->id) }}" class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+                <a href="{{ route('admin.reviews.edit', $review->id) }}" class="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
                   <i class="fas fa-edit mr-1"></i> Edit
                 </a>
                 <form action="{{ route('admin.reviews.destroy', $review->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
@@ -77,7 +79,7 @@
       {{ $reviews->links() }}
     </div>
   </div>
-  @include('partials.footer')
 </x-app-layout>
+@endsection
 </body>
 </html>

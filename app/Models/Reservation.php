@@ -15,8 +15,9 @@ class Reservation extends Model
     protected $fillable = [
         'pickup_location', 'dropoff_location', 'pickup_date', 'return_date',
         'car_id',
-         'name', 'email', 'phone', 'payment_status', 'payment_method',
-        'gps', 'maxicosi', 'siege_bebe', 'rehausseur', 'full_tank', 'franchise', 'total_price','car_name'
+        'name', 'email', 'phone', 'payment_status', 'payment_method',
+        'gps', 'maxicosi', 'siege_bebe', 'rehausseur', 'full_tank', 'franchise', 'total_price', 'car_name',
+        'status'
     ];
 
 

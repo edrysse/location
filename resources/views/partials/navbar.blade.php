@@ -23,7 +23,7 @@
     text-align: right;
   }
 
-  body[dir="rtl"] nav {
+  body[dir="rtl"] nav .nav-container {
     flex-direction: row-reverse;
   }
 
@@ -91,24 +91,31 @@
 <body class="bg-gradient-to-r from-red-50 to-red-100 min-h-screen">
   <!-- Navbar -->
   <nav @if(app()->getLocale()==='ar') dir="ltr" @endif class="bg-black bg-opacity-50 shadow-lg absolute top-0 left-0 w-full">
-    <div class="max-w-screen-xl mx-auto px-4">
-      <div class="flex items-center justify-between h-20">
-        <!-- اللوجو -->
+    <div class="relative w-full px-4">
+      <div class="flex items-center justify-between h-20 max-w-screen-xl mx-auto">
+        <!-- اللوجو أقصى اليسار -->
         <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="flex-shrink-0">
-            <img src="{{ asset('assets/new-logo.png') }}" alt="{{ __('messages.site_logo_alt') }}" class="h-36 ml-6">
+            <img src="{{ asset('assets/diam.png') }}" alt="{{ __('messages.site_logo_alt') }}" class="h-40 md:h-48">
         </a>
-        <!-- قائمة التنقل الرئيسية للشاشات المكتبية -->
-        <div class="hidden md:flex space-x-6 items-center mx-auto font-bold uppercase font-Barlow" style="font-weight: bold;">
-          <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
-          <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
 
-          <!-- زر تبديل اللغة (القائمة المنسدلة) -->
+        <!-- قائمة التنقل في المنتصف -->
+        <div class="flex-1 flex justify-center">
+          <div class="hidden md:flex space-x-12 items-center font-bold uppercase font-Barlow text-lg">
+            <a href="{{ LaravelLocalization::localizeURL(route('home')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.home') }}</a>
+            <a href="{{ LaravelLocalization::localizeURL(route('available.cars')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.cars') }}</a>
+            <a href="{{ LaravelLocalization::localizeURL(route('contact.create')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.contact') }}</a>
+            <a href="{{ LaravelLocalization::localizeURL(route('nav.about')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.about') }}</a>
+            <a href="{{ LaravelLocalization::localizeURL(route('nav.terms')) }}" class="text-white hover:text-red-600 font-medium transition duration-300">{{ __('messages.terms_conditions') }}</a>
+            @auth
+              <a href="{{ LaravelLocalization::localizeURL(route('dashboard')) }}" class="text-white hover:text-green-600 font-medium transition duration-300">{{ __('messages.dashboard') }}</a>
+            @endauth
+          </div>
+        </div>
+
+        <!-- زر اللغة أقصى اليمين (ديسكتوب) -->
+        <div class="hidden md:flex items-center">
           <div class="relative inline-block text-left">
             <button type="button" id="language-menu-button" class="inline-flex justify-center items-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-expanded="false" aria-haspopup="true">
-              <!-- استخدام flag-icon-css -->
               <span class="flag-icon flag-icon-{{ app()->getLocale() == 'ar' ? 'ma' : (app()->getLocale() == 'en' ? 'us' : app()->getLocale()) }} mr-2"></span>
               {{ LaravelLocalization::getCurrentLocaleNative() }}
               <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -128,14 +135,10 @@
               </div>
             </div>
           </div>
-          @auth
-            <a href="{{ LaravelLocalization::localizeURL(route('dashboard')) }}" class="text-white hover:text-green-600 font-medium transition duration-300">{{ __('messages.dashboard') }}</a>
-          @endauth
         </div>
-        <!-- زر القائمة للجوال -->
-        <div class="md:hidden flex items-center">
-          <!-- زر تبديل اللغة للجوال -->
-          <div class="mr-4 relative">
+        <!-- زر القائمة للجوال + زر اللغة للجوال (يمين) -->
+        <div class="md:hidden flex items-center order-1 gap-2 justify-end">
+          <div class="ml-2 relative">
             <button type="button" id="mobile-language-button" class="inline-flex justify-center items-center w-10 h-10 rounded-full border border-gray-300 shadow-sm bg-white text-sm text-gray-700 hover:bg-gray-50 focus:outline-none" aria-expanded="false" aria-haspopup="true">
               <span class="flag-icon flag-icon-{{ app()->getLocale() == 'ar' ? 'ma' : (app()->getLocale() == 'en' ? 'us' : app()->getLocale()) }}"></span>
             </button>
@@ -152,7 +155,6 @@
               </div>
             </div>
           </div>
-          <!-- زر القائمة الرئيسية للجوال -->
           <button id="mobile-menu-button" class="text-white focus:outline-none focus:ring-2 focus:ring-red-600">
             <i class="fas fa-bars fa-2x"></i>
           </button>

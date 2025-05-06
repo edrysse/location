@@ -115,7 +115,6 @@
     }
   </script>
 
-  @include('partials.footer')
 </x-app-layout>
 
 </body>

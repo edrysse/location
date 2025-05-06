@@ -1,7 +1,12 @@
-<aside class="w-64 bg-gray-900 text-white h-screen fixed hidden md:block">
+<aside x-data="{ collapsed: false }" :class="collapsed ? 'w-20' : 'w-64'" class="transition-all duration-300 bg-gray-900 text-white h-screen fixed hidden md:block">
+    <!-- زر التجميع -->
+    <button @click="collapsed = !collapsed" class="absolute top-4 right-4 bg-gray-800 hover:bg-gray-700 rounded-full p-1 focus:outline-none transition" title="تجميع/توسيع">
+      <svg x-show="!collapsed" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" /></svg>
+      <svg x-show="collapsed" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+    </button>
     <div class="p-4 flex items-center justify-center border-b border-gray-700">
       <a href="{{ route('dashboard') }}">
-        <img src="{{ asset('assets/new-logo.png') }}" alt="Diamantina Car Logo" class="h-28 animate-pulse-scale">
+        <img src="{{ asset('assets/diam.png') }}" alt="Diamantina Car Logo" :class="(collapsed ? 'h-40' : 'h-48') + ' mx-auto transition-all duration-300 animate-pulse-scale'">
       </a>
     </div>
     <nav class="mt-4">

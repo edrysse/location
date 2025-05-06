@@ -130,6 +130,13 @@
       <!-- Left Column: Reservation Information (Sticky) -->
       <div class="md:sticky md:top-10">
         <div class="bg-white shadow-lg rounded-lg p-4 border border-gray-200">
+          <!-- Car Image -->
+          @if(isset($data['car']->image) && $data['car']->image)
+            <div class="mb-4 rounded-lg overflow-hidden">
+              <img src="{{ asset($data['car']->image) }}" alt="{{ $data['car']->name }}" class="w-full h-48 object-cover">
+            </div>
+          @endif
+          
           <h2 class="text-xl font-bold mb-3 text-gray-700">
             <i class="fas fa-info-circle mr-2 text-red-400"></i>
             {{ __('messages.reservation_information') }}
@@ -187,54 +194,9 @@
               <input type="text" name="phone" id="phone" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="{{ __('messages.phone_placeholder') }}">
             </div>
 
-            <!-- Franchise Options -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">
-                    <i class="fas fa-shield-alt text-red-500 mr-2"></i>
-                    {{ __('messages.franchise_options') }}
-                </label>
-                <div class="mt-2 space-y-2">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 gap-2">
-                        <div class="flex items-center">
-                            <input type="radio" name="insurance_option" id="insurance_franchise" value="franchise" class="h-4 w-4 text-indigo-600 border-gray-300">
-                            <label for="insurance_franchise" class="ml-2 text-sm text-gray-600">
-                                <i class="fas fa-shield-halved text-blue-500 mr-1"></i>
-                                {{ __('messages.franchise') }}
-                                <span class="font-bold text-green-700">(
-                                    @if(isset($car) && $car->franchise_price)
-                                        {{ number_format($car->franchise_price, 2) }} DH
-                                    @elseif(isset($data['franchise_price']))
-                                        {{ number_format($data['franchise_price'], 2) }} DH
-                                    @else
-                                        0 DH
-                                    @endif
-                                )</span>
-                            </label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="radio" name="insurance_option" id="insurance_rachat" value="rachat_franchise" class="h-4 w-4 text-indigo-600 border-gray-300">
-                            <label for="insurance_rachat" class="ml-2 text-sm text-gray-600 flex flex-col">
-                                <span>
-                                    <i class="fas fa-shield-heart text-green-500 mr-1"></i>
-                                    {{ __('messages.rachat_franchise') }}
-                                </span>
-                                <span class="font-bold text-green-700">(
-                                    @if(isset($car) && $car->rachat_franchise_price)
-                                        {{ number_format($car->rachat_franchise_price, 2) }} DH
-                                    @elseif(isset($data['rachat_franchise_price']))
-                                        {{ number_format($data['rachat_franchise_price'], 2) }} DH
-                                    @else
-                                        0 DH
-                                    @endif
-                                ) <span class="text-xs text-gray-500">/{{ __('messages.today') }}</span></span>
-                            </label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="radio" name="insurance_option" id="insurance_none" value="none" class="h-4 w-4 text-indigo-600 border-gray-300" checked>
-                            <label for="insurance_none" class="ml-2 text-sm text-gray-600">{{ __('messages.no') }}</label>
-                        </div>
-                    </div>
-                </div>
+            <!-- Hidden Insurance Options with default 'No' selected -->
+            <div class="hidden">
+                <input type="radio" name="insurance_option" id="insurance_none" value="none" checked>
             </div>
 
             <!-- حقول خيارات إضافية مخفية -->
