@@ -73,6 +73,8 @@
             <li><i class="fa-solid fa-gas-pump text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.fuel_details') }}:</span> {{ $car->fuel }}</li>
 <li><i class="fa-solid fa-tachometer-alt text-blue-500 mr-2"></i><span class="font-semibold">{{ __('messages.kilometer') }}:</span> {{ $car->kilometer }}</li>
             <li><i class="fa-solid fa-users text-blue-500 mr-2"></i><span class="font-semibold">{{ __('messages.seats') }}:</span> {{ $car->seats }}</li>
+            <li><i class="fa-solid fa-door-closed text-gray-700 mr-2"></i><span class="font-semibold">{{ __('messages.doors') }}:</span> {{ $car->doors }}</li>
+            <li><i class="fa-solid fa-suitcase-rolling text-yellow-700 mr-2"></i><span class="font-semibold">{{ __('messages.bags') }}:</span> {{ $car->bags }}</li>
             <li><i class="fa-solid fa-gear text-purple-500 mr-2"></i><span class="font-semibold">{{ __('messages.transmission') }}:</span> {{ $car->transmission }}</li>
             <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_per_day') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price) }}</li>
             <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_2_days') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price_2_days) }}</li>
@@ -80,8 +82,6 @@
             <li><i class="fa-solid fa-euro-sign text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.price_7_plus_days') }}:</span> {{ \App\Helpers\CurrencyHelper::formatPrice($car->price_7_plus_days) }}</li>
             <li><i class="fa-solid fa-map-marker-alt text-red-500 mr-2"></i><span class="font-semibold">{{ __('messages.location') }}:</span> {{ $car->location }}</li>
             <li><i class="fa-solid fa-check-circle text-green-500 mr-2"></i><span class="font-semibold">{{ __('messages.available') }}:</span> {{ $car->available ? __('messages.yes') : __('messages.no') }}</li>
-            <li><i class="fa-solid fa-door-closed text-gray-700 mr-2"></i><span class="font-semibold">{{ __('messages.doors') }}:</span> {{ $car->doors }}</li>
-            <li><i class="fa-solid fa-suitcase-rolling text-yellow-700 mr-2"></i><span class="font-semibold">{{ __('messages.bags') }}:</span> {{ $car->bags }}</li>
           </ul>
         </div>
       </div>
