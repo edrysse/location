@@ -158,8 +158,22 @@
           <form action="{{ route('reservations.store') }}" method="POST" class="space-y-4">
             @csrf
             <!-- حقول مخفية لتواريخ وأماكن الحجز -->
-            <input type="hidden" id="pickup_date_input" name="pickup_date" value="{{ $data['pickup_date'] }}">
-            <input type="hidden" id="return_date_input" name="return_date" value="{{ $data['return_date'] }}">
+            <div>
+              <label for="pickup_datetime" class="block text-sm font-semibold text-gray-700">
+                <i class="fas fa-calendar-alt mr-2 text-red-400"></i>
+                {{ __('messages.pickup_datetime') }}
+              </label>
+              <input type="datetime-local" id="pickup_datetime" name="pickup_datetime" required class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                value="{{ old('pickup_datetime', isset($data['pickup_date']) ? date('Y-m-d\TH:i', strtotime($data['pickup_date'])) : '') }}">
+            </div>
+            <div>
+              <label for="return_datetime" class="block text-sm font-semibold text-gray-700">
+                <i class="fas fa-calendar-check mr-2 text-red-400"></i>
+                {{ __('messages.return_datetime') }}
+              </label>
+              <input type="datetime-local" id="return_datetime" name="return_datetime" required class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                value="{{ old('return_datetime', isset($data['return_date']) ? date('Y-m-d\TH:i', strtotime($data['return_date'])) : '') }}">
+            </div>
             <input type="hidden" name="car_id" value="{{ $data['car_id'] }}">
             <input type="hidden" name="pickup_location" value="{{ $data['pickup_location'] }}">
             <input type="hidden" name="dropoff_location" value="{{ $data['return_location'] }}">
