@@ -86,25 +86,27 @@ class ReservationController extends Controller
         try {
             // التحقق من وجود التواريخ
             if (!$request->input('pickup_date') || !$request->input('return_date')) {
-                $pickupDate = now();
-                $returnDate = now()->addDay();
+                $pickupDate = now()->format('Y-m-d\TH:i');
+                $returnDate = now()->addDay()->format('Y-m-d\TH:i');
             } else {
-                // استخدم التاريخ والوقت كما هو من الرابط إذا كان بصيغة datetime
-                $pickupDate = Carbon::parse($request->input('pickup_date'));
-                $returnDate = Carbon::parse($request->input('return_date'));
+                $pickupDate = $request->input('pickup_date');
+                $returnDate = $request->input('return_date');
             }
 
-            $days = max(1, $pickupDate->diffInDays($returnDate));
+            $days = max(1, Carbon::parse($pickupDate)->diffInDays(Carbon::parse($returnDate)));
 
             // جلب بيانات الأسعار الموسمية إن وُجدت
+            $pickupDateObj = Carbon::parse($pickupDate);
+            $returnDateObj = Carbon::parse($returnDate);
+
             $seasonPriceModel = $car->seasonPrices()
-                ->whereDate('start_date', '<=', $pickupDate->format('Y-m-d'))
-                ->whereDate('end_date', '>=', $pickupDate->format('Y-m-d'))
+                ->whereDate('start_date', '<=', $pickupDateObj->format('Y-m-d'))
+                ->whereDate('end_date', '>=', $pickupDateObj->format('Y-m-d'))
                 ->first();
 
             \Log::info('Date Check', [
-                'pickup' => $pickupDate->format('Y-m-d'),
-                'return' => $returnDate->format('Y-m-d'),
+                'pickup' => $pickupDateObj->format('Y-m-d'),
+                'return' => $returnDateObj->format('Y-m-d'),
                 'days' => $days,
                 'found_season' => $seasonPriceModel ? true : false
             ]);
@@ -113,8 +115,8 @@ class ReservationController extends Controller
                 $data = [
                     'car' => $car,
                     'car_id' => $car->id,
-                    'pickup_date' => $pickupDate->format('Y-m-d'),
-                    'return_date' => $returnDate->format('Y-m-d'),
+                    'pickup_date' => $pickupDate,
+                    'return_date' => $returnDate,
                     'pickup_location' => $request->input('pickup_location'),
                     'return_location' => $request->input('dropoff_location'),
                     'season_price' => $seasonPriceModel,
@@ -125,8 +127,8 @@ class ReservationController extends Controller
                 $data = [
                     'car' => $car,
                     'car_id' => $car->id,
-                    'pickup_date' => $pickupDate->format('Y-m-d'),
-                    'return_date' => $returnDate->format('Y-m-d'),
+                    'pickup_date' => $pickupDate,
+                    'return_date' => $returnDate,
                     'pickup_location' => $request->input('pickup_location'),
                     'return_location' => $request->input('dropoff_location'),
                     'price_per_day' => $car->price,
@@ -149,8 +151,8 @@ class ReservationController extends Controller
             $data = [
                 'car' => $car,
                 'car_id' => $car->id,
-                'pickup_date' => $pickupDate->format('Y-m-d\TH:i'),
-                'return_date' => $returnDate->format('Y-m-d\TH:i'),
+                'pickup_date' => $pickupDate,
+                'return_date' => $returnDate,
                 'pickup_location' => $request->input('pickup_location'),
                 'return_location' => $request->input('return_location'),
                 'price_per_day' => $car->price,
@@ -201,8 +203,8 @@ class ReservationController extends Controller
             'car_id'          => 'required|exists:cars,id',
             'pickup_location' => 'required|string|max:255',
             'dropoff_location'=> 'required|string|max:255',
-            'pickup_datetime'  => 'required|date|after_or_equal:now',
-            'return_datetime'  => 'required|date|after:pickup_datetime',
+            'pickup_date'     => 'required|date_format:Y-m-d\TH:i',
+            'return_date'     => 'required|date_format:Y-m-d\TH:i|after:pickup_date',
             'name'            => 'required|string|max:255',
             'email'           => 'required|email',
             'phone'           => 'required|string|max:20',
@@ -218,21 +220,22 @@ class ReservationController extends Controller
         ]);
 
         // التحقق من توفر السيارة للفترة المطلوبة
-        if (!$this->isCarAvailable($validated['car_id'], $validated['pickup_datetime'], $validated['return_datetime'])) {
+        if (!$this->isCarAvailable($validated['car_id'], $validated['pickup_date'], $validated['return_date'])) {
             return redirect()->back()->withErrors(['error' => 'آسفون، السيارة غير متوفرة للفترة المحددة.']);
         }
 
         $car = Car::findOrFail($validated['car_id']);
 
         // حساب عدد الأيام بين تاريخ الاستلام والتسليم
-        $pickupDateTime = Carbon::parse($validated['pickup_datetime']);
-        $returnDateTime = Carbon::parse($validated['return_datetime']);
+        $pickupDateTime = Carbon::parse($validated['pickup_date']);
+        $returnDateTime = Carbon::parse($validated['return_date']);
         $days = $pickupDateTime->diffInDays($returnDateTime);
 
         // استرجاع سجل التسعير الموسمي إن وجد
         $seasonPriceModel = $car->seasonPrices()
-            ->where('start_date', '<=', $validated['pickup_datetime']->format('Y-m-d'))
-            ->where('end_date', '>=', $validated['pickup_datetime']->format('Y-m-d'))
+            ->where('start_date', '<=', $pickupDateTime->format('Y-m-d'))
+            ->where('end_date', '>=', $pickupDateTime->format('Y-m-d'))
+            ->where('end_date', '>=', $pickupDateTime->format('Y-m-d'))
             ->where('end_date', '>=', $validated['pickup_date'])
             ->first();
 
