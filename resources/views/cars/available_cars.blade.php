@@ -52,9 +52,9 @@
             @foreach ($cars as $car)
             <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
               @if ($car->image)
-                <img src="{{ asset($car->image) }}" loading="lazy" class="w-full h-48 object-cover" alt="{{ $car->name }}">
+                <img src="{{ asset($car->image) }}" loading="lazy" class="w-full h-48 object-contain bg-white" style="object-position:center;" alt="{{ $car->name }}">
               @else
-                <img src="default-car.jpg" alt="{{ __('messages.default_car') }}" class="w-full h-48 object-cover">
+                <img src="default-car.jpg" alt="{{ __('messages.default_car') }}" class="w-full h-48 object-contain bg-white" style="object-position:center;">
               @endif
               <div class="p-6">
                 <h5 class="text-xl font-bold text-gray-800 flex items-center mb-4">

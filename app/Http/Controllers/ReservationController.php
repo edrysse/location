@@ -224,9 +224,9 @@ class ReservationController extends Controller
         $car = Car::findOrFail($validated['car_id']);
 
         // حساب عدد الأيام بين تاريخ الاستلام والتسليم
-        $pickupDate = new \DateTime($validated['pickup_date']);
-        $returnDate = new \DateTime($validated['return_date']);
-        $days = $pickupDate->diff($returnDate)->days;
+        $pickupDateTime = Carbon::parse($validated['pickup_date']);
+        $returnDateTime = Carbon::parse($validated['return_date']);
+        $days = $pickupDateTime->diffInDays($returnDateTime);
 
         // استرجاع سجل التسعير الموسمي إن وجد
         $seasonPriceModel = $car->seasonPrices()
@@ -273,6 +273,9 @@ class ReservationController extends Controller
         $reservation->fill($validated);
         $reservation->car_name = $car->name;
         $reservation->total_price = $totalPrice;
+        // احتفظ بالوقت الدقيق للحجز
+        $reservation->pickup_date = $pickupDateTime->format('Y-m-d H:i:s');
+        $reservation->return_date = $returnDateTime->format('Y-m-d H:i:s');
         $reservation->save();
 
         // إرسال الإشعارات عبر البريد الإلكتروني للمستخدم والإداري
@@ -284,17 +287,16 @@ class ReservationController extends Controller
             Log::error('Error while sending reservation emails: ' . $e->getMessage());
         }
 
-        // إعداد رسالة واتساب احترافية تحتوي على تفاصيل الحجز (بدون إجمالي السعر)
-        $message = __(
-            'messages.confirm_booking_message',
-            [
-                'car'         => $reservation->car_name,
-                'pickup'      => $reservation->pickup_location,
-                'dropoff'     => $reservation->dropoff_location,
-                'pickup_date' => $reservation->pickup_date,
-                'return_date' => $reservation->return_date,
-            ]
-        );
+        // إعداد رسالة واتساب احترافية تحتوي على تفاصيل الحجز مع رقم الحجز في الأعلى
+        $locale = app()->getLocale();
+        $message = "";
+        if ($locale === 'ar') {
+            $message = "حجز رقم #{$reservation->id}\nمرحباً،\nأرغب في تأكيد حجز سيارتي. التفاصيل:\nالسيارة: {$reservation->car_name}\nمكان الاستلام: {$reservation->pickup_location}\nمكان الإرجاع: {$reservation->dropoff_location}\nتاريخ الاستلام: " . Carbon::parse($reservation->pickup_date)->format('Y-m-d') . "\nتاريخ الإرجاع: " . Carbon::parse($reservation->return_date)->format('Y-m-d') . "\nيرجى تأكيد الحجز.";
+        } elseif ($locale === 'fr') {
+            $message = "Réservation N° #{$reservation->id}\nBonjour,\nJe souhaite confirmer ma réservation de voiture. Détails :\nVoiture : {$reservation->car_name}\nLieu de prise en charge : {$reservation->pickup_location}\nLieu de restitution : {$reservation->dropoff_location}\nDate de prise en charge : " . Carbon::parse($reservation->pickup_date)->format('Y-m-d') . "\nDate de restitution : " . Carbon::parse($reservation->return_date)->format('Y-m-d') . "\nMerci de confirmer la réservation.";
+        } else {
+            $message = "Reservation #{$reservation->id}\nHello,\nI would like to confirm my car reservation. Details:\nCar: {$reservation->car_name}\nPickup Location: {$reservation->pickup_location}\nDropoff Location: {$reservation->dropoff_location}\nPickup Date: " . Carbon::parse($reservation->pickup_date)->format('Y-m-d') . "\nReturn Date: " . Carbon::parse($reservation->return_date)->format('Y-m-d') . "\nPlease confirm the booking.";
+        }
         $encodedMessage = urlencode($message);
         $waUrl = "https://wa.me/212660565730?text=" . $encodedMessage;
         
