@@ -12,7 +12,7 @@
       <option value="contacts">Contact Messages</option>
     </select>
   </div>
-  <canvas id="dashboardChart" height="200"></canvas>
+  <canvas id="dashboardChart" height="140"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
