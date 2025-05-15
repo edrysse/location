@@ -1,4 +1,4 @@
-<div class="bg-white rounded-lg shadow p-4 mt-6 max-w-xl mx-auto">
+<div class="bg-white rounded-lg shadow p-4 mt-6 max-w-4xl mx-auto">
   <h3 class="text-lg font-bold mb-3 text-gray-700 flex items-center">
     <i class="fas fa-chart-bar text-blue-500 mr-2"></i>
     Select Data to Display
@@ -12,7 +12,7 @@
       <option value="contacts">Contact Messages</option>
     </select>
   </div>
-  <canvas id="dashboardChart" height="90"></canvas>
+  <canvas id="dashboardChart" height="200"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -81,10 +81,10 @@
         scales: {
           y: {
             beginAtZero: true,
-            ticks: { stepSize: 1, font: { size: 11 } }
+            ticks: { stepSize: 1, font: { size: 18 } }
           },
           x: {
-            ticks: { font: { size: 11 } }
+            ticks: { font: { size: 18 } }
           }
         }
       }
