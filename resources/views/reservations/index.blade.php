@@ -36,7 +36,7 @@
           </div>
 
           <!-- Modal for Monthly Reservations -->
-          <div x-show="showReviews" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" @click.self="showReviews = false" @keydown.escape.window="showReviews = false">
+          <div x-show="showReviews" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" @click.self="showReviews = false" @keydown.escape.window="showReviews = false">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-2 p-6 relative" @click.stop>
               <button @click="showReviews = false" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xl" title="Close">&times;</button>
               <h2 class="text-xl font-bold mb-4 text-red-600 flex items-center gap-2"><i class="fas fa-calendar-check"></i> Reservations This Month</h2>
@@ -96,7 +96,7 @@
           </div>
 
           <!-- Modal -->
-          <div x-show="showModal" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" @click.self="showModal = false" @keydown.escape.window="showModal = false">
+          <div x-show="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" @click.self="showModal = false" @keydown.escape.window="showModal = false">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-2 p-6 relative" @click.stop>
               <button @click="showModal = false" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xl" title="Close">&times;</button>
               <h2 class="text-xl font-bold mb-4 text-yellow-600 flex items-center gap-2"><i class="fas fa-car-side"></i> Unique Cars List</h2>
