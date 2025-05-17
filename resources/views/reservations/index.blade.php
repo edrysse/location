@@ -22,9 +22,9 @@
 
     <!-- Dashboard Overview Cards & Month Filter Form (affecting summary stats only) -->
     <form method="GET" action="{{ route('reservations.index') }}">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 items-center">
+      <div x-data="{ showModal: false, showReviews: false }" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 items-center">
         <!-- Total Reservations -->
-        <div x-data="{ showReviews: false }" class="bg-white shadow rounded-lg p-6 cursor-pointer hover:scale-105 transition" @click="showReviews = true">
+        <div class="bg-white shadow rounded-lg p-6 cursor-pointer hover:scale-105 transition" @click="showReviews = true">
           <div class="flex items-center">
             <div class="bg-red-500 rounded-full p-3">
               <i class="fas fa-calendar-check text-white text-2xl"></i>
@@ -84,7 +84,7 @@
           </div>
         </div>
         <!-- Unique Cars Rented -->
-        <div x-data="{ showModal: false }" class="bg-white shadow rounded-lg p-6 cursor-pointer hover:scale-105 transition" @click="showModal = true">
+        <div class="bg-white shadow rounded-lg p-6 cursor-pointer hover:scale-105 transition" @click="showModal = true">
           <div class="flex items-center">
             <div class="bg-yellow-500 rounded-full p-3">
               <i class="fas fa-car-side text-white text-2xl"></i>
